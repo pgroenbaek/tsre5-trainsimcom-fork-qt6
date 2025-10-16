@@ -883,7 +883,7 @@ bool Activity::isOrtsHornAtCrossigns(){
 }
 //// EFO Add missing ortsAICrossingHornPattern
 bool Activity::isOrtsAICrossingHornPattern(){
-    if(ortsAICrossingHornPattern == 1)
+    if(ortsAICrossingHornPattern == "1")
         return true;
     return false;
 }

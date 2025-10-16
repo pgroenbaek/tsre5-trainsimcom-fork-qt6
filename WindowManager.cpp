@@ -23,8 +23,12 @@
 #include "RouteEditorServer.h"
 #include "RouteEditorClient.h"
 #include "Undo.h"
+#include "WindowManager.h"
 
-WindowManager::WindowManager(){};
+WindowManager::WindowManager(QWidget* parent)
+    : QWidget(parent)
+{
+}
 
 void WindowManager::LoadConEditor(){
     CELoadWindow* ceLoadWindow = new CELoadWindow();

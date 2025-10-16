@@ -112,7 +112,7 @@ NaviWindow::NaviWindow(QWidget* parent) : QWidget(parent) {
     pyBox.setEnabled(false);   
     pzBox.setEnabled(false);
     
-    if(Game::convertUnitD != 'm')
+    if(Game::convertUnitD != "m")
     {
       pyBoxx.setEnabled(false);    
       vbox->addWidget(&pyBoxx, 0,7);

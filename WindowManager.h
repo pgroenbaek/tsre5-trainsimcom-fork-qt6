@@ -16,7 +16,8 @@
 class WindowManager : public QWidget {
     Q_OBJECT
     
-public: 
+public:
+    WindowManager(QWidget* parent = nullptr);
         
 public slots:
     void LoadConEditor();

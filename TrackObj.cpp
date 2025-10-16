@@ -13,6 +13,7 @@
 #include "ShapeLib.h"
 #include "GLMatrix.h"
 #include <math.h>
+#include <array>
 #include "ParserX.h"
 #include "TS.h"
 #include <QDebug>
