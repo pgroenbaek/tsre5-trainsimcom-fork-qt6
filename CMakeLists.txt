@@ -30,7 +30,8 @@ endif()
 set(OpenGL_GL_PREFERENCE LEGACY)
 
 # Find the libraries
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Network OpenGL)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Network WebSockets OpenGL)
+find_package(OpenAL REQUIRED)
 find_package(OpenGL REQUIRED)
 
 # Automatically include all .cpp and .h files in the root folder
@@ -48,10 +49,15 @@ list(FILTER SRC_FILES EXCLUDE REGEX ".*moc_.*\\.cpp$")
 # Tell CMake to create the executable
 add_executable(tsre5 ${SRC_FILES})
 
-# Add the Qt5 Widgets for linking
-target_link_libraries(tsre5 Qt5::Core)
-target_link_libraries(tsre5 Qt5::Gui)
-target_link_libraries(tsre5 Qt5::Widgets)
-target_link_libraries(tsre5 Qt5::Network)
-target_link_libraries(tsre5 Qt5::OpenGL)
-target_link_libraries(tsre5 ${OPENGL_LIBRARIES})
+# Add the Qt5 Widgets and OpenAL/OpenGL for linking
+target_link_libraries(tsre5
+    PRIVATE
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
+    Qt5::Network
+    Qt5::OpenGL
+    Qt5::WebSockets
+    OpenAL::OpenAL
+    ${OPENGL_LIBRARIES}
+)
