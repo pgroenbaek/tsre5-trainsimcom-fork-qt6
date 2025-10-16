@@ -15,11 +15,40 @@ You would for example use something different than "Unix Makefiles" when generat
 
 ## Linux
 
+### Install dependencies
+
+Needed for CMake and GCC:
+
+```bash
+sudo apt install build-essential cmake
+```
+
+Needed for Qt5:
+
+```bash
+sudo apt install qt5-default qtbase5-dev qtbase5-dev-tools
+sudo apt install libqt5websockets5-dev
+sudo apt install libqt5opengl5-dev
+sudo apt install qttools5-dev qttools5-dev-tools
+```
+
+Needed for OpenAL:
+
+```bash
+sudo apt install libopenal-dev
+```
+
+Needed for OpenGL:
+
+```bash
+sudo apt install libglu1-mesa-dev freeglut3-dev mesa-common-dev
+```
+
 ### Preparing the build makefiles with CMake
 
 Make and enter the build directory.
 
-```
+```bash
 mkdir build
 cd build
 ```
@@ -30,7 +59,7 @@ The path to `lib/cmake` is inside the Qt installation. It could look something l
 
 The `../` refers to the project root directory where all the source files are. We execute the `cmake` command from inside the build folder to not make a mess of the source file folder with all sorts of build artefacts.
 
-```
+```bash
 cmake -DCMAKE_PREFIX_PATH="/path/to/lib/cmake" -G"Unix Makefiles" ../
 ```
 
