@@ -1,10 +1,13 @@
 # CMake build instructions
 
-**Note:** These instructions are work-in-progress and the build does not even compile yet using CMake.
+**Note:** These instructions are work-in-progress and are updated as I go along.
 
 ## Prerequisites
 
+- A compiler (like mingw on windows, GCC on linux)
 - CMake
+- OpenAL
+- OpenGL
 - A Qt installation
 
 ## Windows
