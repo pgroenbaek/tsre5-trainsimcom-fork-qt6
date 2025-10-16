@@ -1,0 +1,54 @@
+cmake_minimum_required(VERSION 3.8.2)
+
+project(tsre5)
+
+# Find includes in the build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+# Turn on automatic invocation of the MOC, UIC & RCC
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+# There may be a way to tell up front if Qt5 is going to be found, but I haven't found
+# a foolproof way to do it yet, so settle for the default error message for now.
+#if(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
+#    message(WARNING "CMAKE_PREFIX_PATH is not defined, so find_package may not work. Set the CMAKE_PREFIX_PATH "
+#            "environment variable to the install prefix of Qt 5, either on the command line as "
+#            "-DCMAKE_PREFIX_PATH=\"path/to/Qt5/lib/cmake\" or with set(CMAKE_PREFIX_PATH path/to/Qt5/lib/cmake)")
+#endif(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
+
+# Add a compiler flag
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++17 -O2")
+
+# Make this a GUI application on Windows
+if(WIN32)
+  set(CMAKE_WIN32_EXECUTABLE ON)
+endif()
+
+# OpenGL preference
+set(OpenGL_GL_PREFERENCE LEGACY)
+
+# Find the libraries
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Network OpenGL)
+find_package(OpenGL REQUIRED)
+
+# Automatically include all .cpp and .h files in the root folder
+file(GLOB SRC_FILES
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.cxx"
+  "${CMAKE_CURRENT_SOURCE_DIR}/*.qrc"
+)
+
+# Tell CMake to create the executable
+add_executable(tsre5 ${SRC_FILES})
+
+# Add the Qt5 Widgets for linking
+target_link_libraries(tsre5 Qt5::Core)
+target_link_libraries(tsre5 Qt5::Gui)
+target_link_libraries(tsre5 Qt5::Widgets)
+target_link_libraries(tsre5 Qt5::Network)
+target_link_libraries(tsre5 Qt5::OpenGL)
+target_link_libraries(tsre5 ${OPENGL_LIBRARIES})
