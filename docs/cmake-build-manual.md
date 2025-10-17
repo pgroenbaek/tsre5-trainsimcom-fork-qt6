@@ -1,6 +1,6 @@
-# CMake build instructions
+# CMake build manual
 
-**Note:** These instructions are work-in-progress and are updated as I go along.
+**Note:** This manual is work-in-progress and is updated as I go along.
 
 ## Prerequisites
 
