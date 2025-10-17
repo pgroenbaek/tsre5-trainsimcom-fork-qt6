@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8.2)
+cmake_minimum_required(VERSION 3.21)
 
 project(tsre5)
 
@@ -9,14 +9,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
-
-# There may be a way to tell up front if Qt5 is going to be found, but I haven't found
-# a foolproof way to do it yet, so settle for the default error message for now.
-#if(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
-#    message(WARNING "CMAKE_PREFIX_PATH is not defined, so find_package may not work. Set the CMAKE_PREFIX_PATH "
-#            "environment variable to the install prefix of Qt 5, either on the command line as "
-#            "-DCMAKE_PREFIX_PATH=\"path/to/Qt5/lib/cmake\" or with set(CMAKE_PREFIX_PATH path/to/Qt5/lib/cmake)")
-#endif(NOT CMAKE_PREFIX_PATH AND NOT Qt5Widgets_DIR)
 
 # Add a compiler flag
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++17 -O2")
@@ -30,8 +22,9 @@ endif()
 set(OpenGL_GL_PREFERENCE LEGACY)
 
 # Find the libraries
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Network WebSockets OpenGL)
-find_package(OpenAL REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network OpenGL OpenGLWidgets)
+find_package(fmt CONFIG REQUIRED)
+find_package(OpenAL CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
 
 # Automatically include all .cpp and .h files in the root folder
@@ -49,15 +42,16 @@ list(FILTER SRC_FILES EXCLUDE REGEX ".*moc_.*\\.cpp$")
 # Tell CMake to create the executable
 add_executable(tsre5 ${SRC_FILES})
 
-# Add the Qt5 Widgets and OpenAL/OpenGL for linking
+# Add the Qt6 Widgets and OpenAL/OpenGL for linking
 target_link_libraries(tsre5
     PRIVATE
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
-    Qt5::Network
-    Qt5::OpenGL
-    Qt5::WebSockets
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
+    Qt6::Network
+    Qt6::OpenGL
+    Qt6::OpenGLWidgets
+    fmt::fmt
     OpenAL::OpenAL
     ${OPENGL_LIBRARIES}
 )
