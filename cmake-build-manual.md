@@ -115,7 +115,7 @@ It should look something like "C:\path\to\Qt\6.x.x\mingw_64\lib\cmake", or simil
 Clone and change directory to the TSRE5 repository:
 ```
 git clone <repo url>
-cd <repo name>
+cd <repo dir name>
 ```
 
 Create and enter the build directory:
@@ -130,6 +130,16 @@ The `../` refers to the project root directory where all the source files are. W
 
 ```powershell
 cmake -DVCPKG_TARGET_TRIPLET="x64-mingw-static" -DVCPKG_HOST_TRIPLET="x64-mingw-static" -G"MinGW Makefiles" -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" -DCMAKE_PREFIX_PATH="C:/path/to/Qt/6.x.x/mingw_64/lib/cmake" -DCMAKE_C_COMPILER="C:\mingw64\bin\gcc.exe" -DCMAKE_CXX_COMPILER="C:\mingw64\bin\g++.exe" -DCMAKE_MAKE_PROGRAM="C:\mingw64\bin\mingw32-make.exe" -S ../ -B .
+```
+
+Now these commands can be used in the build directory:
+
+```bash
+mingw32-make
+```
+
+```bash
+mingw32-make clean
 ```
 
 ## Linux (Debian-based distros)
@@ -209,6 +219,12 @@ It should look something like "/path/to/Qt/6.x.x/gcc_64/lib/cmake", or similar, 
 
 ### Building TSRE5
 
+Clone and change directory to the TSRE5 repository:
+```
+git clone <repo url>
+cd <repo dir name>
+```
+
 Create and enter the build directory.
 
 ```bash
@@ -224,21 +240,11 @@ The `../` refers to the project root directory where all the source files are. W
 cmake -DVCPKG_TARGET_TRIPLET="x64-linux" -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="~/.vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_PREFIX_PATH="/path/to/Qt/6.x.x/gcc_64/lib/cmake" -S ../ -B .
 ```
 
-### Building
-
-First `cd` to the build folder.
-
-Then:
+Now these commands can be used in the build directory:
 
 ```bash
 make
 ```
-
-### Cleaning the build directory
-
-First `cd` to the build folder.
-
-Then:
 
 ```bash
 make clean
