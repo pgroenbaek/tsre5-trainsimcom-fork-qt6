@@ -1,0 +1,7 @@
+{
+  "name": "openal-soft",
+  "version-string": "1.18.2-2",
+  "description": "OpenAL Soft 1.18.2 (pinned legacy version for TSRE5)",
+  "homepage": "https://openal-soft.org/",
+  "license": "LGPL-2.1-or-later"
+}

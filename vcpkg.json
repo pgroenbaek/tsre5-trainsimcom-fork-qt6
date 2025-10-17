@@ -1,0 +1,29 @@
+{
+  "name": "tsre5",
+  "dependencies": [
+    {
+      "name": "fmt"
+    },
+    {
+      "name": "openal-soft"
+    },
+    {
+      "name": "opengl"
+    }
+  ],
+  "overrides": [
+    {
+      "name": "fmt",
+      "version": "12.0.0"
+    },
+    {
+      "name": "openal-soft",
+      "version": "1.24.3"
+    },
+    {
+      "name": "opengl",
+      "version": "2022-12-04#3"
+    }
+  ],
+  "builtin-baseline": "4caeed90e6b77b09311ffb5235139fb1526fef38"
+}
