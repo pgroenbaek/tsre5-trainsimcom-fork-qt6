@@ -13,16 +13,11 @@ set(CMAKE_AUTORCC ON)
 # Add a compiler flag
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++17 -O2")
 
-# Make this a GUI application on Windows
-if(WIN32)
-  set(CMAKE_WIN32_EXECUTABLE ON)
-endif()
-
 # OpenGL preference
 set(OpenGL_GL_PREFERENCE LEGACY)
 
 # Find the libraries
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network OpenGL OpenGLWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network OpenGL OpenGLWidgets WebSockets)
 find_package(fmt CONFIG REQUIRED)
 find_package(OpenAL CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -42,6 +37,15 @@ list(FILTER SRC_FILES EXCLUDE REGEX ".*moc_.*\\.cpp$")
 # Tell CMake to create the executable
 add_executable(tsre5 ${SRC_FILES})
 
+# # Choose whether to use WIN32 based on platform
+# # Using the WIN32 flag in add_executable on windows makes it a GUI application (i.e. no terminal popup)
+# # This flag is not needed on platforms other than windows
+# if(WIN32)
+#     add_executable(tsre5 WIN32 ${SOURCES})
+# else()
+#     add_executable(tsre5 ${SOURCES})
+# endif()
+
 # Add the Qt6 Widgets and OpenAL/OpenGL for linking
 target_link_libraries(tsre5
     PRIVATE
@@ -51,7 +55,8 @@ target_link_libraries(tsre5
     Qt6::Network
     Qt6::OpenGL
     Qt6::OpenGLWidgets
-    fmt::fmt
+    Qt6::WebSockets
     OpenAL::OpenAL
+    fmt::fmt
     ${OPENGL_LIBRARIES}
 )
