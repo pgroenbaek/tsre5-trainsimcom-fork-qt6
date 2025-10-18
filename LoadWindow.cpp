@@ -49,9 +49,9 @@ LoadWindow::LoadWindow() {
     
 
     nowaTrasa = new QLineEdit();
-    QRegExp rx("^[a-zA-Z0-9\\_\\-\\ ]*$");
-    //QRegExp rx("[\\/<>|\":?*].");
-    QRegExpValidator* v = new QRegExpValidator(rx);
+    QRegularExpression rx("^[a-zA-Z0-9\\_\\-\\ ]*$");
+    //QRegularExpression rx("[\\/<>|\":?*].");
+    QRegularExpressionValidator* v = new QRegularExpressionValidator(rx);
     nowaTrasa->setValidator(v);
     
     QVBoxLayout *mainLayout = new QVBoxLayout;

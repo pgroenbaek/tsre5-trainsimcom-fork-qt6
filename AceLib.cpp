@@ -27,6 +27,11 @@ AceLib::~AceLib(){
     
 }
 
+AceLib::AceLib(const AceLib& orig)
+{
+    texture = orig.texture; // shallow copy for now
+}
+
 /*===============================================================
 ===== Wczytywanie tekstury w formacie ACE [RGB,cRGB, DXT, cDXT]
 ==============================================================*/
@@ -372,6 +377,6 @@ void AceLib::save(QString path, Texture* t){
         }
     }
     
-    write.unsetDevice();
+    write.setDevice(nullptr);
     file->close();
 }

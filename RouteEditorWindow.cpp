@@ -132,7 +132,6 @@ RouteEditorWindow::RouteEditorWindow() {
     //box2->setMaximumWidth(250);
     //box2->setMinimumWidth(250);
     QHBoxLayout *mainLayout2 = new QHBoxLayout; 
-    mainLayout2->setMargin(0);
     mainLayout2->setSpacing(0);
     mainLayout2->setContentsMargins(0,0,0,0);
     mainLayout2->addWidget(objTools);
@@ -148,8 +147,7 @@ RouteEditorWindow::RouteEditorWindow() {
     
     QVBoxLayout *mainLayout3 = new QVBoxLayout;
     mainLayout3->setContentsMargins(0,0,0,0);
-    mainLayout2->setMargin(0);
-    mainLayout2->setSpacing(0);
+    mainLayout3->setSpacing(0);
     //mainLayout3->addWidget(propertiesUndefined);
     
     //for (std::vector<PropertiesAbstract*>::iterator it = objProperties.begin(); it != objProperties.end(); ++it) {
@@ -167,7 +165,7 @@ RouteEditorWindow::RouteEditorWindow() {
     glWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     
     QHBoxLayout *mainLayout = new QHBoxLayout;
-    mainLayout->setMargin(3);
+    mainLayout->setContentsMargins(3,3,3,3);
     mainLayout->setSpacing(3);
     
     QString mainWindowLayout = Game::mainWindowLayout;

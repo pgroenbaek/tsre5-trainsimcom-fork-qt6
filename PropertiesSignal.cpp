@@ -276,8 +276,11 @@ void PropertiesSignal::showObj(GameObj* obj){
 
     signalWindow->showObj(sobj);
     
-    QRect rec = QApplication::desktop()->screenGeometry();
-    signalWindow->move(rec.width()/2-signalWindow->width()/2 ,rec.height()/2-signalWindow->height()/2);
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if (screen) {
+        QRect rec = screen->geometry();
+        signalWindow->move(rec.width()/2-signalWindow->width()/2 ,rec.height()/2-signalWindow->height()/2);
+    }
     
     this->flags.setText(ParserX::MakeFlagsString(sobj->staticFlags));
     this->checkboxAnim.blockSignals(true);

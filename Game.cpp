@@ -354,7 +354,7 @@ void Game::load() {
     if(Game::debugOutput) qDebug() << path;
 
     QTextStream in(&file);
-    in.setCodec("UTF-8");
+    in.setEncoding(QStringConverter::Utf8);
     QString line;
     QStringList args;
     QString setval;

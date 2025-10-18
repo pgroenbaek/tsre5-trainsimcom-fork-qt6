@@ -1002,8 +1002,8 @@ void Route::preloadWFiles(bool gui){
         if(wfile.length() != 17){
            if(Game::debugOutput) qDebug() << "# W File undefined name " << wfile;
         }
-        QStringRef wxString(&wfile, 1, 7);
-        QStringRef wzString(&wfile, 8, 7);
+        QStringView wxString = QStringView(wfile).mid(1, 7);
+        QStringView wzString = QStringView(wfile).mid(8, 7);
         WX = wxString.toInt();
         WZ = -wzString.toInt();
         tTile = tile[(WX)*10000 + WZ];

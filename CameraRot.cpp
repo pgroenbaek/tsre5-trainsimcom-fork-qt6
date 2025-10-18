@@ -207,10 +207,12 @@ void CameraRot::check_coords() {
 }
 
 void CameraRot::MouseWheel(QWheelEvent* e){
-        if(e->delta() > 0)
-            moveForward(30);
-        if(e->delta() < 0)
-            moveBackward(30);
+    int delta = e->angleDelta().y();
+
+    if(delta > 0)
+        moveForward(30);
+    if(delta < 0)
+        moveBackward(30);
 }
 
 void CameraRot::MouseMove(QMouseEvent* e) {
