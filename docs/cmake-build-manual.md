@@ -105,6 +105,11 @@ https://www.qt.io/download-qt-installer-oss
 
 Select the right OS and install somewhere you can find it.
 
+**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration.
+
+    Check it here in the treeview menu: Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets
+
+
 Find the path to the lib\cmake folder, you will need it later.
 
 It should look something like "C:\path\to\Qt\6.x.x\mingw_64\lib\cmake", or similar, depending on version and where you installed it.
@@ -212,6 +217,11 @@ Download the installer:
 https://www.qt.io/download-qt-installer-oss
 
 Select the right OS and install somewhere you can find it.
+
+**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration.
+
+    Check it here in the treeview menu: Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets
+
 
 Find the path to the lib/cmake folder, you will need it later.
 
