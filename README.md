@@ -34,4 +34,4 @@ The experimental Qt6 version has the following unresolved issues:
 3. Support for .DDS not built into Qt6 by default
    
    Since around Qt5.8 there is no DDS support in QImage by default. The Qt DDS plugin must be compiled from scratch, and even that
-   is sketchy because it is not maintained properly. So another library must be used for this (e.g. `gli` is a good option).
+   is sketchy because it is not maintained properly. So another library must be used for this (e.g. [OpenImageIO](https://github.com/AcademySoftwareFoundation/OpenImageIO) is a good option).
