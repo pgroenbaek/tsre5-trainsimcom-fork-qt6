@@ -182,7 +182,7 @@ private:
     int m_yRot;
     int m_zRot;
     int fps;
-    QPoint m_lastPos;
+    QPointF m_lastPos;
     SFile* sFile;
     Eng* eng;
     Tile* tile;
