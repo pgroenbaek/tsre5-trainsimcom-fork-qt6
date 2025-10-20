@@ -143,7 +143,7 @@ void TextObj::pushRenderItem() {
     pushRenderItem(0);
 }
 
-void TextObj::pushRenderItem(float rot) {
+void TextObj::pushRenderItem(double rot) {
     if(!isInit)
         init();
 
@@ -156,7 +156,7 @@ void TextObj::pushRenderItem(float rot) {
     Game::currentRenderer->mvPopMatrix();
 }
 
-void TextObj::render(float rot) {
+void TextObj::render(double rot) {
     if(!isInit)
         init();
 

@@ -33,6 +33,7 @@ public:
     int height;
     int texID;
     int type;
+    int internalType;
     int typk;
     unsigned int* tex;
     QString pathid;

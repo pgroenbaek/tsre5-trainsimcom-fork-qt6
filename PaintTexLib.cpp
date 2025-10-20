@@ -66,6 +66,7 @@ void PaintTexLib::run() {
     texture->imageData = new unsigned char[texture->imageSize];
     std::fill(texture->imageData, texture->imageData+texture->imageSize, 0);
     texture->type = GL_RGBA;
+    texture->internalType = GL_RGBA8;
 
     
     QImage img(texture->imageData, w, h, QImage::Format_RGBA8888);

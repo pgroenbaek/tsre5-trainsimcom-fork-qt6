@@ -18,6 +18,9 @@
 
 class TextObj : public OglObj{
 public:
+    using OglObj::render;
+    using OglObj::pushRenderItem;
+
     bool inUse = false;
     float pos[3];
     TextObj(QString val, float s = 0, float sc = 0, int resm = 1);
@@ -26,9 +29,9 @@ public:
     TextObj(const TextObj& orig);
     virtual ~TextObj();
     void pushRenderItem();
-    void pushRenderItem(float rot);
+    void pushRenderItem(double rot);
     void render();
-    void render(float rot);
+    void render(double rot);
     void setColor(int r, int g, int b);
     void setOColor(int r, int g, int b);
     void setFontName(QString val);

@@ -48,10 +48,10 @@ GLUU::~GLUU() {
 }
 
 const char* GLUU::getShader(QString shaderScript, QString type) {
-#ifdef __APPLE__
+#if defined(__linux__) || defined(__APPLE__)
     QFile* shaderData = new QFile(QString("tsre_appdata/")+Game::AppDataVersion+"/shaders330/"+shaderScript+"."+type);
 #else
-    QFile* shaderData = new QFile(QString("tsre_appdata/")+Game::AppDataVersion+"/shaders/"+shaderScript+"."+type);
+    QFile* shaderData = new QFile(QString("tsre_appdata/")+Game::AppDataVersion+"/shaders130/"+shaderScript+"."+type);
 #endif
     if (!shaderData->open(QIODevice::ReadOnly)){
         qDebug() << "Shader file not found " << shaderData->fileName();
@@ -114,14 +114,15 @@ void GLUU::initShader() {
         currentShader->shadow2Res = currentShader->uniformLocation("shadow2Res");
         currentShader->shadow2Bias = currentShader->uniformLocation("shadow2Bias");
 
-        unsigned int tex1 = currentShader->uniformLocation("uSampler");
+        int tex1 = currentShader->uniformLocation("uSampler");
         currentShader->setUniformValue(tex1, 0);
-        unsigned int tex2 = currentShader->uniformLocation("uSampler2");
+        int tex2 = currentShader->uniformLocation("uSampler2");
         currentShader->setUniformValue(tex2, 1);
-        unsigned int tex3 = currentShader->uniformLocation("shadow1");
+        int tex3 = currentShader->uniformLocation("shadow1");
         currentShader->setUniformValue(tex3, 2);
-        unsigned int tex4 = currentShader->uniformLocation("shadow2");
+        int tex4 = currentShader->uniformLocation("shadow2");
         currentShader->setUniformValue(tex4, 3);
+
         currentShader->release();
     }
     
@@ -246,6 +247,7 @@ void GLUU::bindTexture(QOpenGLFunctions *f, unsigned int texAddr){
     if(this->currentTexture == texAddr)
         return;
     this->currentTexture = texAddr;
+    //f->glActiveTexture(GL_TEXTURE0);
     f->glBindTexture(GL_TEXTURE_2D, texAddr);
 }
 

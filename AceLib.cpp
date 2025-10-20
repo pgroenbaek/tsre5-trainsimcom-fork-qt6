@@ -126,8 +126,10 @@ void AceLib::run() {
     texture->imageData = new unsigned char[texture->imageSize];
     if (texture->bpp == 24) {
         texture->type = GL_RGB;
+        texture->internalType = GL_RGB8;
     } else {
         texture->type = GL_RGBA;
+        texture->internalType = GL_RGBA8;
     }
         
     int ptr = 0;

@@ -4,6 +4,9 @@
 /build-linux/
 /build-macos/
 /dist/
+/dist-windows/
+/dist-linux/
+/dist-macos/
 /Resources/templateRoute/
 moc_*.cpp
 /log.txt

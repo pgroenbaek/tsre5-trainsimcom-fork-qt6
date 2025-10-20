@@ -37,9 +37,11 @@ void MapLib::run(){
     if(img->format() == QImage::Format_RGBA8888){
         texture->bytesPerPixel = 4;
         texture->type = GL_RGBA;
+        texture->internalType = GL_RGBA8;
     }else{
         texture->bytesPerPixel = 3;
         texture->type = GL_RGB;
+        texture->internalType = GL_RGB8;
     }
 
     texture->imageData = new unsigned char[texture->width*texture->height*texture->bytesPerPixel];//img.bits();

@@ -33,10 +33,12 @@ void ImageLib::run(){
     if(img.hasAlphaChannel()){
         texture->bytesPerPixel = 4;
         texture->type = GL_RGBA;
+        texture->internalType = GL_RGBA8;
         img = img.convertToFormat(QImage::Format_RGBA8888);
     } else {
         texture->bytesPerPixel = 3;
         texture->type = GL_RGB;
+        texture->internalType = GL_RGB8;
         img = img.convertToFormat(QImage::Format_RGB888);
     }
     texture->width = img.width();

@@ -43,15 +43,17 @@ Texture::Texture(QString pathid) {
 Texture::Texture(int x, int y, int bpp, Brush* brush){
     width = x;
     height = y;
-    bpp = bpp;
+    this->bpp = bpp;
     bytesPerPixel = (bpp / 8);
     imageSize = (bytesPerPixel * width * height);
     imageData = new unsigned char[imageSize];
     std::fill(imageData, imageData+imageSize, 255);
     if (bpp == 24) {
         type = GL_RGB;
+        internalType = GL_RGB8;
     } else {
         type = GL_RGBA;
+        internalType = GL_RGBA8;
     }
 
     editable = true;
@@ -65,6 +67,7 @@ Texture::Texture(const Texture* orig) {
     height = orig->height;
     bpp = orig->bpp;
     type = orig->type;
+    internalType = orig->internalType;
     bytesPerPixel = orig->bytesPerPixel;
     
     //QOpenGLFunctions_3_2_Core *f = new QOpenGLFunctions_3_2_Core();
@@ -74,6 +77,7 @@ Texture::Texture(const Texture* orig) {
         this->editable = true;
     } else {
         imageData = new unsigned char[bytesPerPixel*width*height];
+        //glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, orig->tex[0]);
         glGetTexImage(GL_TEXTURE_2D, 0, orig->type, GL_UNSIGNED_BYTE, imageData);
         this->editable = true;
@@ -81,8 +85,9 @@ Texture::Texture(const Texture* orig) {
 
     tex = new unsigned int[1];
     glGenTextures(1, tex);
+    //glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, tex[0]);
-    glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, imageData);
+    glTexImage2D(GL_TEXTURE_2D, 0, internalType, width, height, 0, type, GL_UNSIGNED_BYTE, imageData);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     //delete imageData;
@@ -107,6 +112,7 @@ void Texture::setEditable(){
     imageData = new unsigned char[bytesPerPixel*width*height];
 
     //QOpenGLFunctions_3_2_Core *f = QOpenGLContext::currentContext()-> functions();
+    //glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, tex[0]);
     glGetTexImage(GL_TEXTURE_2D, 0, type, GL_UNSIGNED_BYTE, imageData);
     this->editable = true;
@@ -347,8 +353,9 @@ void Texture::paint(Brush* brush, float x, float z){
 
 void Texture::update(){
     //QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+    //glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, tex[0]);
-    glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, imageData);
+    glTexImage2D(GL_TEXTURE_2D, 0, internalType, width, height, 0, type, GL_UNSIGNED_BYTE, imageData);
 }
 
 Texture::~Texture() {
@@ -373,8 +380,9 @@ bool Texture::GLTextures(bool mipmaps) {
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     
     glGenTextures(1, tex);
+    //glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, tex[0]);
-    glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, imageData);
+    glTexImage2D(GL_TEXTURE_2D, 0, internalType, width, height, 0, type, GL_UNSIGNED_BYTE, imageData);
     
     //f->glTexStorage2D(GL_TEXTURE_2D, 4, GL_RGBA8, width, height);
     //f->glTexSubImage2D(GL_TEXTURE_2D, 0​, 0, 0, width​, height​, GL_BGRA, GL_UNSIGNED_BYTE, pixels);
