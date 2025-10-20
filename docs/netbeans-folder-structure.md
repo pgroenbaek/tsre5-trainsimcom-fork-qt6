@@ -62,6 +62,7 @@ target_sources(TSRE5 PRIVATE ${<dir>})
 
 Corresponding .cpp files are in the same folders.
 
+```
 /
 ├── src/
 │   ├── camera/
@@ -308,3 +309,4 @@ Corresponding .cpp files are in the same folders.
 │   └── Undo.h
 ├── LICENSE.md
 └── README.md
+```
