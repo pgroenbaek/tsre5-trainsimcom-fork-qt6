@@ -1546,16 +1546,16 @@ void RouteEditorGLWidget::mouseMoveEvent(QMouseEvent *event) {
     bolckContextMenu = false;
     Game::currentShapeLib = currentShapeLib;
     if (!route->loaded) return;
-    /*int dx = event->x() - m_lastPos.x();
-    int dy = event->y() - m_lastPos.y();
+    /*int dx = event->position().x() - m_lastPos.x();
+    int dy = event->position().y() - m_lastPos.y();
 
     if (event->buttons() & Qt::LeftButton) {
 
     } else if (event->buttons() & Qt::RightButton) {
 
     }*/
-    mousex = event->x() * Game::PixelRatio;
-    mousey = event->y() * Game::PixelRatio;
+    mousex = event->position().x() * Game::PixelRatio;
+    mousey = event->position().y() * Game::PixelRatio;
 
     if ((event->buttons() & 2) == Qt::RightButton) {
         camera->MouseMove(event);
@@ -1636,7 +1636,7 @@ void RouteEditorGLWidget::mouseMoveEvent(QMouseEvent *event) {
             camera->MouseMove(event);
         }
     }
-    m_lastPos = event->pos();
+    m_lastPos = event->position();
     m_lastPos *= Game::PixelRatio;
 }
 

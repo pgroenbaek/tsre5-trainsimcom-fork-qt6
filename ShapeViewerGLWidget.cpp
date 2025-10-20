@@ -365,15 +365,15 @@ void ShapeViewerGLWidget::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void ShapeViewerGLWidget::mouseMoveEvent(QMouseEvent *event) {
-    mousex = event->x()*Game::PixelRatio;
-    mousey = event->y()*Game::PixelRatio;
+    mousex = event->position().x()*Game::PixelRatio;
+    mousey = event->position().y()*Game::PixelRatio;
     
     if(mode == "rot"){
         if (mousePressed) {
             if(mouseRPressed)
-                rotZ += (float) (m_lastPos.y() - event->y()) / 60*(camera->fov/45.0);
+                rotZ += (float) (m_lastPos.y() - event->position().y()) / 60*(camera->fov/45.0);
             if(mouseLPressed)
-                rotY += (float) (m_lastPos.x() - event->x()) / 60*(camera->fov/45.0);
+                rotY += (float) (m_lastPos.x() - event->position().x()) / 60*(camera->fov/45.0);
             if (rotZ > 1.57)
                 rotZ = (float) 1.57;
             if (rotZ < -1.57)
@@ -382,7 +382,7 @@ void ShapeViewerGLWidget::mouseMoveEvent(QMouseEvent *event) {
     } else {
         camera->MouseMove(event);
     }
-    m_lastPos = event->pos();
+    m_lastPos = event->position();
     m_lastPos *= Game::PixelRatio;
 }
 

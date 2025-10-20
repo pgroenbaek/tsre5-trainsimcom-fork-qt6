@@ -311,7 +311,6 @@ int main(int argc, char *argv[]){
     //format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
     QSurfaceFormat::setDefaultFormat(format);
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
     QApplication::setApplicationName(Game::AppName);
     QApplication::setApplicationVersion(Game::AppVersion);
     //QApplication::pr

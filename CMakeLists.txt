@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(tsre5)
+project(TSRE5)
 
 # Find includes in the build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -35,7 +35,7 @@ file(GLOB SRC_FILES
 list(FILTER SRC_FILES EXCLUDE REGEX ".*moc_.*\\.cpp$")
 
 # Tell CMake to create the executable
-add_executable(tsre5 ${SRC_FILES})
+add_executable(TSRE5 ${SRC_FILES})
 
 # # Choose whether to use WIN32 based on platform
 # # Using the WIN32 flag in add_executable on windows makes it a GUI application (i.e. no terminal popup)
@@ -47,7 +47,7 @@ add_executable(tsre5 ${SRC_FILES})
 # endif()
 
 # Add the Qt6 Widgets and OpenAL/OpenGL for linking
-target_link_libraries(tsre5
+target_link_libraries(TSRE5
     PRIVATE
     Qt6::Core
     Qt6::Gui

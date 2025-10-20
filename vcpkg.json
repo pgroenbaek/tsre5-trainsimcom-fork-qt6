@@ -1,15 +1,9 @@
 {
   "name": "tsre5",
   "dependencies": [
-    {
-      "name": "fmt"
-    },
-    {
-      "name": "openal-soft"
-    },
-    {
-      "name": "opengl"
-    }
+    "fmt",
+    "openal-soft",
+    "opengl"
   ],
   "overrides": [
     {
