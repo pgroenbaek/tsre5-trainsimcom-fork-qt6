@@ -5,7 +5,6 @@
 /build-macos/
 /dist/
 /Resources/templateRoute/
-/resources/
 moc_*.cpp
 /log.txt
 /template_routes/
