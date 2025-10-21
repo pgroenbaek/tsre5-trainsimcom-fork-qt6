@@ -37,16 +37,7 @@ list(FILTER SRC_FILES EXCLUDE REGEX ".*moc_.*\\.cpp$")
 # Tell CMake to create the executable
 add_executable(TSRE5 ${SRC_FILES})
 
-# # Choose whether to use WIN32 based on platform
-# # Using the WIN32 flag in add_executable on windows makes it a GUI application (i.e. no terminal popup)
-# # This flag is not needed on platforms other than windows
-# if(WIN32)
-#     add_executable(tsre5 WIN32 ${SOURCES})
-# else()
-#     add_executable(tsre5 ${SOURCES})
-# endif()
-
-# Add the Qt6 Widgets and OpenAL/OpenGL for linking
+# Add the required Qt6 modules and other libraries for linking
 target_link_libraries(TSRE5
     PRIVATE
     Qt6::Core

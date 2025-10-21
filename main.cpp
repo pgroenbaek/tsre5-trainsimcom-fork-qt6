@@ -28,6 +28,9 @@
 #include "RouteEditorServer.h"
 #include "RouteEditorClient.h"
 #include "Undo.h"
+#ifdef Q_OS_WIN32
+#include <windows.h>
+#endif
 
 QFile logFile;
 QTextStream logFileOut;
@@ -278,9 +281,17 @@ CommandLineParseResult parseCommandLineArgs(QCommandLineParser &parser){
 
 int main(int argc, char *argv[]){
 
-   // #ifdef  Q_OS_WIN32 
-   //     ::ShowWindow( ::GetConsoleWindow(), SW_HIDE ); //hide console window
-   // #endif
+    //#ifdef Q_OS_WIN32 
+    //    ::ShowWindow( ::GetConsoleWindow(), SW_HIDE ); //hide console window
+    //#endif
+
+    #ifdef Q_OS_WIN32
+        HWND consoleWnd = ::GetConsoleWindow();
+        if (consoleWnd) {
+            ::FreeConsole(); // Detach the console from the process
+            ::PostMessage(consoleWnd, WM_CLOSE, 0, 0); // Request console to close
+        }
+    #endif
 
 
     /// set the version here to avoid changing Game.cpp so much
