@@ -16,6 +16,7 @@
 #include "Vector4f.h"
 #include <QDebug>
 #include <QFile>
+#include <QRegularExpression>
 #ifndef __APPLE__
 #include <GL/gl.h>
 #else
@@ -47,16 +48,44 @@ GLUU::~GLUU() {
 
 }
 
+int GLUU::detectSupportedGLSLVersion() {
+    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+    const char *glslStr = reinterpret_cast<const char*>(f->glGetString(GL_SHADING_LANGUAGE_VERSION));
+    if (!glslStr) {
+        return 130;
+    }
+
+    QString s = QString(glslStr);
+    qDebug() << "GLSL version string:" << s;
+
+    // Extract the first number that looks like "1.30", "3.30", "4.60", etc.
+    QRegularExpression re("(\\d+)\\.(\\d+)");
+    QRegularExpressionMatch m = re.match(s);
+    if (m.hasMatch()) {
+        int major = m.captured(1).toInt();
+        int minor = m.captured(2).toInt();
+        return major * 100 + minor;  // e.g. "3.30" = 330, "1.30" = 130
+    }
+
+    return 130; // safe default
+}
+
 const char* GLUU::getShader(QString shaderScript, QString type) {
-#ifdef __APPLE__
-    QFile* shaderData = new QFile(QString("tsre_appdata/")+Game::AppDataVersion+"/shaders330/"+shaderScript+"."+type);
-#else
-    QFile* shaderData = new QFile(QString("tsre_appdata/")+Game::AppDataVersion+"/shaders/"+shaderScript+"."+type);
-#endif
+    QFile* shaderData;
+    int glslVersion = detectSupportedGLSLVersion();
+
+    if (glslVersion >= 330) {
+        shaderData = new QFile(QString("tsre_appdata/")+Game::AppDataVersion+"/shaders330/"+shaderScript+"."+type);
+    }
+    else {
+        shaderData = new QFile(QString("tsre_appdata/")+Game::AppDataVersion+"/shaders/"+shaderScript+"."+type);
+    }
+
     if (!shaderData->open(QIODevice::ReadOnly)){
         qDebug() << "Shader file not found " << shaderData->fileName();
         return "";
     }
+
     return (const char*) ReadFile::readRAW(shaderData)->data;
 }
 

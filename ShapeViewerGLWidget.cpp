@@ -118,6 +118,13 @@ void ShapeViewerGLWidget::initializeGL() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glCullFace(GL_BACK);
 
+    QOpenGLContext* context = QOpenGLContext::currentContext();
+    if (context) {
+        QSurfaceFormat fmt = context->format();
+        qDebug() << "OpenGL Version:" << fmt.majorVersion() << "." << fmt.minorVersion();
+        qDebug() << "Profile:" << fmt.profile(); // Core or Compatibility
+    }
+
 
     //sFile = new SFile("F:/TrainSim/trains/trainset/pkp_sp47/pkp_sp47-001.s", "F:/TrainSim/trains/trainset/pkp_sp47");
     //sFile = new SFile("f:/train simulator/routes/cmk/shapes/cottage3.s", "cottage3.s", "f:/train simulator/routes/cmk/textures");

@@ -39,7 +39,7 @@
 //////// Version
 //////////////////////////////////
 
-QString Game::AppVersion = "Trainsim.Com Fork v0.8.005";  // over-ride from main.cpp
+QString Game::AppVersion = "Trainsim.Com Fork v0.8.xxx Qt6 Experimental Version";  // over-ride from main.cpp
 
 
 bool Game::ServerMode = false;

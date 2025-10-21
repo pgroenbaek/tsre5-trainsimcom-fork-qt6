@@ -311,6 +311,14 @@ void RouteEditorGLWidget::initializeGL() {
     //    exit(1);
     //}
     //funcs->initializeOpenGLFunctions();/**/
+
+    QOpenGLContext* context = QOpenGLContext::currentContext();
+    if (context) {
+        QSurfaceFormat fmt = context->format();
+        qDebug() << "OpenGL Version:" << fmt.majorVersion() << "." << fmt.minorVersion();
+        qDebug() << "Profile:" << fmt.profile(); // Core or Compatibility
+    }
+
     glClearColor(0, 0, 0, 1);
     //qDebug() << "gluu->initShader();";
     if(Game::debugOutput) qDebug() << "# InitShaders";
