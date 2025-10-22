@@ -18,9 +18,9 @@ Adjust the current top-level CMakeLists.txt. Replace `<a subdir>` with actual su
 ```cmake
 ...
 add_executable(TSRE5
-  App.cpp
+  Game.cpp
   main.cpp
-  resources.qrc
+  ...
 )
 
 add_subdirectory(<a subdir>)

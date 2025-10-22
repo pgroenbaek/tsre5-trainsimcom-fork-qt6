@@ -50,22 +50,10 @@ If you can't run it, you will need to add the install location to the system env
 
 ### Installing MinGW:
 
-MinGW 13.1 is listed in the Qt documentation to be compatible with Qt version 6.9.x.
+In the windows build of Qt6, MinGW is included. So you don't need to install it yourself.
 
-That version of MinGW can be downloaded from here:
-https://github.com/niXman/mingw-builds-binaries/releases/tag/13.1.0-rt_v11-rev1
+The `configure-build.bat` script used later will find the included MinGW binaries within the windows Qt installation automatically.
 
-Extract the zip file e.g. into C:/
-
-Add the bin folder to the system path env variable, e.g. "C:\mingw64\bin"
-
-Open a new powershell window, and verify you can run:
-
-```powershell
-gcc --version
-```
-
-If you can't run it, you will need to adjust the system env path variable.
 
 ### Installing and setting up vcpkg:
 
@@ -77,7 +65,7 @@ git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
 ```
 
-Run the bootstrap script:
+Next, run the bootstrap script:
 
 ```powershell
 .\bootstrap-vcpkg.bat -disableMetrics
@@ -105,47 +93,61 @@ https://www.qt.io/download-qt-installer-oss
 
 Select the right OS and install somewhere you can find it.
 
-**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration.
+**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration. Make sure to check it in the treeview menu: `Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets`
 
-    Check it here in the treeview menu: Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets
+Find the path to the `mingw_64` folder within the Qt6 installation, you will need it later.
 
-
-Find the path to the lib\cmake folder, you will need it later.
-
-It should look something like "C:\path\to\Qt\6.x.x\mingw_64\lib\cmake", or similar, depending on version and where you installed it.
+It should look something like `C:\path\to\Qt\6.x.x\mingw_64`, or similar, depending on version and where you installed Qt6.
 
 
 ### Building TSRE5
 
 Clone and change directory to the TSRE5 repository:
-```
+```powershell
 git clone <repo url>
-cd <repo dir name>
+cd <local repo directory name>
 ```
 
-Create and enter the build directory:
-```powershell
-mkdir build
-cd build
-```
-
-Now create the build configuration:
-
-The `../` refers to the project root directory where all the source files are. We execute the `cmake` command from inside the build folder to not make a mess of the source file folder with all sorts of build artefacts later.
-
-```powershell
-cmake -DVCPKG_TARGET_TRIPLET="x64-mingw-static" -DVCPKG_HOST_TRIPLET="x64-mingw-static" -G"MinGW Makefiles" -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" -DCMAKE_PREFIX_PATH="C:/path/to/Qt/6.x.x/mingw_64/lib/cmake" -DCMAKE_C_COMPILER="C:\mingw64\bin\gcc.exe" -DCMAKE_CXX_COMPILER="C:\mingw64\bin\g++.exe" -DCMAKE_MAKE_PROGRAM="C:\mingw64\bin\mingw32-make.exe" -S ../ -B .
-```
-
-Now these commands can be used in the build directory:
+Enter the scripts directory:
 
 ```bash
-mingw32-make
+cd scripts
 ```
 
+Now run `configure-build.bat`, this script will set up the build directory using CMake.
+
+The build configuration script will ask you to provide the Qt installation directory, the vcpkg directory and which vcpkg triplet you want to use.
+
+The vcpkg triplets you can use are:
+- x64-mingw-static
+- x64-mingw-dynamic
+- x86-mingw-static
+- x86-mingw-dynamic
+
+Qt will always be linked dynamically regardless of what you use, it needs to be due to their OSS license.
+
+To run the build configuration script:
 ```bash
-mingw32-make clean
+./configure-build.bat
 ```
+
+You only need to run the build configuration script once. Or again if you later want to change directory paths or triplets.
+
+When the build directory is configured you can run `build.bat`.
+
+To run the build script:
+```bash
+./build.bat
+```
+
+### Packaging TSRE5
+
+- TODO: Guide on using the packaging script.
+- TODO: Something about qtwindeploy.exe
+- TODO: Something about libcrypto and libssl
+- TODO: Something about OpenGL software rendering?
+- TODO: What about OpenAL if using dynamic vcpkg triplets?
+- TODO: Probably more?
 
 ## Linux (Debian-based distros)
 
@@ -188,10 +190,15 @@ cmake --version
 cd ~
 git clone https://github.com/microsoft/vcpkg.git ~/.vcpkg
 cd ~/.vcpkg
+```
+
+Next, run the bootstrap script:
+
+```bash
 ./bootstrap-vcpkg.sh -disableMetrics
 ```
 
-Edit your `~/.bashrc` (or similar depending on the shell you use) and add this line at the bottom:
+Edit your `~/.bashrc` (or similar, depending on the shell you use) and add this line at the bottom:
 ```bash
 export PATH="$HOME/.vcpkg:$PATH"
 ```
@@ -218,54 +225,60 @@ https://www.qt.io/download-qt-installer-oss
 
 Select the right OS and install somewhere you can find it.
 
-**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration.
+**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration. Make sure to check it in the treeview menu: `Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets`
 
-    Check it here in the treeview menu: Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets
+Find the path to the `gcc_64` folder within the Qt6 installation, you will need it later.
 
-
-Find the path to the lib/cmake folder, you will need it later.
-
-It should look something like "/path/to/Qt/6.x.x/gcc_64/lib/cmake", or similar, depending on version and where you installed it.
+It should look something like `/path/to/Qt/6.x.x/gcc_64`, or similar, depending on version and where you installed Qt6.
 
 ### Building TSRE5
 
 Clone and change directory to the TSRE5 repository:
-```
+```bash
 git clone <repo url>
-cd <repo dir name>
+cd <local repo directory name>
 ```
 
-Create and enter the build directory.
+Enter the scripts directory:
 
 ```bash
-mkdir build
-cd build
+cd scripts
 ```
 
-Now create the build configuration:
+Now run `configure-build.sh`, this script will set up the build directory using CMake.
+You might need to use `chmod +x configure-build.sh` before you can execute the script.
 
-The `../` refers to the project root directory where all the source files are. We execute the `cmake` command from inside the build folder to not make a mess of the source file folder with all sorts of build artefacts later.
+The build configuration script will ask you to provide the Qt installation directory, the vcpkg directory and which vcpkg triplet you want to use.
 
+The vcpkg triplets you can use are:
+- x64-linux
+- x64-linux-dynamic
+
+Qt will always be linked dynamically regardless of what you use, it needs to be due to their OSS license.
+
+To run the build configuration script:
 ```bash
-cmake -DVCPKG_TARGET_TRIPLET="x64-linux" -G"Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE="~/.vcpkg/scripts/buildsystems/vcpkg.cmake" -DCMAKE_PREFIX_PATH="/path/to/Qt/6.x.x/gcc_64/lib/cmake" -S ../ -B .
+./configure-build.sh
 ```
 
-Now these commands can be used in the build directory:
+You only need to run the build configuration script once. Or again if you later want to change directory paths or triplets.
 
-```bash
-make
-```
+When the build directory is configured you can run `build.sh`.
+Again, you might need to use `chmod +x build.sh` before you can execute the script.
 
+To run the build script:
 ```bash
-make clean
+./build.sh
 ```
 
 ## macOS
 
 I don't have a Mac, so I can't test and document this process.
 
-It's a somewhat similar process to Linux though. Use 'brew' rather than 'apt', and OSX-specific target triplets when using CMake and vcpkg.
+It's a somewhat similar process to Linux. Use 'brew' rather than 'apt', and OSX-specific vcpkg triplets.
 
-Those target triplets are:
-- x64-osx-static
-- arm64-osx-static
+Those vcpkg triplets are:
+- x64-osx
+- x64-osx-dynamic
+- arm64-osx
+- arm64-osx-dynamic
