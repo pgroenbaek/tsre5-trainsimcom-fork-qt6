@@ -1,10 +1,7 @@
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-:: --------------------------------------------------------
-:: package-windows.bat
-:: Builds TSRE5 and packages it into a zip for Windows
-:: --------------------------------------------------------
+SET /P QT_PATH="Enter full path to your Qt6 installation directory (e.g., C:\Qt\6.9.3\mingw_64): "
 
 :: Ask for build type
 SET /P BUILD_TYPE="Enter build type (Testing/Release) [Testing]: "
@@ -51,12 +48,12 @@ IF %ERRORLEVEL% NEQ 0 (
 :: Copy executable to package folder
 echo Copying executable...
 mkdir "%PACKAGE_DIR%\bin"
-copy "%BUILD_DIR%\%BUILD_TYPE%\tsre5.exe" "%PACKAGE_DIR%\bin\"
+copy "%BUILD_DIR%\%BUILD_TYPE%\TSRE5.exe" "%PACKAGE_DIR%\bin\"
 
 :: Deploy Qt DLLs using windeployqt
 echo Deploying Qt dependencies...
 SET QT_BIN="C:\Qt\5.7\msvc2015_%ARCH%\bin\windeployqt.exe"
-%QT_BIN% "%PACKAGE_DIR%\bin\tsre5.exe" --release
+%QT_BIN% "%PACKAGE_DIR%\bin\TSRE5.exe" --release
 
 :: Copy vcpkg dependencies (OpenAL/OpenGL)
 echo Copying vcpkg runtime dependencies...
