@@ -1,5 +1,5 @@
 
-# Netbeans folder structure
+# Setting up a folder structure
 
 This document is just for reference in case at some point it is decided to make the folder structure like the virtual folders within the Netbeans IDE project, rather than having all source files in a single directory.
 
@@ -58,7 +58,7 @@ target_sources(TSRE5 PRIVATE ${<dir>})
 ```
 
 
-## Folder structure (only .h files shown)
+## Old Netbeans virtual folder structure (only .h files shown)
 
 Corresponding .cpp files are in the same folders.
 
@@ -299,7 +299,6 @@ Corresponding .cpp files are in the same folders.
 │   │   ├── TerrainLibSimple.h
 │   │   ├── Tile.h
 │   │   └── Trk.h
-│   ├── App.h
 │   ├── ClientInfo.h
 │   ├── ErrorMessage.h
 │   ├── ErrorMessagesLib.h
