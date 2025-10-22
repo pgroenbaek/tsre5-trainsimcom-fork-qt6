@@ -10,9 +10,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-# Add a compiler flag
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++17 -O2")
-
 # OpenGL preference
 set(OpenGL_GL_PREFERENCE LEGACY)
 
@@ -39,6 +36,19 @@ endif()
 
 # Tell CMake to create the executable
 add_executable(TSRE5 ${SRC_FILES})
+
+# Set CXX properties
+set_target_properties(TSRE5 PROPERTIES
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED YES
+    CXX_EXTENSIONS NO
+)
+
+# Set target compile options
+target_compile_options(TSRE5 PRIVATE
+    -Wall
+    -O2
+)
 
 # Add the required Qt6 modules and other libraries for linking
 target_link_libraries(TSRE5
