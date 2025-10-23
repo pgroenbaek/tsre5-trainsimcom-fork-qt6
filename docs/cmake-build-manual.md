@@ -54,6 +54,12 @@ But you need to add the CMake directory within the Qt6 installation to your syst
 
 The directory looks like `C:\path\to\Qt\Tools\CMake_64\bin`, or similar, depending on where you installed Qt6.
 
+Open a new powershell window, and verify you can run:
+
+```powershell
+cmake --version
+```
+
 ### Installing MinGW:
 
 In the windows build of Qt6, MinGW 13.1 is included. So you don't need to download and install it yourself.
