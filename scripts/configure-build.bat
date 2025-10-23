@@ -46,9 +46,9 @@ echo.
 echo Running CMake...
 cmake -B "%BUILD_DIR%" -S "%SCRIPT_DIR%..\." ^
   -G "MinGW Makefiles" ^
-  -DCMAKE_C_COMPILER="%QT_PATH%\bin\gcc.exe" ^
-  -DCMAKE_CXX_COMPILER="%QT_PATH%\bin\g++.exe" ^
-  -DCMAKE_MAKE_PROGRAM="%QT_PATH%\bin\mingw32-make.exe" ^
+  -DCMAKE_C_COMPILER="%QT_PATH%\..\..\Tools\mingw1310_64\bin\gcc.exe" ^
+  -DCMAKE_CXX_COMPILER="%QT_PATH%\..\..\Tools\mingw1310_64\bin\g++.exe" ^
+  -DCMAKE_MAKE_PROGRAM="%QT_PATH%\..\..\Tools\mingw1310_64\bin\mingw32-make.exe" ^
   -DCMAKE_PREFIX_PATH="%QT_PATH%\lib\cmake" ^
   -DCMAKE_TOOLCHAIN_FILE="%VCPKG_PATH%\scripts\buildsystems\vcpkg.cmake" ^
   -DVCPKG_TARGET_TRIPLET="%TRIPLET%" ^

@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+echo "---- TSRE5 Build Script ----"
+echo
+
 BUILD_DIR="$(dirname "$0")/../build"
 
 if [ ! -d "$BUILD_DIR" ]; then

@@ -1,6 +1,9 @@
 @echo off
 setlocal
 
+echo ---- TSRE5 Clean Build Directory Script ----
+echo.
+
 set SCRIPT_DIR=%~dp0
 set BUILD_DIR=%SCRIPT_DIR%..\build
 
