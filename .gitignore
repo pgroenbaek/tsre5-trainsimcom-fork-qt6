@@ -8,7 +8,6 @@
 /dist-linux/
 /dist-macos/
 /Resources/templateRoute/
-moc_*.cpp
 /log.txt
 /template_routes/
 /tsre_assets/
@@ -18,11 +17,6 @@ moc_*.cpp
 /tsre_appdata/0.693/
 /tsre_appdata/0.6937/
 /tsre_appdata/0.696/procedural/
-.qmake.stash
-dep.inc
-/nbproject/
-/nbproject/private/private.xml
-/nbproject/configurations.xml
 
 ### C++ ###
 # Prerequisites

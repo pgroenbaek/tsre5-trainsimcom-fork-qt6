@@ -7,10 +7,10 @@
 | Tool             | Why it's needed                                                          |
 | ---------------- | ------------------------------------------------------------------------ |
 | **Git**          | To clone the TSRE5 repo *and* vcpkg                                      |
+| **Qt 6.9.x**     | To provide the GUI framework and required modules for the application    |
 | **C++ compiler** | To compile the project and dependencies                                  |
 | **CMake**        | To configure and generate build files                                    |
 | **vcpkg**        | To manage and integrate libraries other than Qt itself                   |
-| **Qt 6.x**       | To provide the GUI framework and required modules for the application    |
 
 The `vcpkg` tool by Microsoft is a dependency manager that handles downloading, building, and integrating libraries into the project automatically. It is similar to what NuGet does for C#, just for C/C++ instead.
 
@@ -33,27 +33,32 @@ git --version
 
 If you can't run it, you will need to add the install location to the system env path variable manually.
 
+### Installing Qt6.x:
+
+Download the installer:
+https://www.qt.io/download-qt-installer-oss
+
+Select the right OS and install somewhere you can find it.
+
+**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration. Make sure to check it in the treeview menu: `Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets`
+
+Find the path to the `mingw_64` folder within the Qt6 installation, you will need it later.
+
+It should look something like `C:\path\to\Qt\6.x.x\mingw_64`, or similar, depending on version and where you installed Qt6.
+
 ### Installing CMake:
 
-Download from:
-https://cmake.org/download/
+In the windows build of Qt6, CMake is included. So you don't need to download and install it yourself.
 
-Install it.
+But you need to add the CMake directory within the Qt6 installation to your system env path variable.
 
-Open a new powershell window, and verify you can run:
-
-```powershell
-cmake --version
-```
-
-If you can't run it, you will need to add the install location to the system env path variable manually.
+The directory looks like `C:\path\to\Qt\Tools\CMake_64\bin`, or similar, depending on where you installed Qt6.
 
 ### Installing MinGW:
 
-In the windows build of Qt6, MinGW is included. So you don't need to install it yourself.
+In the windows build of Qt6, MinGW 13.1 is included. So you don't need to download and install it yourself.
 
-The `configure-build.bat` script used later will find the included MinGW binaries within the windows Qt installation automatically.
-
+The script `build-configuration.bat` will find the paths to the MinGW binaries automatically when you provide the Qt6 directory.
 
 ### Installing and setting up vcpkg:
 
@@ -85,20 +90,6 @@ Run this to integrate vcpkg with CMake:
 ```powershell
 vcpkg integrate install
 ```
-
-### Installing Qt6.x:
-
-Download the installer:
-https://www.qt.io/download-qt-installer-oss
-
-Select the right OS and install somewhere you can find it.
-
-**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration. Make sure to check it in the treeview menu: `Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets`
-
-Find the path to the `mingw_64` folder within the Qt6 installation, you will need it later.
-
-It should look something like `C:\path\to\Qt\6.x.x\mingw_64`, or similar, depending on version and where you installed Qt6.
-
 
 ### Building TSRE5
 
@@ -144,9 +135,9 @@ To run the build script:
 
 - TODO: Guide on using the packaging script.
 - TODO: Something about qtwindeploy.exe
-- TODO: Something about libcrypto and libssl
-- TODO: Something about OpenGL software rendering?
-- TODO: What about OpenAL if using dynamic vcpkg triplets?
+- TODO: Something about libcrypto and libssl dlls
+- TODO: Something about OpenGL software rendering ddls?
+- TODO: What if using dynamic vcpkg triplets?
 - TODO: Probably more?
 
 ## Linux (Debian-based distros)
@@ -161,6 +152,19 @@ Verify that you can run `git`:
 ```bash
 git --version
 ```
+
+### Installing Qt6.9.x:
+
+Download the installer:
+https://www.qt.io/download-qt-installer-oss
+
+Select the right OS and install somewhere you can find it.
+
+**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration. Make sure to check it in the treeview menu: `Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets`
+
+Find the path to the `gcc_64` folder within the Qt6 installation, you will need it later.
+
+It should look something like `/path/to/Qt/6.x.x/gcc_64`, or similar, depending on version and where you installed Qt6.
 
 ### Installing gcc:
 
@@ -217,19 +221,6 @@ To integrate `vcpkg` with `cmake`:
 ```bash
 vcpkg integrate install
 ```
-
-### Installing Qt6.x:
-
-Download the installer:
-https://www.qt.io/download-qt-installer-oss
-
-Select the right OS and install somewhere you can find it.
-
-**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration. Make sure to check it in the treeview menu: `Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets`
-
-Find the path to the `gcc_64` folder within the Qt6 installation, you will need it later.
-
-It should look something like `/path/to/Qt/6.x.x/gcc_64`, or similar, depending on version and where you installed Qt6.
 
 ### Building TSRE5
 
