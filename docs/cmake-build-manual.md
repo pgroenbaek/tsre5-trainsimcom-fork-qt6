@@ -14,7 +14,7 @@
 
 The `vcpkg` tool by Microsoft is a dependency manager that handles downloading, building, and integrating libraries into the project automatically. It is similar to what NuGet does for C#, just for C/C++ instead.
 
-For example, using `vcpkg` you don't need to find openal-soft manually. Qt needs dynamic linking due to the Open Source license, so therefore Qt is not handled through `vcpkg` like the other dependencies. It is also easier to download and use the prebuilt Qt libraries. In addition, it takes a long time to fetch and compile Qt through `vcpkg` and it is more error-prone.
+For example, using `vcpkg` you don't need to find openal-soft manually. The package manager will fetch sources and build the libraries as needed. Qt is not handled through `vcpkg` like the other dependencies, since it is easier to download and use the prebuilt Qt libraries. In addition, it takes a long time to fetch and compile Qt through `vcpkg` and it is more error-prone.
 
 ## Windows
 
@@ -116,12 +116,8 @@ Now run `configure-build.bat`, this script will set up the build directory using
 The build configuration script will ask you to provide the Qt installation directory, the vcpkg directory and which vcpkg triplet you want to use.
 
 The vcpkg triplets you can use are:
-- x64-mingw-static
 - x64-mingw-dynamic
-- x86-mingw-static
 - x86-mingw-dynamic
-
-Qt will always be linked dynamically regardless of what you use, it needs to be due to their OSS license.
 
 To run the build configuration script:
 ```bash
@@ -245,10 +241,7 @@ cd scripts
 Now run `configure-build.sh`, this script will set up the build directory using CMake.
 You might need to use `chmod +x configure-build.sh` before you can execute the script.
 
-The build configuration script will ask you to provide the Qt installation directory, the vcpkg directory and which vcpkg triplet you want to use.
-
-The vcpkg triplets you can use are:
-- x64-linux
+The vcpkg triplet you can use is:
 - x64-linux-dynamic
 
 Qt will always be linked dynamically regardless of what you use, it needs to be due to their OSS license.
@@ -275,7 +268,5 @@ I don't have a Mac, so I can't test and document this process.
 It's a somewhat similar process to Linux. Use 'brew' rather than 'apt', and OSX-specific vcpkg triplets.
 
 Those vcpkg triplets are:
-- x64-osx
 - x64-osx-dynamic
-- arm64-osx
 - arm64-osx-dynamic

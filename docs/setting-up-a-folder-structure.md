@@ -1,17 +1,17 @@
 
 # Setting up a folder structure
 
-This document is just for reference in case at some point it is decided to make the folder structure like the virtual folders within the Netbeans IDE project, rather than having all source files in a single directory.
+This document is for reference in case it is decided to make the folder structure like the virtual folders within the Netbeans IDE project or some other structure, rather than having all source files in a single directory.
 
 CMake can be set up to handle subfolders within a project as described below.
 
-References to all .h files within source/header files need to be adjusted as well.
+References to all .h files within source/header files must be adjusted as well.
 
 ## How to set up CMake with subfolders
 
 ### Top-level CMakeLists.txt
 
-Place e.g. within `/src` along with `App.cpp`, `App.h`, `main.cpp` and whatever other source files there are in the top-level source folder.
+Place e.g. within `/src` along with `Game.cpp`, `Game.h`, `main.cpp` and any other source files there are in the top-level source folder.
 
 Adjust the current top-level CMakeLists.txt. Replace `<a subdir>` with actual subdirectory names.
 
