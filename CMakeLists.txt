@@ -23,6 +23,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Find the libraries
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network OpenGL OpenGLWidgets WebSockets)
+find_package(fmt CONFIG REQUIRED)
 find_package(OpenAL CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -68,6 +69,7 @@ target_link_libraries(TSRE5 PRIVATE
     Qt6::OpenGLWidgets
     Qt6::WebSockets
     OpenAL::OpenAL
+    fmt::fmt
     OpenSSL::SSL
     OpenSSL::Crypto
     ${OPENGL_LIBRARIES}

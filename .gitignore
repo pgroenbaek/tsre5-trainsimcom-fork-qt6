@@ -11,6 +11,9 @@
 /log.txt
 /template_routes/
 
+### MSTS / ORTS shapes ###
+*.s
+
 ### C++ ###
 # Prerequisites
 *.d

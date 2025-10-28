@@ -42,13 +42,13 @@ echo Copying Qt dependencies...
 set QT_DEPLOY="%QT_PATH%\bin\windeployqt6.exe"
 %QT_DEPLOY% "%DIST_DIR%\TSRE5.exe" --release
 
-:: Remove software rendering DLL copied by windeployqt that does not support OpenGL 3.0+
-:: The OpenGL pipeline in TSRE5 will break if using this DLL upon a fallback to software-based rendering.
-del "%DIST_DIR%\opengl32sw.dll"
-
 :: Copy vcpkg dependencies
 echo Copying runtime dependencies from vcpkg...
 xcopy "%BUILD_DIR%\vcpkg_installed\%ARCH%-mingw-dynamic\bin\*.dll" "%DIST_DIR%" /Y
+
+:: Remove software rendering DLL copied by windeployqt that does not support OpenGL 3.0+
+:: The OpenGL pipeline in TSRE5 will break if using this DLL upon a fallback to software-based rendering.
+del "%DIST_DIR%\opengl32sw.dll"
 
 :: Download and copy DLLs necessary for software-based rendering with OpenGL 3.0+
 :: These DLLs are replacements for opengl32sw.dll from Mesa3D that actually work with the TSRE5 OpenGL pipeline.
