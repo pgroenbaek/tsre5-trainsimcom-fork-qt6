@@ -10,6 +10,7 @@
 
 #include "TexLib.h"
 #include "AceLib.h"
+#include "DdsLib.h"
 #include "ImageLib.h"
 #include "PaintTexLib.h"
 #include "MapLib.h"
@@ -170,8 +171,8 @@ int TexLib::addTex(QString pathid, bool reload) {
         newFile->delVBO();
     }
 
-    //qDebug() << pathid.toLower();
-    //qDebug() << tType;
+    qDebug() << pathid.toLower();
+    qDebug() << tType;
         
     if(tType == "ace"){
         AceLib* t = new AceLib();
@@ -184,6 +185,13 @@ int TexLib::addTex(QString pathid, bool reload) {
         ImageLib* t = new ImageLib();
         t->texture = newFile;
         if(ImageLib::IsThread && !reload)
+            t->start();
+        else
+            t->run();
+    } else if(tType == "dds"){
+        DdsLib* t = new DdsLib();
+        t->texture = newFile;
+        if(DdsLib::IsThread && !reload)
             t->start();
         else
             t->run();
