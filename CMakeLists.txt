@@ -13,11 +13,19 @@ set(CMAKE_AUTORCC ON)
 # OpenGL preference
 set(OpenGL_GL_PREFERENCE LEGACY)
 
+# Set compiler flags
+add_compile_options(-Wall -O2)
+
+# Set CXX properties
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 # Find the libraries
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network OpenGL OpenGLWidgets WebSockets)
-find_package(fmt CONFIG REQUIRED)
 find_package(OpenAL CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 # Automatically include all .cpp and .h files in the root folder
 file(GLOB SRC_FILES
@@ -38,21 +46,20 @@ endif()
 add_executable(TSRE5 ${SRC_FILES})
 
 # Set CXX properties
-set_target_properties(TSRE5 PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED YES
-    CXX_EXTENSIONS NO
-)
+#set_target_properties(TSRE5 PROPERTIES
+#    CXX_STANDARD 14
+#    CXX_STANDARD_REQUIRED YES
+#    CXX_EXTENSIONS NO
+#)
 
 # Set target compile options
-target_compile_options(TSRE5 PRIVATE
-    -Wall
-    -O2
-)
+#target_compile_options(TSRE5 PRIVATE
+#    -Wall
+#    -O2
+#)
 
 # Add the required Qt6 modules and other libraries for linking
-target_link_libraries(TSRE5
-    PRIVATE
+target_link_libraries(TSRE5 PRIVATE
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets
@@ -61,6 +68,29 @@ target_link_libraries(TSRE5
     Qt6::OpenGLWidgets
     Qt6::WebSockets
     OpenAL::OpenAL
-    fmt::fmt
+    OpenSSL::SSL
+    OpenSSL::Crypto
     ${OPENGL_LIBRARIES}
 )
+
+# Link extra system libraries needed on windows
+if(WIN32)
+    target_link_libraries(TSRE5 PRIVATE
+        ws2_32      # Windows Sockets API for network communication
+        iphlpapi    # IP Helper API for network configuration info
+        dnsapi      # DNS API for domain name resolution
+        crypt32     # Cryptography API for certificates, encryption, etc.
+        ole32       # OLE Automation, COM support
+        oleaut32    # OLE Automation (variant, BSTR, dispatch interfaces)
+        winmm       # Windows Multimedia API (timers, audio, joystick)
+        comdlg32    # Common dialogs (open/save file dialogs, print dialogs)
+        imm32       # Input Method Manager (IME support)
+        gdi32       # Graphics Device Interface (2D graphics, fonts)
+        shell32     # Shell API functions (file operations, icons, etc.)
+        user32      # Core Windows UI (windows, messages, keyboard/mouse)
+        kernel32    # Core Windows OS functions (memory, processes, threads)
+        mpr         # Multiple Provider Router (network connections)
+        advapi32    # Advanced Windows API (registry, services, security)
+        uuid        # Universally Unique Identifier (UUID) generation
+    )
+endif()

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "---- TSRE5 Build Configuration Script ----"
+echo "---- TSRE5 CMake Build Configuration Script ----"
 echo
 
 read -p "Enter full path to your Qt6 installation directory (e.g., ~/Programs/Qt/6.9.3/gcc_64): " QT_PATH
@@ -27,8 +27,8 @@ if [[ ! -d "$VCPKG_PATH" ]]; then
     exit 1
 fi
 
-read -p "Enter vcpkg triplet (x64-linux/x64-osx/arm64-osx) [x64-linux]: " TRIPLET
-TRIPLET=${TRIPLET:-x64-linux}
+read -p "Enter vcpkg triplet (x64-linux-dynamic/x64-osx-dynamic/arm64-osx-dynamic) [x64-linux-dynamic]: " TRIPLET
+TRIPLET=${TRIPLET:-x64-linux-dynamic}
 
 # Build directory relative to project root
 BUILD_DIR="$(dirname "$0")/../build"

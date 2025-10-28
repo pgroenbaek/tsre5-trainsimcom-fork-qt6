@@ -1,7 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo ---- TSRE5 Build Configuration Script ----
+echo ---- TSRE5 CMake Build Configuration Script ----
 echo.
 
 set /p QT_PATH="Enter full path to your Qt6 installation directory (e.g., C:\Qt\6.9.3\mingw_64): "
@@ -27,8 +27,8 @@ if not exist "%VCPKG_PATH%" (
     exit /b 1
 )
 
-set /p TRIPLET="Enter vcpkg triplet (x64-mingw-static/x86-mingw-static) [x64-mingw-static]: "
-if "!TRIPLET!"=="" set TRIPLET="x64-mingw-static"
+set /p TRIPLET="Enter vcpkg triplet (x86-mingw-dynamic/x64-mingw-dynamic) [x64-mingw-dynamic]: "
+if "!TRIPLET!"=="" set TRIPLET="x64-mingw-dynamic"
 
 :: Build directory relative to script
 set SCRIPT_DIR=%~dp0

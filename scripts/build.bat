@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-echo ---- TSRE5 Build Script ----
+echo ---- TSRE5 CMake Build Script ----
 echo.
 
 set SCRIPT_DIR=%~dp0
@@ -13,7 +13,7 @@ if not exist "%BUILD_DIR%" (
 )
 
 echo Building TSRE5...
-cmake --build "%BUILD_DIR%"
+cmake --build "%BUILD_DIR%" --parallel 4
 
 echo Build complete.
 pause
