@@ -1,18 +1,21 @@
 @echo off
 setlocal enabledelayedexpansion
 
+echo ---- TSRE5 Windows Packaging Script ----
+echo.
+
 :: Set project directories
 set ROOT_DIR=%~dp0..
 set BUILD_DIR=%ROOT_DIR%\build
 set DIST_DIR=%ROOT_DIR%\dist
 
 if not exist "%BUILD_DIR%" (
-    echo Build directory does not exist. Run configure-build.bat first.
+    echo [ERROR] Build directory does not exist. Run configure-build.bat first.
     exit /b 1
 )
 
 if not exist "%BUILD_DIR%\TSRE5.exe" (
-    echo TSRE5.exe does not exist. Run build.bat first.
+    echo [ERROR] TSRE5.exe does not exist. Run build.bat first.
     exit /b 1
 )
 
@@ -40,15 +43,15 @@ set QT_DEPLOY="%QT_PATH%\bin\windeployqt6.exe"
 %QT_DEPLOY% "%DIST_DIR%\TSRE5.exe" --release
 
 :: Remove software rendering DLL copied by windeployqt that does not support OpenGL 3.0+
-:: The OpenGL pipeline in TSRE5 will break if using this DLL upon a fallback to software rendering.
+:: The OpenGL pipeline in TSRE5 will break if using this DLL upon a fallback to software-based rendering.
 del "%DIST_DIR%\opengl32sw.dll"
 
 :: Copy vcpkg dependencies
 echo Copying runtime dependencies from vcpkg...
 xcopy "%BUILD_DIR%\vcpkg_installed\%ARCH%-mingw-dynamic\bin\*.dll" "%DIST_DIR%" /Y
 
-:: Download and copy DLL's necessary for software rendering with OpenGL 3.0+
-:: Replacements for opengl32sw.dll from Mesa3D that actually work with TSRE5.
+:: Download and copy DLLs necessary for software-based rendering with OpenGL 3.0+
+:: These DLLs are replacements for opengl32sw.dll from Mesa3D that actually work with the TSRE5 OpenGL pipeline.
 set MESA_URL=https://github.com/pal1000/mesa-dist-win/releases/download/25.2.5/mesa3d-25.2.5-release-mingw.7z
 set SEVENZIP_URL=https://www.7-zip.org/a/7zr.exe
 set TEMP_DIR=%BUILD_DIR%\temp
