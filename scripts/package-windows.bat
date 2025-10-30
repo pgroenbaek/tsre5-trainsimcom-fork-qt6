@@ -48,6 +48,7 @@ xcopy "%BUILD_DIR%\vcpkg_installed\%ARCH%-mingw-dynamic\bin\*.dll" "%DIST_DIR%" 
 
 :: Remove software rendering DLL copied by windeployqt that does not support OpenGL 3.0+
 :: The OpenGL pipeline in TSRE5 will break if using this DLL upon a fallback to software-based rendering.
+echo Removing opengl32sw.dll not compatible with OpenGL 3.0+...
 del "%DIST_DIR%\opengl32sw.dll"
 
 :: Download and copy DLLs necessary for software-based rendering with OpenGL 3.0+
@@ -61,30 +62,33 @@ set SEVENZIP_PATH=%TEMP_DIR%\7zr.exe
 mkdir "%TEMP_DIR%"
 
 echo Downloading Mesa3D 25.2.5 MinGW release archive...
-curl -L %MESA_URL% -o %MESA_ARCHIVE%
+curl -# -L %MESA_URL% -o %MESA_ARCHIVE%
 
 echo Downloading 7-Zip extractor...
-curl -L %SEVENZIP_URL% -o %SEVENZIP_PATH%
+curl -# -L %SEVENZIP_URL% -o %SEVENZIP_PATH%
 
-echo Extracting required Mesa3D DLLs...
-"%SEVENZIP_PATH%" x "%MESA_ARCHIVE%" %ARCH%\dxil.dll %ARCH%\opengl32.dll %ARCH%\libgallium_wgl.dll "-o%TEMP_DIR%\extract" -y
+echo Extracting Mesa3D DLLs to replace opengl32sw.dll...
+"%SEVENZIP_PATH%" x "%MESA_ARCHIVE%" %ARCH%\dxil.dll %ARCH%\opengl32.dll %ARCH%\libgallium_wgl.dll "-o%TEMP_DIR%\extract" -y >nul 2>&1
 
-echo Copying required Mesa3D DLLs...
+echo Copying Mesa3D DLLs to replace opengl32sw.dll...
 xcopy "%TEMP_DIR%\extract\%ARCH%\*.dll" "%DIST_DIR%" /Y
 
 echo Cleaning up temporary files...
 rmdir /s /q "%TEMP_DIR%"
 
 :: Copy icons and images
+echo Copying icons and images...
 mkdir "%DIST_DIR%\icons"
 xcopy "%ROOT_DIR%\resources\icons\*" "%DIST_DIR%\icons" /E /Y
 xcopy "%ROOT_DIR%\resources\images\*" "%DIST_DIR%\icons" /E /Y
 
 :: Copy tsre_appdata
+echo Copying tsre_appdata...
 mkdir "%DIST_DIR%\tsre_appdata"
 xcopy "%ROOT_DIR%\tsre_appdata\*" "%DIST_DIR%\tsre_appdata" /E /Y
 
 :: Copy tsre_assets
+echo Copying tsre_assets...
 mkdir "%DIST_DIR%\tsre_assets"
 xcopy "%ROOT_DIR%\tsre_assets\*" "%DIST_DIR%\tsre_assets" /E /Y
 
