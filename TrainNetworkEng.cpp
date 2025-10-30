@@ -15,7 +15,7 @@
 TrainNetworkEng::TrainNetworkEng() {
     socket = new QTcpSocket(this);
     socket->setSocketOption(QAbstractSocket::KeepAliveOption,1);
-    connect(socket, SIGNAL(readyRead()), SLOT(readData()), Qt::UniqueConnection);
+    connect(socket, &QTcpSocket::readyRead, this, [this]() { readData(); }, Qt::UniqueConnection);
 
     if(!(QAbstractSocket::ConnectedState == socket->state())){
         socket->connectToHost(QHostAddress::LocalHost, 7755, QIODevice::ReadWrite);

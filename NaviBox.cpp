@@ -30,8 +30,8 @@ NaviBox::NaviBox() : QWidget(){
     //vbox->addStretch(1);
     this->setLayout(vbox);
     
-    QObject::connect(jumpButton, SIGNAL(released()),
-                      this, SLOT(jumpTileSelected()));
+    QObject::connect(jumpButton, &QPushButton::released,
+        this, &NaviBox::jumpTileSelected);
 
     tileInfo.setText(" ");
 }

@@ -49,11 +49,11 @@ PropertiesTrackObj::PropertiesTrackObj(){
     filenameList->setSpacing(2);
     filenameList->setContentsMargins(0,0,0,0);    
     QPushButton *copyF = new QPushButton("Copy Name", this);
-    QObject::connect(copyF, SIGNAL(released()),
-                      this, SLOT(copyFileNameEnabled()));
+    QObject::connect(copyF, &QPushButton::released,
+        this, &PropertiesTrackObj::copyFileNameEnabled);
     QPushButton *editF = new QPushButton("Edit", this);
-    QObject::connect(editF, SIGNAL(released()),
-                      this, SLOT(editFileNameEnabled()));
+    QObject::connect(editF, &QPushButton::released,
+        this, &PropertiesTrackObj::editFileNameEnabled);
     filenameList->addWidget(copyF, 0, 0);
     filenameList->addWidget(editF, 0, 1);
     vbox->addItem(filenameList);
@@ -77,8 +77,8 @@ PropertiesTrackObj::PropertiesTrackObj(){
             eTemplate.addItem(i.value()->name);
         }
     }
-    QObject::connect(&eTemplate, SIGNAL(currentTextChanged(QString)),
-                      this, SLOT(eTemplateEdited(QString)));
+    QObject::connect(&eTemplate, &QComboBox::currentTextChanged,
+        this, &PropertiesTrackObj::eTemplateEdited);
     
     label = new QLabel("Position & Rotation:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -99,32 +99,32 @@ PropertiesTrackObj::PropertiesTrackObj(){
     posRotList->setContentsMargins(0,0,0,0);    
 
     QPushButton *copyPos = new QPushButton("Copy Pos", this);
-    QObject::connect(copyPos, SIGNAL(released()),
-                      this, SLOT(copyPEnabled()));
+    QObject::connect(copyPos, &QPushButton::released,
+        this, &PropertiesTrackObj::copyPEnabled);
     QPushButton *pastePos = new QPushButton("Paste", this);
-    QObject::connect(pastePos, SIGNAL(released()),
-                      this, SLOT(pastePEnabled()));
+    QObject::connect(pastePos, &QPushButton::released,
+        this, &PropertiesTrackObj::pastePEnabled);
     QPushButton *copyQrot = new QPushButton("Copy Rot", this);
-    QObject::connect(copyQrot, SIGNAL(released()),
-                      this, SLOT(copyREnabled()));
+    QObject::connect(copyQrot, &QPushButton::released,
+        this, &PropertiesTrackObj::copyREnabled);
     QPushButton *pasteQrot = new QPushButton("Paste", this);
-    QObject::connect(pasteQrot, SIGNAL(released()),
-                      this, SLOT(pasteREnabled()));
+    QObject::connect(pasteQrot, &QPushButton::released,
+        this, &PropertiesTrackObj::pasteREnabled);
     QPushButton *copyPosRot = new QPushButton("Copy Pos+Rot", this);
-    QObject::connect(copyPosRot, SIGNAL(released()),
-                      this, SLOT(copyPREnabled()));
+    QObject::connect(pasteQrot, &QPushButton::released,
+        this, &PropertiesTrackObj::pasteREnabled);
     QPushButton *pastePosRot = new QPushButton("Paste", this);
-    QObject::connect(pastePosRot, SIGNAL(released()),
-                      this, SLOT(pastePREnabled()));
+    QObject::connect(pastePosRot, &QPushButton::released,
+        this, &PropertiesTrackObj::pastePREnabled);
     QPushButton *resetQrot = new QPushButton("Reset Rot", this);
-    QObject::connect(resetQrot, SIGNAL(released()),
-                      this, SLOT(resetRotEnabled()));
+    QObject::connect(resetQrot, &QPushButton::released,
+        this, &PropertiesTrackObj::resetRotEnabled);
     QPushButton *qRot90 = new QPushButton("Rot Y 90°", this);
-    QObject::connect(qRot90, SIGNAL(released()),
-                      this, SLOT(rotYEnabled()));
+    QObject::connect(qRot90, &QPushButton::released,
+        this, &PropertiesTrackObj::rotYEnabled);
     QPushButton *transform = new QPushButton("Transform ...", this);
-    QObject::connect(transform, SIGNAL(released()),
-                      this, SLOT(transformEnabled()));
+    QObject::connect(transform, &QPushButton::released,
+        this, &PropertiesTrackObj::transformEnabled);
     
     posRotList->addWidget(copyPos, 0, 0);
     posRotList->addWidget(pastePos, 0, 1);
@@ -147,12 +147,12 @@ PropertiesTrackObj::PropertiesTrackObj(){
     QCheckBox* defaultDetailLevelLabel = new QCheckBox("Default", this);
     defaultDetailLevelLabel->setDisabled(true);
     defaultDetailLevelLabel->setChecked(true);
-    QObject::connect(&enableCustomDetailLevel, SIGNAL(stateChanged(int)),
-                      this, SLOT(enableCustomDetailLevelEnabled(int)));
+    QObject::connect(&enableCustomDetailLevel, &QCheckBox::stateChanged,
+        this, &PropertiesTrackObj::enableCustomDetailLevelEnabled);
     this->customDetailLevel.setDisabled(true);
     this->customDetailLevel.setAlignment(Qt::AlignCenter);
-    QObject::connect(&customDetailLevel, SIGNAL(textEdited(QString)),
-                      this, SLOT(customDetailLevelEdited(QString)));
+    QObject::connect(&customDetailLevel, &QLineEdit::textEdited,
+        this, &PropertiesTrackObj::customDetailLevelEdited);
     QGridLayout *detailLevelView = new QGridLayout;
     detailLevelView->setSpacing(2);
     detailLevelView->setContentsMargins(0,0,0,0);    
@@ -173,11 +173,11 @@ PropertiesTrackObj::PropertiesTrackObj(){
     flagslView->setSpacing(2);
     flagslView->setContentsMargins(0,0,0,0);    
     QPushButton *copyFlags = new QPushButton("Copy Flags", this);
-    QObject::connect(copyFlags, SIGNAL(released()),
-                      this, SLOT(copyFEnabled()));
+    QObject::connect(copyFlags, &QPushButton::released,
+        this, &PropertiesTrackObj::copyFEnabled);
     QPushButton *pasteFlags = new QPushButton("Paste", this);
-    QObject::connect(pasteFlags, SIGNAL(released()),
-                      this, SLOT(pasteFEnabled()));
+    QObject::connect(pasteFlags, &QPushButton::released,
+        this, &PropertiesTrackObj::pasteFEnabled);
     flagslView->addWidget(copyFlags,0,0);
     flagslView->addWidget(pasteFlags,0,1);
     vbox->addItem(flagslView);
@@ -201,31 +201,36 @@ PropertiesTrackObj::PropertiesTrackObj(){
     elevType.addItem("1 in 'X' m");
     elevType.addItem("Angle º");
     elevType.setStyleSheet("combobox-popup: 0;");
-    QObject::connect(&elevType, SIGNAL(currentTextChanged(QString)),
-                      this, SLOT(elevTypeEdited(QString)));
+    QObject::connect(&elevType, &QComboBox::currentTextChanged,
+        this, &PropertiesTrackObj::elevTypeEdited);
     
     elevPromLabel.setText("‰");
     vlist->addRow(&elevPromLabel,&elevProm);
     elevProm.setValidator(doubleValidator1);
-    QObject::connect(&elevProm, SIGNAL(textEdited(QString)), this, SLOT(elevPromEnabled(QString)));
+    QObject::connect(&elevProm, &QLineEdit::textEdited,
+        this, &PropertiesTrackObj::elevPromEnabled);
     //oneInXm
     elev1inXmLabel.setText("1 in 'x' m");
     vlist->addRow(&elev1inXmLabel,&elev1inXm);
     elev1inXm.setValidator(doubleValidator);
-    QObject::connect(&elev1inXm, SIGNAL(textEdited(QString)), this, SLOT(elev1inXmEnabled(QString)));
+    QObject::connect(&elev1inXm, &QLineEdit::textEdited,
+        this, &PropertiesTrackObj::elev1inXmEnabled);
     //º
     elevProgLabel.setText("º");
     vlist->addRow(&elevProgLabel,&elevProg);
     elevProg.setValidator(doubleValidator1);
-    QObject::connect(&elevProg, SIGNAL(textEdited(QString)), this, SLOT(elevProgEnabled(QString)));
+    QObject::connect(&elevProg, &QLineEdit::textEdited,
+        this, &PropertiesTrackObj::elevProgEnabled);
     //%
     elevPropLabel.setText("%");
     vlist->addRow(&elevPropLabel,&elevProp);
     elevProp.setValidator(doubleValidator1);
-    QObject::connect(&elevProp, SIGNAL(textEdited(QString)), this, SLOT(elevPropEnabled(QString)));
+    QObject::connect(&elevProp, &QLineEdit::textEdited,
+        this, &PropertiesTrackObj::elevPropEnabled);
     vlist->addRow("Step:",&elevStep);
     elevStep.setValidator(doubleValidator);
-    QObject::connect(&elevStep, SIGNAL(textEdited(QString)), this, SLOT(elevStepEnabled(QString)));
+    QObject::connect(&elevStep, &QLineEdit::textEdited,
+        this, &PropertiesTrackObj::elevStepEnabled);
     hideElevBoxes();
     elevType.setCurrentIndex(Game::DefaultElevationBox);
     showElevBox(elevType.currentText());
@@ -244,11 +249,11 @@ PropertiesTrackObj::PropertiesTrackObj(){
     cCollisionType.addItem("Buffer");
     cCollisionType.setStyleSheet("combobox-popup: 0;");
     vbox->addWidget(&cCollisionType);
-    QObject::connect(&cCollisionType, SIGNAL(currentIndexChanged(int)),
-                      this, SLOT(cCollisionTypeEdited(int)));
+    QObject::connect(&cCollisionType, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, &PropertiesTrackObj::cCollisionTypeEdited);
     //QPushButton *resetFlags = new QPushButton("Reset Flags", this);
-    //QObject::connect(resetFlags, SIGNAL(released()),
-    //                  this, SLOT(copyFEnabled()));
+    //QObject::connect(resetFlags, &QPushButton::released,
+    //    this, &PropertiesTrackObj::copyFEnabled);
     //vbox->addWidget(resetFlags);
     label = new QLabel("Advanced:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -256,15 +261,15 @@ PropertiesTrackObj::PropertiesTrackObj(){
     vbox->addWidget(label);
     
     QPushButton *hacks = new QPushButton("Hacks", this);
-    QObject::connect(hacks, SIGNAL(released()),
-                      this, SLOT(hacksButtonEnabled()));
+    QObject::connect(hacks, &QPushButton::released,
+        this, &PropertiesTrackObj::hacksButtonEnabled);
     vbox->addWidget(hacks);
     
     vbox->addStretch(1);
     this->setLayout(vbox);
     
-    QObject::connect(copyF, SIGNAL(released()),
-                      this, SLOT(copyFileNameEnabled()));
+    QObject::connect(copyF, &QPushButton::released,
+        this, &PropertiesTrackObj::copyFileNameEnabled);
 }
 
 void PropertiesTrackObj::eTemplateEdited(QString val){
@@ -340,23 +345,23 @@ void PropertiesTrackObj::hacksButtonEnabled(){
     label->setWordWrap(true);
     
     QPushButton *fixJNodePosn = new QPushButton("Fix JNodePosn", this);
-    QObject::connect(fixJNodePosn, SIGNAL(released()),
-                      this, SLOT(fixJNodePosnEnabled()));
+    QObject::connect(fixJNodePosn, &QPushButton::released,
+        this, &PropertiesTrackObj::fixJNodePosnEnabled);
     vbox->addWidget(fixJNodePosn);
     
     QPushButton *haxRemoveTDBVector = new QPushButton("Remove TDB Vector ( remove TrItems first )", this);
-    QObject::connect(haxRemoveTDBVector, SIGNAL(released()),
-                      this, SLOT(haxRemoveTDBVectorEnabled()));
+    QObject::connect(haxRemoveTDBVector, &QPushButton::released,
+        this, &PropertiesTrackObj::haxRemoveTDBVectorEnabled);
     vbox->addWidget(haxRemoveTDBVector);
     
     QPushButton *haxRemoveTDBTree = new QPushButton("Remove TDB Tree ( remove TrItems first; max 1000 nodes )", this);
-    QObject::connect(haxRemoveTDBTree, SIGNAL(released()),
-                      this, SLOT(haxRemoveTDBTreeEnabled()));
+    QObject::connect(haxRemoveTDBTree, &QPushButton::released,
+        this, &PropertiesTrackObj::haxRemoveTDBTreeEnabled);
     vbox->addWidget(haxRemoveTDBTree);
     
     QPushButton *haxElevTDBVector = new QPushButton("[Fix sElev] Don't click me!", this);
-    QObject::connect(haxElevTDBVector, SIGNAL(released()),
-                      this, SLOT(haxElevTDBVectorEnabled()));
+    QObject::connect(haxElevTDBVector, &QPushButton::released,
+        this, &PropertiesTrackObj::haxElevTDBVectorEnabled);
     vbox->addWidget(haxElevTDBVector);
 
     vbox->setSpacing(2);

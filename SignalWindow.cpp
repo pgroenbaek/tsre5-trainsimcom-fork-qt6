@@ -40,18 +40,16 @@ SignalWindow::SignalWindow(QWidget *parent) : QWidget(parent) {
         vbox->addWidget(&wSub[i]);
         //wSub[i].hide();
 
-        signalsChSect.setMapping(&chSub[i], i);
-        connect(&chSub[i], SIGNAL(clicked()), &signalsChSect, SLOT(map()));
+        QObject::connect(&chSub[i], &QCheckBox::clicked, this,
+            [this, i](bool){ chSubEnabled(i); });
 
-        signalsLinkButton.setMapping(&bSub[i], i);
-        connect(&bSub[i], SIGNAL(clicked()), &signalsLinkButton, SLOT(map()));
+        QObject::connect(&bSub[i], &QPushButton::clicked, this,
+            [this, i](){ bLinkEnabled(i); });
 
     }
 
-    connect(&signalsChSect, SIGNAL(mapped(int)), this, SLOT(chSubEnabled(int)));
-    connect(&signalsLinkButton, SIGNAL(mapped(int)), this, SLOT(bLinkEnabled(int)));
     QPushButton* closeButton = new QPushButton("Close");
-    connect(closeButton, SIGNAL(released()), this, SLOT(close()));
+    QObject::connect(closeButton, &QPushButton::released, this, &QWidget::close);
     //vbox->setAlignment(setLinkButton, Qt::AlignBottom);
     vbox->addWidget(closeButton);
     QLabel *label = new QLabel("SubObj Link Info (press Link button above to show):");
@@ -63,7 +61,7 @@ SignalWindow::SignalWindow(QWidget *parent) : QWidget(parent) {
     vlist->setSpacing(2);
     vlist->setContentsMargins(3,0,1,0);    
     setLinkButton = new QPushButton("Set Link");
-    connect(setLinkButton, SIGNAL(released()), this, SLOT(setLink()));
+    QObject::connect(setLinkButton, &QPushButton::released, this, &SignalWindow::setLink);
     label = new QLabel("From - To: ");
     vlist->addWidget(label,0,0);
     vlist->addWidget(&eLink1,0,1);

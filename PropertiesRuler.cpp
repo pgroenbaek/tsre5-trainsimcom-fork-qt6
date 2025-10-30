@@ -75,8 +75,8 @@ PropertiesRuler::PropertiesRuler() {
     elevType.addItem("1 in 'X' m");
     elevType.addItem("Angle º");
     elevType.setStyleSheet("combobox-popup: 0;");
-    QObject::connect(&elevType, SIGNAL(currentTextChanged(QString)),
-                      this, SLOT(elevTypeEdited(QString)));
+    QObject::connect(&elevType, &QComboBox::currentTextChanged,
+        this, &PropertiesRuler::elevTypeEdited);
     
     elevPromLabel.setText("‰");
     vlist->addRow(&elevPromLabel,&elevProm);
@@ -102,25 +102,25 @@ PropertiesRuler::PropertiesRuler() {
     checkboxTwoPoint.setText("Only Two-Point Ruler");
     checkboxTwoPoint.setChecked(false);
     vbox->addWidget(&checkboxTwoPoint);
-    QObject::connect(&checkboxTwoPoint, SIGNAL(stateChanged(int)),
-                      this, SLOT(checkboxTwoPointEdited(int)));
+    QObject::connect(&checkboxTwoPoint, &QCheckBox::stateChanged,
+        this, &PropertiesRuler::checkboxTwoPointEdited);
     checkboxDrawPoints.setText("Render points");
     checkboxDrawPoints.setChecked(false);
     vbox->addWidget(&checkboxDrawPoints);
-    QObject::connect(&checkboxDrawPoints, SIGNAL(stateChanged(int)),
-                      this, SLOT(checkboxDrawPointsEdited(int)));
+    QObject::connect(&checkboxDrawPoints, &QCheckBox::stateChanged,
+        this, &PropertiesRuler::checkboxDrawPointsEdited);
     label = new QLabel("Experimental:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
     label->setContentsMargins(3,0,0,0);
     vbox->addWidget(label);
     QPushButton *button = new QPushButton("Create Road Paths");
     vbox->addWidget(button);
-    QObject::connect(button, SIGNAL(released()),
-                      this, SLOT(createRoadPathsEdited()));
+    QObject::connect(button, &QPushButton::released,
+        this, &PropertiesRuler::createRoadPathsEdited);
     button = new QPushButton("Remove Road Paths");
     vbox->addWidget(button);
-    QObject::connect(button, SIGNAL(released()),
-                      this, SLOT(removeRoadPathsEdited()));
+    QObject::connect(button, &QPushButton::released,
+        this, &PropertiesRuler::removeRoadPathsEdited);
     
     label = new QLabel("Shape Template:");
     //label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -143,12 +143,12 @@ PropertiesRuler::PropertiesRuler() {
             eTemplate.addItem(i.value()->name);
         }
     }
-    QObject::connect(&eTemplate, SIGNAL(currentTextChanged(QString)),
-                      this, SLOT(eTemplateEdited(QString)));
+    QObject::connect(&eTemplate, &QComboBox::currentTextChanged,
+        this, &PropertiesRuler::eTemplateEdited);
     button = new QPushButton("Add Shape");
     vbox->addWidget(button);
-    QObject::connect(button, SIGNAL(released()),
-                      this, SLOT(addShapeEdited()));
+    QObject::connect(button, &QPushButton::released,
+        this, &PropertiesRuler::addShapeEdited);
     
     label = new QLabel("Press 'T' to add multiple points by individual clicks. Press 'Select' button when done.");
     label->setContentsMargins(3,20,0,0);

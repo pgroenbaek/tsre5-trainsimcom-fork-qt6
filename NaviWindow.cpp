@@ -153,31 +153,32 @@ NaviWindow::NaviWindow(QWidget* parent) : QWidget(parent) {
     //vbox->addStretch(1);
     this->setLayout(v);
     
-    QObject::connect(&txBox, SIGNAL(textEdited(QString)),
-                      this, SLOT(xyChanged(QString)));
-    QObject::connect(&tyBox, SIGNAL(textEdited(QString)),
-                      this, SLOT(xyChanged(QString)));
-    QObject::connect(&xBox, SIGNAL(textEdited(QString)),
-                      this, SLOT(xyChanged(QString)));
-    QObject::connect(&yBox, SIGNAL(textEdited(QString)),
-                      this, SLOT(xyChanged(QString)));
-    QObject::connect(&zBox, SIGNAL(textEdited(QString)),
-                      this, SLOT(xyChanged(QString)));
-    QObject::connect(&latBox, SIGNAL(textEdited(QString)),
-                      this, SLOT(latLonChanged(QString)));
-    QObject::connect(&lonBox, SIGNAL(textEdited(QString)),
-                      this, SLOT(latLonChanged(QString)));
-    
-    QObject::connect(jumpButton, SIGNAL(released()),
-                      this, SLOT(jumpTileSelected()));
-    
-    QObject::connect(&markerFiles, SIGNAL(activated(QString)),
-                      this, SLOT(mkrFilesSelected(QString)));
-    QObject::connect(&markerList, SIGNAL(activated(QString)),
-                      this, SLOT(mkrListSelected(QString)));
-    
-//    QObject::connect(&pRot, SIGNAL(textEdited(QString)),
-//                      this, SLOT(camRotChanged(QString)));
+    QObject::connect(&txBox, &QLineEdit::textEdited,
+        this, &NaviWindow::xyChanged);
+    QObject::connect(&tyBox, &QLineEdit::textEdited,
+        this, &NaviWindow::xyChanged);
+    QObject::connect(&xBox, &QLineEdit::textEdited,
+        this, &NaviWindow::xyChanged);
+    QObject::connect(&yBox, &QLineEdit::textEdited,
+        this, &NaviWindow::xyChanged);
+    QObject::connect(&zBox, &QLineEdit::textEdited,
+        this, &NaviWindow::xyChanged);
+
+    QObject::connect(&latBox, &QLineEdit::textEdited,
+        this, &NaviWindow::latLonChanged);
+    QObject::connect(&lonBox, &QLineEdit::textEdited,
+        this, &NaviWindow::latLonChanged);
+
+    QObject::connect(jumpButton, &QPushButton::released,
+        this, &NaviWindow::jumpTileSelected);
+
+    QObject::connect(&markerFiles, &QComboBox::textActivated,
+        this, &NaviWindow::mkrFilesSelected);
+    QObject::connect(&markerList, &QComboBox::textActivated,
+        this, &NaviWindow::mkrListSelected);
+
+    //QObject::connect(&pRot, &QLineEdit::textEdited,
+    //    this, &NaviWindow::camRotChanged);
     
     tileInfo.setText(" ");
 }

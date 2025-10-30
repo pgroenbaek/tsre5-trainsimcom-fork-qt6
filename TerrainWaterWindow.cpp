@@ -15,8 +15,8 @@ TerrainWaterWindow::TerrainWaterWindow() : QDialog(){
 
     QPushButton* ok = new QPushButton("OK");
     QPushButton* cancel = new QPushButton("Cancel");
-    connect(ok, SIGNAL (released()), this, SLOT (ok()));
-    connect(cancel, SIGNAL (released()), this, SLOT (cancel()));
+    QObject::connect(ok, &QPushButton::released, this, &TerrainWaterWindow::ok);
+    QObject::connect(cancel, &QPushButton::released, this, &TerrainWaterWindow::cancel);
 
     QFormLayout *vlist = new QFormLayout;
     vlist->setSpacing(2);
@@ -26,7 +26,7 @@ TerrainWaterWindow::TerrainWaterWindow() : QDialog(){
     vlist->addRow("WSE:",&this->eWSE);
     vlist->addRow("WNE:",&this->eWNE);
     vlist->addRow("WNW:",&this->eWNW);
-    connect(&this->eALL, SIGNAL (textEdited(QString)), this, SLOT (eWSWtextEdited(QString)));
+    QObject::connect(&this->eALL, &QLineEdit::textEdited, this, &TerrainWaterWindow::eWSWtextEdited);
     vlist->addRow(ok,cancel);
 //    mainLayout->setAlignment(browse, Qt::AlignBottom);
     vlist->setContentsMargins(1,1,1,1);

@@ -180,7 +180,7 @@ void MapDataUrlImage::load() {
         }
     
     getTimer = new QTimer(this);
-    connect(getTimer, SIGNAL(timeout()), this, SLOT(autoTimerGet()));
+    QObject::connect(getTimer, &QTimer::timeout, this, &MapDataUrlImage::autoTimerGet);
     autoTimerGet();
     getTimer->start(5000);
 
@@ -188,7 +188,7 @@ void MapDataUrlImage::load() {
 
 void MapDataUrlImage::autoTimerGet(){
     QNetworkAccessManager* mgr = new QNetworkAccessManager();
-    connect(mgr, SIGNAL(finished(QNetworkReply*)), this, SLOT(isTimerData(QNetworkReply*)));
+    QObject::connect(mgr, &QNetworkAccessManager::finished, this, &MapDataUrlImage::isTimerData);
     // the HTTP request
     qDebug() << "wait";
 
@@ -275,7 +275,7 @@ void MapDataUrlImage::isTimerData(QNetworkReply* r) {
 
 void MapDataUrlImage::get(LatitudeLongitudeCoordinate* center, double tzoom) {
     QNetworkAccessManager* mgr = new QNetworkAccessManager();
-    connect(mgr, SIGNAL(finished(QNetworkReply*)), this, SLOT(isData(QNetworkReply*)));
+    QObject::connect(mgr, &QNetworkAccessManager::finished, this, &MapDataUrlImage::isData);
     // the HTTP request
     qDebug() << "wait";
         

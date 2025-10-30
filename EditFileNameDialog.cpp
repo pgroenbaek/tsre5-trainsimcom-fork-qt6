@@ -17,8 +17,8 @@ EditFileNameDialog::EditFileNameDialog() : QDialog(){
     this->setFixedWidth(350);
     QPushButton* ok = new QPushButton("OK");
     QPushButton* cancel = new QPushButton("Cancel");
-    connect(ok, SIGNAL (released()), this, SLOT (ok()));
-    connect(cancel, SIGNAL (released()), this, SLOT (cancel()));
+    QObject::connect(ok, &QPushButton::released, this, &EditFileNameDialog::ok);
+    QObject::connect(cancel, &QPushButton::released, this, &EditFileNameDialog::cancel);
 
     QGridLayout *vlist = new QGridLayout;
     vlist->setSpacing(2);

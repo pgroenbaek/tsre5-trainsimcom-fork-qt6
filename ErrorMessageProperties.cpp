@@ -59,8 +59,11 @@ ErrorMessageProperties::ErrorMessageProperties(QWidget* parent) : QWidget(parent
     
     vbox->addItem(vlist);
     vbox->addStretch(1);
-    QObject::connect(&bLocation, SIGNAL(released()), this, SLOT(jumpToLocation()));
-    QObject::connect(&bSelect, SIGNAL(released()), this, SLOT(bSelectReleased()));
+    QObject::connect(&bLocation, &QPushButton::released,
+        this, &ErrorMessageProperties::jumpToLocation);
+    QObject::connect(&bSelect, &QPushButton::released,
+        this, &ErrorMessageProperties::bSelectReleased);
+
     
     this->setLayout(vbox);
 }

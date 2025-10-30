@@ -76,22 +76,22 @@ PropertiesPlatform::PropertiesPlatform() {
     waitSec.setValidator( new QIntValidator(0, 60, this) );
     waitPas.setValidator( new QIntValidator(0, 999, this) );
     
-    QObject::connect(&leftSide, SIGNAL(stateChanged(int)),
-                      this, SLOT(leftSideEnabled(int)));
-    QObject::connect(&rightSide, SIGNAL(stateChanged(int)),
-                      this, SLOT(rightSideEnabled(int)));
-    QObject::connect(&disablePlatform, SIGNAL(stateChanged(int)),
-                      this, SLOT(disablePlatformEnabled(int)));
-    QObject::connect(&nameStation, SIGNAL(textEdited(QString)),
-                      this, SLOT(nameStationEnabled(QString)));
-    QObject::connect(&namePlatform, SIGNAL(textEdited(QString)),
-                      this, SLOT(namePlatformEnabled(QString)));
-    QObject::connect(&waitMin, SIGNAL(textEdited(QString)),
-                      this, SLOT(waitMinEnabled(QString)));
-    QObject::connect(&waitSec, SIGNAL(textEdited(QString)),
-                      this, SLOT(waitSecEnabled(QString)));
-    QObject::connect(&waitPas, SIGNAL(textEdited(QString)),
-                      this, SLOT(waitPasEnabled(QString)));
+    QObject::connect(&leftSide, &QCheckBox::stateChanged,
+        this, &PropertiesPlatform::leftSideEnabled);
+    QObject::connect(&rightSide, &QCheckBox::stateChanged,
+        this, &PropertiesPlatform::rightSideEnabled);
+    QObject::connect(&disablePlatform, &QCheckBox::stateChanged,
+        this, &PropertiesPlatform::disablePlatformEnabled);
+    QObject::connect(&nameStation, &QLineEdit::textEdited,
+        this, &PropertiesPlatform::nameStationEnabled);
+    QObject::connect(&namePlatform, &QLineEdit::textEdited,
+        this, &PropertiesPlatform::namePlatformEnabled);
+    QObject::connect(&waitMin, &QLineEdit::textEdited,
+        this, &PropertiesPlatform::waitMinEnabled);
+    QObject::connect(&waitSec, &QLineEdit::textEdited,
+        this, &PropertiesPlatform::waitSecEnabled);
+    QObject::connect(&waitPas, &QLineEdit::textEdited,
+        this, &PropertiesPlatform::waitPasEnabled);
 }
 
 PropertiesPlatform::~PropertiesPlatform() {

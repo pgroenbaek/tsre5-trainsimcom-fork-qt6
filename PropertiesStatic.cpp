@@ -45,11 +45,11 @@ PropertiesStatic::PropertiesStatic(){
     filenameList->setSpacing(2);
     filenameList->setContentsMargins(0,0,0,0);    
     QPushButton *copyF = new QPushButton("Copy", this);
-    QObject::connect(copyF, SIGNAL(released()),
-                      this, SLOT(copyFileNameEnabled()));
+    QObject::connect(copyF, &QPushButton::released,
+        this, &PropertiesStatic::copyFileNameEnabled);
     QPushButton *editF = new QPushButton("Edit", this);
-    QObject::connect(editF, SIGNAL(released()),
-                      this, SLOT(editFileNameEnabled()));
+    QObject::connect(editF, &QPushButton::released,
+        this, &PropertiesStatic::editFileNameEnabled);
     filenameList->addWidget(copyF, 0, 0);
     filenameList->addWidget(editF, 0, 1);
     vbox->addItem(filenameList);
@@ -65,13 +65,16 @@ PropertiesStatic::PropertiesStatic(){
     QDoubleValidator* doubleValidator = new QDoubleValidator(-1500, 1500, 6, this); 
     doubleValidator->setNotation(QDoubleValidator::StandardNotation);
     this->posX.setValidator(doubleValidator);
-    QObject::connect(&this->posX, SIGNAL(textEdited(QString)), this, SLOT(editPositionEnabled(QString)));
+    QObject::connect(&this->posX, &QLineEdit::textEdited,
+        this, &PropertiesStatic::editPositionEnabled);
     vlist->addRow("Y:",&this->posY);
     this->posY.setValidator(doubleValidator);
-    QObject::connect(&this->posY, SIGNAL(textEdited(QString)), this, SLOT(editPositionEnabled(QString)));
+    QObject::connect(&this->posY, &QLineEdit::textEdited,
+        this, &PropertiesStatic::editPositionEnabled);
     vlist->addRow("Z:",&this->posZ);
     this->posZ.setValidator(doubleValidator);
-    QObject::connect(&this->posZ, SIGNAL(textEdited(QString)), this, SLOT(editPositionEnabled(QString)));
+    QObject::connect(&this->posZ, &QLineEdit::textEdited,
+        this, &PropertiesStatic::editPositionEnabled);
     this->quat.setDisabled(true);
     this->quat.setAlignment(Qt::AlignCenter);
     vlist->addRow("Rot:",&this->quat);
@@ -81,32 +84,32 @@ PropertiesStatic::PropertiesStatic(){
     posRotList->setContentsMargins(0,0,0,0);    
 
     QPushButton *copyPos = new QPushButton("Copy Pos", this);
-    QObject::connect(copyPos, SIGNAL(released()),
-                      this, SLOT(copyPEnabled()));
+    QObject::connect(copyPos, &QPushButton::released,
+        this, &PropertiesStatic::copyPEnabled);
     QPushButton *pastePos = new QPushButton("Paste", this);
-    QObject::connect(pastePos, SIGNAL(released()),
-                      this, SLOT(pastePEnabled()));
+    QObject::connect(pastePos, &QPushButton::released,
+        this, &PropertiesStatic::pastePEnabled);
     QPushButton *copyQrot = new QPushButton("Copy Rot", this);
-    QObject::connect(copyQrot, SIGNAL(released()),
-                      this, SLOT(copyREnabled()));
+    QObject::connect(copyQrot, &QPushButton::released,
+        this, &PropertiesStatic::copyREnabled);
     QPushButton *pasteQrot = new QPushButton("Paste", this);
-    QObject::connect(pasteQrot, SIGNAL(released()),
-                      this, SLOT(pasteREnabled()));
+    QObject::connect(pasteQrot, &QPushButton::released,
+        this, &PropertiesStatic::pasteREnabled);
     QPushButton *copyPosRot = new QPushButton("Copy Pos+Rot", this);
-    QObject::connect(copyPosRot, SIGNAL(released()),
-                      this, SLOT(copyPREnabled()));
+    QObject::connect(copyPosRot, &QPushButton::released,
+        this, &PropertiesStatic::copyPREnabled);
     QPushButton *pastePosRot = new QPushButton("Paste", this);
-    QObject::connect(pastePosRot, SIGNAL(released()),
-                      this, SLOT(pastePREnabled()));
+    QObject::connect(pastePosRot, &QPushButton::released,
+        this, &PropertiesStatic::pastePREnabled);
     QPushButton *resetQrot = new QPushButton("Reset Rot", this);
-    QObject::connect(resetQrot, SIGNAL(released()),
-                      this, SLOT(resetRotEnabled()));
+    QObject::connect(resetQrot, &QPushButton::released,
+        this, &PropertiesStatic::resetRotEnabled);
     QPushButton *qRot90 = new QPushButton("Rot Y 90°", this);
-    QObject::connect(qRot90, SIGNAL(released()),
-                      this, SLOT(rotYEnabled()));
+    QObject::connect(qRot90, &QPushButton::released,
+        this, &PropertiesStatic::rotYEnabled);
     QPushButton *transform = new QPushButton("Transform ...", this);
-    QObject::connect(transform, SIGNAL(released()),
-                      this, SLOT(transformEnabled()));
+    QObject::connect(transform, &QPushButton::released,
+        this, &PropertiesStatic::transformEnabled);
     
     posRotList->addWidget(copyPos, 0, 0);
     posRotList->addWidget(pastePos, 0, 1);
@@ -129,12 +132,12 @@ PropertiesStatic::PropertiesStatic(){
     QCheckBox* defaultDetailLevelLabel = new QCheckBox("Default", this);
     defaultDetailLevelLabel->setDisabled(true);
     defaultDetailLevelLabel->setChecked(true);
-    QObject::connect(&enableCustomDetailLevel, SIGNAL(stateChanged(int)),
-                      this, SLOT(enableCustomDetailLevelEnabled(int)));
+    QObject::connect(&enableCustomDetailLevel, &QCheckBox::stateChanged,
+        this, &PropertiesStatic::enableCustomDetailLevelEnabled);
     this->customDetailLevel.setDisabled(true);
     this->customDetailLevel.setAlignment(Qt::AlignCenter);
-    QObject::connect(&customDetailLevel, SIGNAL(textEdited(QString)),
-                      this, SLOT(customDetailLevelEdited(QString)));
+    QObject::connect(&customDetailLevel, &QLineEdit::textEdited,
+        this, &PropertiesStatic::customDetailLevelEdited);
     QGridLayout *detailLevelView = new QGridLayout;
     detailLevelView->setSpacing(2);
     detailLevelView->setContentsMargins(0,0,0,0);    
@@ -155,22 +158,22 @@ PropertiesStatic::PropertiesStatic(){
     flagslView->setSpacing(2);
     flagslView->setContentsMargins(0,0,0,0);    
     QPushButton *copyFlags = new QPushButton("Copy Flags", this);
-    QObject::connect(copyFlags, SIGNAL(released()),
-                      this, SLOT(copyFEnabled()));
+    QObject::connect(copyFlags, &QPushButton::released,
+        this, &PropertiesStatic::copyFEnabled);
     QPushButton *pasteFlags = new QPushButton("Paste", this);
-    QObject::connect(pasteFlags, SIGNAL(released()),
-                      this, SLOT(pasteFEnabled()));
+    QObject::connect(pasteFlags, &QPushButton::released,
+        this, &PropertiesStatic::pasteFEnabled);
     flagslView->addWidget(copyFlags,0,0);
     flagslView->addWidget(pasteFlags,0,1);
     vbox->addItem(flagslView);
     checkboxAnim.setText("Animate Object");
     checkboxTerrain.setText("Terrain Object");
     vbox->addWidget(&checkboxAnim);
-    QObject::connect(&checkboxAnim, SIGNAL(stateChanged(int)),
-                      this, SLOT(checkboxAnimEdited(int)));
+    QObject::connect(&checkboxAnim, &QCheckBox::stateChanged,
+        this, &PropertiesStatic::checkboxAnimEdited);
     vbox->addWidget(&checkboxTerrain);
-    QObject::connect(&checkboxTerrain, SIGNAL(stateChanged(int)),
-                      this, SLOT(checkboxTerrainEdited(int)));
+    QObject::connect(&checkboxTerrain, &QCheckBox::stateChanged,
+        this, &PropertiesStatic::checkboxTerrainEdited);
     cShadowType.addItem("No Shadow");
     cShadowType.addItem("Round Shadow");
     cShadowType.addItem("Rect. Shadow");
@@ -178,8 +181,8 @@ PropertiesStatic::PropertiesStatic(){
     cShadowType.addItem("Dynamic Shadow");
     cShadowType.setStyleSheet("combobox-popup: 0;");
     vbox->addWidget(&cShadowType);
-    QObject::connect(&cShadowType, SIGNAL(currentIndexChanged(int)),
-                      this, SLOT(cShadowTypeEdited(int)));
+    QObject::connect(&cShadowType, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, &PropertiesStatic::cShadowTypeEdited);
 
     label = new QLabel("MSTS Collision:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -193,19 +196,19 @@ PropertiesStatic::PropertiesStatic(){
     cCollisionType.addItem("Buffer");
     cCollisionType.setStyleSheet("combobox-popup: 0;");
     vbox->addWidget(&cCollisionType);
-    QObject::connect(&cCollisionType, SIGNAL(currentIndexChanged(int)),
-                      this, SLOT(cCollisionTypeEdited(int)));
+    QObject::connect(&cCollisionType, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, &PropertiesStatic::cCollisionTypeEdited);
     QPushButton *resetFlags = new QPushButton("Remove Collisions", this);
-    QObject::connect(resetFlags, SIGNAL(released()),
-                      this, SLOT(removeCollisionsEnabled()));
+    QObject::connect(resetFlags, &QPushButton::released,
+        this, &PropertiesStatic::removeCollisionsEnabled);
     vbox->addWidget(resetFlags);
     label = new QLabel("Position & Rotation:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
     label->setContentsMargins(3,0,0,0);
     vbox->addWidget(label);
     QPushButton *reload = new QPushButton("Reload", this);
-    QObject::connect(reload, SIGNAL(released()),
-                      this, SLOT(reloadEnabled()));
+    QObject::connect(reload, &QPushButton::released,
+        this, &PropertiesStatic::reloadEnabled);
     vbox->addWidget(reload);
     vbox->addStretch(1);
     this->setLayout(vbox);

@@ -51,9 +51,9 @@ PropertiesTransfer::PropertiesTransfer() {
     vbox->addWidget(&this->fileName);
     
     /// EFO added
-    QPushButton *editF = new QPushButton("Edit", this);   
-    QObject::connect(editF, SIGNAL(released()),
-                      this, SLOT(editFileNameEnabled()));
+    QPushButton *editF = new QPushButton("Edit", this);
+    QObject::connect(editF, &QPushButton::released,
+        this, &PropertiesTransfer::editFileNameEnabled);
     
     vbox->addWidget(editF);
 
@@ -81,11 +81,11 @@ PropertiesTransfer::PropertiesTransfer() {
     QDoubleValidator* doubleValidator = new QDoubleValidator(0, 999, 2, this); 
     doubleValidator->setNotation(QDoubleValidator::StandardNotation);
     sizeX.setValidator(doubleValidator);
-    QObject::connect(&sizeX, SIGNAL(textEdited(QString)),
-                      this, SLOT(sizeEnabled(QString)));
+    QObject::connect(&sizeX, &QLineEdit::textEdited,
+        this, &PropertiesTransfer::sizeEnabled);
     sizeY.setValidator(doubleValidator);
-    QObject::connect(&sizeY, SIGNAL(textEdited(QString)),
-                      this, SLOT(sizeEnabled(QString)));
+    QObject::connect(&sizeY, &QLineEdit::textEdited,
+        this, &PropertiesTransfer::sizeEnabled);
     
 
     label = new QLabel("Position & Rotation:");
@@ -107,32 +107,32 @@ PropertiesTransfer::PropertiesTransfer() {
     posRotList->setContentsMargins(0,0,0,0);    
 
     QPushButton *copyPos = new QPushButton("Copy Pos", this);
-    QObject::connect(copyPos, SIGNAL(released()),
-                      this, SLOT(copyPEnabled()));
+    QObject::connect(copyPos, &QPushButton::released,
+        this, &PropertiesTransfer::copyPEnabled);
     QPushButton *pastePos = new QPushButton("Paste", this);
-    QObject::connect(pastePos, SIGNAL(released()),
-                      this, SLOT(pastePEnabled()));
+    QObject::connect(pastePos, &QPushButton::released,
+        this, &PropertiesTransfer::pastePEnabled);
     QPushButton *copyQrot = new QPushButton("Copy Rot", this);
-    QObject::connect(copyQrot, SIGNAL(released()),
-                      this, SLOT(copyREnabled()));
+    QObject::connect(copyQrot, &QPushButton::released,
+        this, &PropertiesTransfer::copyREnabled);
     QPushButton *pasteQrot = new QPushButton("Paste", this);
-    QObject::connect(pasteQrot, SIGNAL(released()),
-                      this, SLOT(pasteREnabled()));
+    QObject::connect(pasteQrot, &QPushButton::released,
+        this, &PropertiesTransfer::pasteREnabled);
     QPushButton *copyPosRot = new QPushButton("Copy Pos+Rot", this);
-    QObject::connect(copyPosRot, SIGNAL(released()),
-                      this, SLOT(copyPREnabled()));
+    QObject::connect(copyPosRot, &QPushButton::released,
+        this, &PropertiesTransfer::copyPREnabled);
     QPushButton *pastePosRot = new QPushButton("Paste", this);
-    QObject::connect(pastePosRot, SIGNAL(released()),
-                      this, SLOT(pastePREnabled()));
+    QObject::connect(pastePosRot, &QPushButton::released,
+        this, &PropertiesTransfer::pastePREnabled);
     QPushButton *resetQrot = new QPushButton("Reset Rot", this);
-    QObject::connect(resetQrot, SIGNAL(released()),
-                      this, SLOT(resetRotEnabled()));
+    QObject::connect(resetQrot, &QPushButton::released,
+        this, &PropertiesTransfer::resetRotEnabled);
     QPushButton *qRot90 = new QPushButton("Rot Y 90°", this);
-    QObject::connect(qRot90, SIGNAL(released()),
-                      this, SLOT(rotYEnabled()));
+    QObject::connect(qRot90, &QPushButton::released,
+        this, &PropertiesTransfer::rotYEnabled);
     QPushButton *transform = new QPushButton("Transform ...", this);
-    QObject::connect(transform, SIGNAL(released()),
-                      this, SLOT(transformEnabled()));
+    QObject::connect(transform, &QPushButton::released,
+        this, &PropertiesTransfer::transformEnabled);
     
     posRotList->addWidget(copyPos, 0, 0);
     posRotList->addWidget(pastePos, 0, 1);
@@ -146,8 +146,8 @@ PropertiesTransfer::PropertiesTransfer() {
     vbox->addItem(posRotList);
 
     QPushButton *reload = new QPushButton("Reload", this);
-    QObject::connect(reload, SIGNAL(released()),
-                      this, SLOT(reloadEnabled()));
+    QObject::connect(reload, &QPushButton::released,
+        this, &PropertiesTransfer::reloadEnabled);
 //    vbox->addWidget(reload);    
     
     vbox->addStretch(1);

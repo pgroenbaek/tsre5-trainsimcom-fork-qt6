@@ -112,17 +112,18 @@ MapWindow::MapWindow() : QDialog() {
     //dane.draw(myImage);
     //imageLabel->setPixmap(QPixmap::fromImage(*myImage));
     
-    QObject::connect(loadButton, SIGNAL(released()),
-                      this, SLOT(load()));
-    
-    QObject::connect(saveButton, SIGNAL(released()),
-                      this, SLOT(saveToDisk()));
-        
-    QObject::connect(colorCombo, SIGNAL(activated(QString)),
-                      this, SLOT(colorComboActivated(QString)));
-    
-    QObject::connect(&alphaBox, SIGNAL(valueChanged(int)),
-                      this, SLOT(alphaBoxActivated(int)));
+    QObject::connect(loadButton, &QPushButton::released,
+        this, &MapWindow::load);
+
+    QObject::connect(saveButton, &QPushButton::released,
+        this, &MapWindow::saveToDisk);
+
+    QObject::connect(colorCombo, &QComboBox::textActivated,
+        this, &MapWindow::colorComboActivated);
+
+    QObject::connect(&alphaBox, &QSpinBox::valueChanged,
+        this, &MapWindow::alphaBoxActivated);
+
 }
 
 int MapWindow::exec() {
@@ -195,8 +196,8 @@ void MapWindow::load(){
     
     if(dane->init == false){
         dane->init = true;
-        QObject::connect(dane, SIGNAL(loaded()), this, SLOT(reload()));
-        QObject::connect(dane, SIGNAL(statusInfo(QString)), this, SLOT(isStatusInfo(QString)));
+        QObject::connect(dane, &MapData::loaded, this, &MapWindow::reload);
+        QObject::connect(dane, &MapData::statusInfo, this, &MapWindow::isStatusInfo);
     }
     dane->load();
 }

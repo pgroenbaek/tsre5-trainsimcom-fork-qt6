@@ -39,15 +39,15 @@ UnsavedDialog::UnsavedDialog(QString buttonLayout) : QDialog(){
     }
     
     if(buttonLayout.contains("S"))
-        connect(bok, SIGNAL (released()), this, SLOT (ok()));
+        QObject::connect(bok, &QPushButton::released, this, &UnsavedDialog::ok);
     if(buttonLayout.contains("T")) //// EFO  need to flesh this out for saving terrain and world separately
-        connect(bokt, SIGNAL (released()), this, SLOT (okt()));
+        QObject::connect(bokt, &QPushButton::released, this, &UnsavedDialog::okt);
     if(buttonLayout.contains("W")) //// EFO  need to flesh this out for saving terrain and world separately
-        connect(bokw, SIGNAL (released()), this, SLOT (okw()));        
+        QObject::connect(bokw, &QPushButton::released, this, &UnsavedDialog::okw);        
     if(buttonLayout.contains("C"))
-        connect(bcancel, SIGNAL (released()), this, SLOT (cancel()));
+        QObject::connect(bcancel, &QPushButton::released, this, &UnsavedDialog::cancel);
     if(buttonLayout.contains("Q"))
-        connect(bexit, SIGNAL (released()), this, SLOT (exit()));
+        QObject::connect(bexit, &QPushButton::released, this, &UnsavedDialog::exit);
     
     QGridLayout *vlist = new QGridLayout;
     vlist->setSpacing(2);

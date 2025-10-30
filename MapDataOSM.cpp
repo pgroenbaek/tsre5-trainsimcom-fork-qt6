@@ -542,7 +542,7 @@ void MapDataOSM::load(){
 
 void MapDataOSM::get(LatitudeLongitudeCoordinate* min, LatitudeLongitudeCoordinate* max){
     QNetworkAccessManager* mgr = new QNetworkAccessManager();
-    connect(mgr, SIGNAL(finished(QNetworkReply*)), this, SLOT(isData(QNetworkReply*)));
+    QObject::connect(mgr, &QNetworkAccessManager::finished, this, &MapDataOSM::isData);
     // the HTTP request
     //// EFO Factor this out to a variable in case the string changes?
     qDebug() << "wait " << QString("https://www.openstreetmap.org/api/0.6/map?bbox="

@@ -70,8 +70,11 @@ ShapeViewerWindow::ShapeViewerWindow() : QMainWindow() {
     mbox->setSpacing(2);
     mbox->setContentsMargins(1,1,1,1);
     mbox->addWidget(navigatorWidget);
-    connect(navigatorWidget, SIGNAL(dirFilesSelected(QString)), this, SLOT(dirFilesSelected(QString)));
-    connect(navigatorWidget, SIGNAL(contentHierarchySelected(int)), this, SLOT(contentHierarchySelected(int)));
+    QObject::connect(navigatorWidget, &ShapeViewerNavigatorWidget::dirFilesSelected,
+        this, [this](const QString &file){ dirFilesSelected(file); }
+    );
+    QObject::connect(navigatorWidget, &ShapeViewerNavigatorWidget::contentHierarchySelected,
+        this, &ShapeViewerWindow::contentHierarchySelected);
     QVBoxLayout *itemLayout = new QVBoxLayout;
     itemLayout->addWidget(glShapeWidget);
     itemLayout->addWidget(conInfo);
@@ -87,21 +90,21 @@ ShapeViewerWindow::ShapeViewerWindow() : QMainWindow() {
     fileMenu = menuBar()->addMenu(tr("&File"));
     fNew = new QAction(tr("&Open"), this); 
     fileMenu->addAction(fNew);
-    QObject::connect(fNew, SIGNAL(triggered(bool)), this, SLOT(openFileEnabled()));
+    QObject::connect(fNew, &QAction::triggered, this, [this](){ openFileEnabled(); });
     fReload = new QAction(tr("&Reload"), this); 
     fileMenu->addAction(fReload);
-    QObject::connect(fReload, SIGNAL(triggered(bool)), this, SLOT(reloadFileEnabled()));
+    QObject::connect(fReload, &QAction::triggered, this, &ShapeViewerWindow::reloadFileEnabled);
     fExit = new QAction(tr("&Exit"), this); 
     fileMenu->addAction(fExit);
-    QObject::connect(fExit, SIGNAL(triggered(bool)), this, SLOT(close()));
-    
+    QObject::connect(fExit, &QAction::triggered, this, &QWidget::close);
+
     viewMenu = menuBar()->addMenu(tr("&View"));
     vHierarchyView = GuiFunct::newMenuCheckAction(tr("&Shape Hierarchy"), this, false); 
     viewMenu->addAction(vHierarchyView);
-    QObject::connect(vHierarchyView, SIGNAL(triggered(bool)), this, SLOT(viewHierarchySelected(bool)));
+    QObject::connect(vHierarchyView, &QAction::triggered, this, &ShapeViewerWindow::viewHierarchySelected);
     vTexturesView = GuiFunct::newMenuCheckAction(tr("&Shape Textures"), this, false); 
     viewMenu->addAction(vTexturesView);
-    QObject::connect(vTexturesView, SIGNAL(triggered(bool)), this, SLOT(viewTexturesSelected(bool)));
+    QObject::connect(vTexturesView, &QAction::triggered, this, &ShapeViewerWindow::viewTexturesSelected);
     
     view3dMenu = menuBar()->addMenu(tr("&3D View"));
     vResetShapeView = new QAction(tr("&Reset"), this); 
@@ -109,22 +112,22 @@ ShapeViewerWindow::ShapeViewerWindow() : QMainWindow() {
     vProfileShapeView = new QAction(tr("&Profile View"), this); 
     view3dMenu->addAction(vProfileShapeView);
     
-    QObject::connect(vResetShapeView, SIGNAL(triggered()), this, SLOT(vResetShapeViewSelected()));
-    QObject::connect(vProfileShapeView, SIGNAL(triggered()), this, SLOT(vProfileShapeViewSelected()));
-    
+    QObject::connect(vResetShapeView, &QAction::triggered, this, &ShapeViewerWindow::vResetShapeViewSelected);
+    QObject::connect(vProfileShapeView, &QAction::triggered, this, &ShapeViewerWindow::vProfileShapeViewSelected);
+
     vGetImgShapeView = new QAction(tr("&Copy Image"), this); 
     view3dMenu->addAction(vGetImgShapeView);
-    QObject::connect(vGetImgShapeView, SIGNAL(triggered()), this, SLOT(vGetImgShapeViewSelected()));
+    QObject::connect(vGetImgShapeView, &QAction::triggered, this, &ShapeViewerWindow::vGetImgShapeViewSelected);
     vSaveImgShapeView = new QAction(tr("&Save Image"), this); 
     view3dMenu->addAction(vSaveImgShapeView);
-    QObject::connect(vSaveImgShapeView, SIGNAL(triggered()), this, SLOT(vSaveImgShapeViewSelected()));    
+    QObject::connect(vSaveImgShapeView, &QAction::triggered, this, &ShapeViewerWindow::vSaveImgShapeViewSelected);
     vSetColorShapeView = new QAction(tr("&Set Color"), this); 
     view3dMenu->addAction(vSetColorShapeView);
-    QObject::connect(vSetColorShapeView, SIGNAL(triggered()), this, SLOT(vSetColorShapeViewSelected()));
+    QObject::connect(vSetColorShapeView, &QAction::triggered, this, &ShapeViewerWindow::vSetColorShapeViewSelected);
     
     helpMenu = menuBar()->addMenu(tr("&Help"));
     aboutAction = new QAction(tr("&About"), this);
-    QObject::connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+    QObject::connect(aboutAction, &QAction::triggered, this, &ShapeViewerWindow::about);
     helpMenu->addAction(aboutAction);
     
     resize(1280, 800);
@@ -328,8 +331,8 @@ void ShapeViewerWindow::loadFile(QString path){
     
     //List textures:
     QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateTextureInfo()));
-    connect(this, SIGNAL(stopUpdateTimer()), timer, SLOT(stop()));
+    QObject::connect(timer, &QTimer::timeout, this, [this](){ updateTextureInfo(); });
+    QObject::connect(this, &ShapeViewerWindow::stopUpdateTimer, timer, &QTimer::stop);
     timer->start(100);
 }
 

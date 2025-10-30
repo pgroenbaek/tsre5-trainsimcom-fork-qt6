@@ -18,7 +18,7 @@ PlayActivitySelectWindow::PlayActivitySelectWindow() : QDialog(){
     setWindowTitle("Choose Activity");
     
     QPushButton* ok = new QPushButton("OK");
-    connect(ok, SIGNAL (released()), this, SLOT (close()));
+    QObject::connect(ok, &QPushButton::released, this, &PlayActivitySelectWindow::close);
 
     QVBoxLayout *vlist = new QVBoxLayout;
     vlist->setSpacing(2);
@@ -27,10 +27,10 @@ PlayActivitySelectWindow::PlayActivitySelectWindow() : QDialog(){
     actList.setStyleSheet("combobox-popup: 0;");
     actList.setMaxVisibleItems(35);
     actList.view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    QObject::connect(&actList, SIGNAL(activated(QString)), this, SLOT(activitySelected(QString)));
+    QObject::connect(&actList, &QComboBox::textActivated, this, &PlayActivitySelectWindow::activitySelected);
     vlist->addWidget(&eDescription);
     vlist->addWidget(ok);
-    QObject::connect(ok, SIGNAL(released()), this, SLOT(okButtonEnabled()));
+    QObject::connect(ok, &QPushButton::released, this, &PlayActivitySelectWindow::okButtonEnabled);
     this->setLayout(vlist);
 }
 

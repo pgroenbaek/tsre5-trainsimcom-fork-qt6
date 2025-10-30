@@ -212,182 +212,208 @@ ConEditorWindow::ConEditorWindow() : QMainWindow() {
     fileMenu = menuBar()->addMenu(tr("&File"));
     fNew = new QAction(tr("&New"), this); 
     fileMenu->addAction(fNew);
-    QObject::connect(fNew, SIGNAL(triggered(bool)), this, SLOT(newConsist()));
+    QObject::connect(fNew, &QAction::triggered, this, &ConEditorWindow::newConsist);
     fSave = new QAction(tr("&Save"), this); 
     fileMenu->addAction(fSave);
-    QObject::connect(fSave, SIGNAL(triggered(bool)), this, SLOT(save()));
+    QObject::connect(fSave, &QAction::triggered, this, &ConEditorWindow::save);
     fExit = new QAction(tr("&Exit"), this); 
     fileMenu->addAction(fExit);
-    QObject::connect(fExit, SIGNAL(triggered(bool)), this, SLOT(close()));
+    QObject::connect(fExit, &QAction::triggered, this, &ConEditorWindow::close);
     consistMenu = menuBar()->addMenu(tr("&Consist"));
     cReverse = new QAction(tr("&Reverse"), this); 
     consistMenu->addAction(cReverse);
-    QObject::connect(cReverse, SIGNAL(triggered(bool)), this, SLOT(cReverseSelected()));
+    QObject::connect(cReverse, &QAction::triggered, this, &ConEditorWindow::cReverseSelected);
     cClone = new QAction(tr("&Clone"), this); 
     consistMenu->addAction(cClone);
-    QObject::connect(cClone, SIGNAL(triggered(bool)), this, SLOT(cCloneSelected()));
+    QObject::connect(cClone, &QAction::triggered, this, &ConEditorWindow::cCloneSelected);
     cDelete = new QAction(tr("&Delete"), this); 
     consistMenu->addAction(cDelete);
-    QObject::connect(cDelete, SIGNAL(triggered(bool)), this, SLOT(cDeleteSelected()));
+    QObject::connect(cDelete, &QAction::triggered, this, &ConEditorWindow::cDeleteSelected);
     cOpenInExtEditor = new QAction(tr("&Open in external editor"), this); 
     consistMenu->addAction(cOpenInExtEditor);
-    QObject::connect(cOpenInExtEditor, SIGNAL(triggered(bool)), this, SLOT(cOpenInExternalEditor()));
+    QObject::connect(cOpenInExtEditor, &QAction::triggered, this, &ConEditorWindow::cOpenInExternalEditor);
     cSaveAsEngSet = new QAction(tr("&Save as Eng Set"), this); 
     consistMenu->addAction(cSaveAsEngSet);
-    QObject::connect(cSaveAsEngSet, SIGNAL(triggered()), this, SLOT(cSaveAsEngSetSelected()));
+    QObject::connect(cSaveAsEngSet, &QAction::triggered, this, &ConEditorWindow::cSaveAsEngSetSelected);
     engMenu = menuBar()->addMenu(tr("&Eng"));
     eFindCons = new QAction(tr("&Find Consists"), this); 
     engMenu->addAction(eFindCons);
-    QObject::connect(eFindCons, SIGNAL(triggered(bool)), this, SLOT(eFindConsistsByEng()));
+    QObject::connect(eFindCons, &QAction::triggered, this, &ConEditorWindow::eFindConsistsByEng);
     eOpenInExtEditor = new QAction(tr("&Open in external editor"), this); 
     engMenu->addAction(eOpenInExtEditor);
-    QObject::connect(eOpenInExtEditor, SIGNAL(triggered(bool)), this, SLOT(eOpenInExternalEditor()));
+    QObject::connect(eOpenInExtEditor, &QAction::triggered, this, &ConEditorWindow::eOpenInExternalEditor);
     eOpenLegacyInExtEditor = new QAction(tr("&Open legacy ENG in ext. editor"), this); 
     engMenu->addAction(eOpenLegacyInExtEditor);
-    QObject::connect(eOpenLegacyInExtEditor, SIGNAL(triggered(bool)), this, SLOT(eOpenLegacyInExternalEditor()));
+    QObject::connect(eOpenLegacyInExtEditor, &QAction::triggered, this, &ConEditorWindow::eOpenLegacyInExternalEditor);
     eReload = new QAction(tr("&Reload Shape"), this); 
     engMenu->addAction(eReload);
-    QObject::connect(eReload, SIGNAL(triggered(bool)), this, SLOT(eReloadEnabled()));
+    QObject::connect(eReload, &QAction::triggered, this, &ConEditorWindow::eReloadEnabled);
     replaceMenu = menuBar()->addMenu(tr("&Replace"));
-    QAction *replaceOne = new QAction(tr("&Only selected Unit"), this); 
-    QObject::connect(replaceOne, SIGNAL(triggered(bool)), this, SLOT(replaceOneEnabled()));
+    QAction *replaceOne = new QAction(tr("&Only selected Unit"), this);
+    QObject::connect(replaceOne, &QAction::triggered, this, &ConEditorWindow::replaceOneEnabled);
     replaceMenu->addAction(replaceOne);
-    QAction *replaceAll = new QAction(tr("&All units in selected Consist"), this); 
-    QObject::connect(replaceAll, SIGNAL(triggered(bool)), this, SLOT(replaceAllEnabled()));
+    QAction *replaceAll = new QAction(tr("&All units in selected Consist"), this);
+    QObject::connect(replaceAll, &QAction::triggered, this, &ConEditorWindow::replaceAllEnabled);
     replaceMenu->addAction(replaceAll);
-    QAction *replaceAllAll = new QAction(tr("&All units in all Consists"), this); 
-    QObject::connect(replaceAllAll, SIGNAL(triggered(bool)), this, SLOT(replaceAllAllEnabled()));
+    QAction *replaceAllAll = new QAction(tr("&All units in all Consists"), this);
+    QObject::connect(replaceAllAll, &QAction::triggered, this, &ConEditorWindow::replaceAllAllEnabled);
     replaceMenu->addAction(replaceAllAll);
     viewMenu = menuBar()->addMenu(tr("&View"));
     vConList = GuiFunct::newMenuCheckAction(tr("&Consist List"), this); 
     viewMenu->addAction(vConList);
-    QObject::connect(vConList, SIGNAL(triggered(bool)), this, SLOT(viewConList(bool)));
+    QObject::connect(vConList, &QAction::triggered, this, &ConEditorWindow::viewConList);
     vEngList1 = GuiFunct::newMenuCheckAction(tr("&Eng List 1"), this); 
     viewMenu->addAction(vEngList1);
-    QObject::connect(vEngList1, SIGNAL(triggered(bool)), this, SLOT(viewEngList1(bool)));
+    QObject::connect(vEngList1, &QAction::triggered, this, &ConEditorWindow::viewEngList1);
     vEngList2 = GuiFunct::newMenuCheckAction(tr("&Eng List 2"), this); 
     viewMenu->addAction(vEngList2);
-    QObject::connect(vEngList2, SIGNAL(triggered(bool)), this, SLOT(viewEngList2(bool)));
+    QObject::connect(vEngList2, &QAction::triggered, this, &ConEditorWindow::viewEngList2);
     vConUnits = GuiFunct::newMenuCheckAction(tr("&Consist Units"), this); 
     viewMenu->addAction(vConUnits);
-    QObject::connect(vConUnits, SIGNAL(triggered(bool)), this, SLOT(viewConUnits(bool)));
+    QObject::connect(vConUnits, &QAction::triggered, this, &ConEditorWindow::viewConUnits);
     vEngView = GuiFunct::newMenuCheckAction(tr("&Eng View"), this); 
     viewMenu->addAction(vEngView);
-    QObject::connect(vEngView, SIGNAL(triggered(bool)), this, SLOT(viewEngView(bool)));
+    QObject::connect(vEngView, &QAction::triggered, this, &ConEditorWindow::viewEngView);
     vConView = GuiFunct::newMenuCheckAction(tr("&Con View"), this); 
     viewMenu->addAction(vConView);
-    QObject::connect(vConView, SIGNAL(triggered(bool)), this, SLOT(viewConView(bool)));
+    QObject::connect(vConView, &QAction::triggered, this, &ConEditorWindow::viewConView);
     view3dMenu = menuBar()->addMenu(tr("&3D View"));
     
     vResetShapeView = new QAction(tr("&Shape View: Reset"), this); 
     view3dMenu->addAction(vResetShapeView);
-    QObject::connect(vResetShapeView, SIGNAL(triggered()), this, SLOT(vResetShapeViewSelected()));
+    QObject::connect(vResetShapeView, &QAction::triggered, this, &ConEditorWindow::vResetShapeViewSelected);
     
     vProfileShapeView = new QAction(tr("&Shape View: Profile View"), this); 
     view3dMenu->addAction(vProfileShapeView);
-    QObject::connect(vProfileShapeView, SIGNAL(triggered()), this, SLOT(vProfileShapeViewSelected()));
+    QObject::connect(vProfileShapeView, &QAction::triggered, this, &ConEditorWindow::vProfileShapeViewSelected);
 
-    
     vGetImgShapeView = new QAction(tr("&Shape View: Copy Image"), this); 
     view3dMenu->addAction(vGetImgShapeView);
-    QObject::connect(vGetImgShapeView, SIGNAL(triggered()), this, SLOT(vGetImgShapeViewSelected()));
+    QObject::connect(vGetImgShapeView, &QAction::triggered, this, &ConEditorWindow::vGetImgShapeViewSelected);
     vSaveImgShapeView = new QAction(tr("&Shape View: Save Image"), this); 
     view3dMenu->addAction(vSaveImgShapeView);
-    QObject::connect(vSaveImgShapeView, SIGNAL(triggered()), this, SLOT(vSaveImgShapeViewSelected()));    
+    QObject::connect(vSaveImgShapeView, &QAction::triggered, this, &ConEditorWindow::vSaveImgShapeViewSelected);   
     vSetColorShapeView = new QAction(tr("&Shape View: Set Color"), this); 
     view3dMenu->addAction(vSetColorShapeView);
-    QObject::connect(vSetColorShapeView, SIGNAL(triggered()), this, SLOT(vSetColorShapeViewSelected()));
+    QObject::connect(vSetColorShapeView, &QAction::triggered, this, &ConEditorWindow::vSetColorShapeViewSelected);
     vSetColorConView = new QAction(tr("&Con View: Set Color"), this); 
     view3dMenu->addAction(vSetColorConView);
-    QObject::connect(vSetColorConView, SIGNAL(triggered()), this, SLOT(vSetColorConViewSelected()));
+    QObject::connect(vSetColorConView, &QAction::triggered, this, &ConEditorWindow::vSetColorConViewSelected);
     settingsMenu = menuBar()->addMenu(tr("&Settings"));
     sLoadEngSetsByDefault = GuiFunct::newMenuCheckAction(tr("&Auto load Eng Sets"), this);
-    QObject::connect(sLoadEngSetsByDefault, SIGNAL(triggered(bool)), this, SLOT(sLoadEngSetsByDefaultSelected(bool)));
+    QObject::connect(sLoadEngSetsByDefault, &QAction::triggered, this, &ConEditorWindow::sLoadEngSetsByDefaultSelected);
     settingsMenu->addAction(sLoadEngSetsByDefault);
     sRefreshEngList = new QAction(tr("&Refresh Eng Data"), this);
-    QObject::connect(sRefreshEngList, SIGNAL(triggered()), this, SLOT(sRefreshEngListSelected()));
+    QObject::connect(sRefreshEngList, &QAction::triggered, this, &ConEditorWindow::sRefreshEngListSelected);
     settingsMenu->addAction(sRefreshEngList);
     sForceReloadEngList = new QAction(tr("&Force Reload Eng Data"), this);
-    QObject::connect(sForceReloadEngList, SIGNAL(triggered()), this, SLOT(sForceReloadEngListSelected()));
+    QObject::connect(sForceReloadEngList, &QAction::triggered, this, &ConEditorWindow::sForceReloadEngListSelected);
     settingsMenu->addAction(sForceReloadEngList);
     helpMenu = menuBar()->addMenu(tr("&Help"));
     aboutAction = new QAction(tr("&About"), this);
-    QObject::connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
+    QObject::connect(aboutAction, &QAction::triggered, this, &ConEditorWindow::about);
     helpMenu->addAction(aboutAction);
     
-    QObject::connect(eng1, SIGNAL(engListSelected(int)),
-                      this, SLOT(engListSelected(int)));
-    QObject::connect(eng2, SIGNAL(engListSelected(int)),
-                      this, SLOT(engListSelected(int)));
-    
-    QObject::connect(eng1, SIGNAL(addToConSelected(int, int, int)),
-                      this, SLOT(addToConSelected(int, int, int)));
-    QObject::connect(eng2, SIGNAL(addToConSelected(int, int, int)),
-                      this, SLOT(addToConSelected(int, int, int)));
-    
-    QObject::connect(randomConsist, SIGNAL(addToConSelected(int, int, int)),
-                      this, SLOT(addToConSelected(int, int, int)));
-    
-    QObject::connect(eng1, SIGNAL(addToRandomConsist(int)),
-                      this, SLOT(addToRandomConsist(int)));
-    QObject::connect(eng2, SIGNAL(addToRandomConsist(int)),
-                      this, SLOT(addToRandomConsist(int)));
-    
-    QObject::connect(con1, SIGNAL(conListSelected(int)),
-                      this, SLOT(conListSelected(int)));
-    
-    QObject::connect(con1, SIGNAL(conListSelected(int,int)),
-                      this, SLOT(conListSelected(int,int)));
-    
-    QObject::connect(this, SIGNAL(showEng(QString, QString)),
-                      glShapeWidget, SLOT(showEng(QString, QString))); 
-    
-    QObject::connect(this, SIGNAL(showEng(Eng*)),
-                      glShapeWidget, SLOT(showEng(Eng*))); 
-    
-    QObject::connect(this, SIGNAL(showEngSet(int)),
-                      glShapeWidget, SLOT(showEngSet(int))); 
-    
-    QObject::connect(this, SIGNAL(showCon(int)),
-                      glConWidget, SLOT(showCon(int))); 
-    QObject::connect(this, SIGNAL(showCon(int, int)),
-                      glConWidget, SLOT(showCon(int, int))); 
-    
-    QObject::connect(conSlider, SIGNAL(valueChanged(int)),
-                      this, SLOT(conSliderValueChanged(int))); 
-    
-    QObject::connect(units, SIGNAL(selected(int)),
-                      this, SLOT(conUnitSelected(int))); 
-    
-    QObject::connect(glConWidget, SIGNAL(selected(int)),
-                      this, SLOT(conUnitSelected(int))); 
-    
-    QObject::connect(glConWidget, SIGNAL(refreshItem()),
-                      this, SLOT(refreshCurrentCon())); 
-    
-    QObject::connect(units, SIGNAL(refreshItem()),
-                      this, SLOT(refreshCurrentCon())); 
-    
-    QObject::connect(&cFileName, SIGNAL(textEdited(QString)),
-                      this, SLOT(cFileNameSelected(QString))); 
-    
-    QObject::connect(&cDisplayName, SIGNAL(textEdited(QString)),
-                      this, SLOT(cDisplayNameSelected(QString))); 
-    
-    QObject::connect(&cDurability, SIGNAL(editingFinished()),
-                      this, SLOT(cDurabilitySelected())); 
+    QObject::connect(eng1, &EngListWidget::engListSelected,
+        [this](int id){ this->engListSelected(id); }
+    );
+    QObject::connect(eng2, &EngListWidget::engListSelected,
+        [this](int id){ this->engListSelected(id); }
+    );
 
-    QObject::connect(&engSetsList, SIGNAL(activated(QString)),
-                      this, SLOT(engSetShowSet(QString)));
+    QObject::connect(eng1, &EngListWidget::addToConSelected,
+        [this](int a, int b, int c){ this->addToConSelected(a, b, c); }
+    );
+    QObject::connect(eng2, &EngListWidget::addToConSelected,
+        [this](int a, int b, int c){ this->addToConSelected(a, b, c); }
+    );
+
+    QObject::connect(randomConsist, &RandomConsist::addToConSelected,
+        [this](int a, int b, int c){ this->addToConSelected(a, b, c); }
+    );
+
+    QObject::connect(eng1, &EngListWidget::addToRandomConsist,
+        [this](int id){ this->addToRandomConsist(id); }
+    );
+    QObject::connect(eng2, &EngListWidget::addToRandomConsist,
+        [this](int id){ this->addToRandomConsist(id); }
+    );
     
-    QObject::connect(engSetShowButton, SIGNAL(released()),
-        this, SLOT(engSetShowSelected()));
-    QObject::connect(engSetHideButton, SIGNAL(released()),
-        this, SLOT(engSetHideSelected()));
-    QObject::connect(engSetAddButton, SIGNAL(released()),
-        this, SLOT(engSetAddSelected()));
-    QObject::connect(engSetAddFlipButton, SIGNAL(released()),
-        this, SLOT(engSetFlipAndAddSelected()));
+    QObject::connect(con1, QOverload<int>::of(&ConListWidget::conListSelected),
+        this, [this](int index){
+            this->conListSelected(index);
+        }
+    );
+
+    QObject::connect(con1, QOverload<int,int>::of(&ConListWidget::conListSelected),
+        this, [this](int a, int b){
+            this->conListSelected(a, b);
+        }
+    );
+
+    QObject::connect(this, QOverload<QString,QString>::of(&ConEditorWindow::showEng),
+        this, [this](const QString &path, const QString &name){
+            glShapeWidget->showEng(path, name);
+        }
+    );
+
+    QObject::connect(this, QOverload<Eng*>::of(&ConEditorWindow::showEng),
+        this, [this](Eng* e){
+            glShapeWidget->showEng(e);
+        }
+    );
+
+    QObject::connect(this, &ConEditorWindow::showEngSet, 
+        this, [this](int id){
+            glShapeWidget->showEngSet(id);
+        }
+    );
+
+    QObject::connect(this, QOverload<int>::of(&ConEditorWindow::showCon),
+        this, [this](int id){
+            glConWidget->showCon(id);
+        }
+    );
+
+    QObject::connect(this, QOverload<int,int>::of(&ConEditorWindow::showCon),
+        this, [this](int aid, int id){
+            glConWidget->showCon(aid, id);
+        }
+    );
+
+    QObject::connect(conSlider, &QScrollBar::valueChanged,
+        this, &ConEditorWindow::conSliderValueChanged);
+
+    QObject::connect(units, &ConUnitsWidget::selected,
+        this, &ConEditorWindow::conUnitSelected);
+    QObject::connect(glConWidget, &ShapeViewerGLWidget::selected,
+        this, &ConEditorWindow::conUnitSelected);
+
+    QObject::connect(glConWidget, &ShapeViewerGLWidget::refreshItem,
+        this, &ConEditorWindow::refreshCurrentCon);
+    QObject::connect(units, &ConUnitsWidget::refreshItem,
+        this, &ConEditorWindow::refreshCurrentCon);
+
+    QObject::connect(&cFileName, &QLineEdit::textEdited,
+        this, &ConEditorWindow::cFileNameSelected);
+    QObject::connect(&cDisplayName, &QLineEdit::textEdited,
+        this, &ConEditorWindow::cDisplayNameSelected);
+    QObject::connect(&cDurability, &QDoubleSpinBox::editingFinished,
+        this, &ConEditorWindow::cDurabilitySelected);
+
+    QObject::connect(&engSetsList, &QComboBox::textActivated,
+        this, &ConEditorWindow::engSetShowSet);
+
+    QObject::connect(engSetShowButton, &QPushButton::released,
+        this, &ConEditorWindow::engSetShowSelected);
+    QObject::connect(engSetHideButton, &QPushButton::released,
+        this, &ConEditorWindow::engSetHideSelected);
+    QObject::connect(engSetAddButton, &QPushButton::released,
+        this, &ConEditorWindow::engSetAddSelected);
+    QObject::connect(engSetAddFlipButton, &QPushButton::released,
+        this, &ConEditorWindow::engSetFlipAndAddSelected);
+
+
     
     if(!Game::ceWindowLayout.toUpper().contains("C"))
         vConList->trigger();

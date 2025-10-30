@@ -39,8 +39,8 @@ ShapeHierarchyWindow::ShapeHierarchyWindow(QWidget* parent) : QWidget(parent) {
     hierarchyList.header()->resizeSection(1,50);    
     hierarchyList.header()->resizeSection(2,150);    
     vbox->addWidget(&hierarchyList);
-    QObject::connect(&hierarchyList, SIGNAL(itemChanged(QTreeWidgetItem*, int)),
-                      this, SLOT(hierarchyListSelected(QTreeWidgetItem*, int)));
+    QObject::connect(&hierarchyList, QOverload<QTreeWidgetItem*, int>::of(&QTreeWidget::itemChanged),
+        this, &ShapeHierarchyWindow::hierarchyListSelected);
 
     this->setLayout(vbox);
     this->resize(500,350);

@@ -70,17 +70,17 @@ ConListWidget::ConListWidget() : QWidget(){
     
     actTypeList.hide();
 
-    QObject::connect(&items, SIGNAL(itemClicked(QListWidgetItem*)),
-                      this, SLOT(itemsSelected(QListWidgetItem*)));
-    
-    QObject::connect(&conType, SIGNAL(activated(QString)),
-                      this, SLOT(conFChan(QString)));
-    QObject::connect(&conShow, SIGNAL(activated(QString)),
-                      this, SLOT(conTChan(QString)));
-    QObject::connect(&routeShow, SIGNAL(activated(QString)),
-                      this, SLOT(routeTChan(QString)));
-    QObject::connect(&actShow, SIGNAL(activated(QString)),
-                      this, SLOT(actTChan(QString)));
+    QObject::connect(&items, &QListWidget::itemClicked,
+        this, &ConListWidget::itemsSelected);
+
+    QObject::connect(&conType, &QComboBox::textActivated,
+        this, &ConListWidget::conFChan);
+    QObject::connect(&conShow, &QComboBox::textActivated,
+        this, &ConListWidget::conTChan);
+    QObject::connect(&routeShow, &QComboBox::textActivated,
+        this, &ConListWidget::routeTChan);
+    QObject::connect(&actShow, &QComboBox::textActivated,
+        this, &ConListWidget::actTChan);
     
     items.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     totalVal.setEnabled(false);

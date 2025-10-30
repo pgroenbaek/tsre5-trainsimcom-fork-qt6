@@ -63,7 +63,7 @@ RouteEditorServer::RouteEditorServer() {
 
     c = new ConsoleThread();
     c->start();
-    connect(c, SIGNAL(sendCommand(QString)), this, SLOT(readCommand(QString)));
+    connect(c, &ConsoleThread::sendCommand, this, &RouteEditorServer::readCommand);
     
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, QOverload<>::of(&RouteEditorServer::update));

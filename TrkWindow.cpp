@@ -62,7 +62,7 @@ TrkWindow::TrkWindow() : QDialog(){
     settings->addWidget(new QLabel("Terrain Error Scale: "), row++, 0);
     settings->addWidget(GuiFunct::newTQLabel("Environment"), row++, 0);
     settings->addWidget(&envName, row++, 0);
-    QObject::connect(&envName, SIGNAL(activated(QString)), this, SLOT(envNameEnabled(QString)));
+    QObject::connect(&envName, &QComboBox::textActivated, this, &TrkWindow::envNameEnabled);
     envName.setStyleSheet("combobox-popup: 0;");
     settings->addWidget(GuiFunct::newTQLabel("Description"), row++, 0);
     row = 0;
@@ -127,17 +127,17 @@ TrkWindow::TrkWindow() : QDialog(){
     //mainLayout->addWidget(imageLabel);
     ibuttons = new QHBoxLayout;
     QPushButton *bok = new QPushButton("OK");
-    QObject::connect(bok, SIGNAL(released()), this, SLOT(bokEnabled()));
+    QObject::connect(bok, &QPushButton::released, this, &TrkWindow::bokEnabled);
     QPushButton *bcancel = new QPushButton("Cancel");
-    QObject::connect(bcancel, SIGNAL(released()), this, SLOT(bcancelEnabled()));
+    QObject::connect(bcancel, &QPushButton::released, this, &TrkWindow::bcancelEnabled);
     ibuttons->addWidget(bok);
     ibuttons->addWidget(bcancel);
     mainLayout->addItem(ibuttons);
     mainLayout->setContentsMargins(1,1,1,1);
     this->setLayout(mainLayout);
-    
-    //QObject::connect(loadButton, SIGNAL(released()),
-    //                  this, SLOT(load()));
+
+    // QObject::connect(loadButton, &QPushButton::released,
+    //      this, &TrkWindow::load);
 }
 
 int TrkWindow::exec() {

@@ -148,8 +148,8 @@ void WindowManager::LoadRouteEditor(){
         
     if(!Game::ServerMode){
         LoadWindow *loadWindow = new LoadWindow();
-        QObject::connect(window, SIGNAL(exitNow()), loadWindow, SLOT(exitNow()));
-        QObject::connect(loadWindow, SIGNAL(showMainWindow()), window, SLOT(showRoute()));
+        QObject::connect(window, &RouteEditorWindow::exitNow, loadWindow, &LoadWindow::exitNow);
+        QObject::connect(loadWindow, &LoadWindow::showMainWindow, window, &RouteEditorWindow::showRoute);
 
         if(Game::checkRoot(Game::root) && (Game::checkRoute(Game::route) || Game::createNewRoutes)){
             window->showRoute();
@@ -165,7 +165,7 @@ void WindowManager::LoadRouteEditor(){
 
         
     } else {
-        QObject::connect(Game::serverClient, SIGNAL(loadRoute()), window, SLOT(showRoute()));
+        QObject::connect(Game::serverClient, &RouteEditorClient::loadRoute, window, &RouteEditorWindow::showRoute);
         Game::serverClient->connectNow();
     }
 }

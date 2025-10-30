@@ -90,8 +90,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     vlist->addWidget(label, row, 0);
     cActionType.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     vlist->addWidget(&cActionType, row++, 1);
-    QObject::connect(&cActionType, SIGNAL(activated(QString)),
-                      this, SLOT(cActionTypeSelected(QString)));
+    QObject::connect(&cActionType, &QComboBox::textActivated,
+        this, &ActivityEventProperties::cActionTypeSelected);
     //vlist->addWidget(new QLabel("Info:"), row, 0);
     //vlist->addWidget(&eActionInfo, row++, 1);
     actionWidget.setLayout(vlist);
@@ -109,8 +109,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     cStationStopAction.setMaxVisibleItems(30);
     cStationStopAction.view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     vlist->addWidget(&cStationStopAction, row++, 1);
-    QObject::connect(&cStationStopAction, SIGNAL(activated(QString)),
-                      this, SLOT(cStationStopActionSelected(QString)));
+    QObject::connect(&cStationStopAction, &QComboBox::textActivated,
+        this, &ActivityEventProperties::cStationStopActionSelected);
     actionWidgetStation.setLayout(vlist);
     
     // action siding
@@ -124,8 +124,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     vlist->addWidget(&eActionSiding, row, 1);
     eActionSiding.setDisabled(true);
     bActionSiding.setText("Link Selected");
-    QObject::connect(&bActionSiding, SIGNAL(released()),
-                      this, SLOT(bActionSidingSelected()));
+    QObject::connect(&bActionSiding, &QPushButton::released,
+        this, &ActivityEventProperties::bActionSidingSelected);
     vlist->addWidget(&bActionSiding, row++, 2);
     actionWidgetSiding.setLayout(vlist);
     
@@ -140,8 +140,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     eActionSpeed.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     vlist->addWidget(&eActionSpeed, row++, 1);
     eActionSpeed.setRange(0,1000);
-    QObject::connect(&eActionSpeed, SIGNAL(editingFinished()),
-                      this, SLOT(eActionSpeedSelected()));
+    QObject::connect(&eActionSpeed, &QSpinBox::editingFinished,
+        this, &ActivityEventProperties::eActionSpeedSelected);
     actionWidgetSpeed.setLayout(vlist);
     
     // action wagon list
@@ -149,14 +149,14 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     vlist->setSpacing(2);
     vlist->setContentsMargins(1,0,1,0);
     QPushButton *bRemoveCar = new QPushButton("Remove Selected");
-    QObject::connect(bRemoveCar, SIGNAL(released()),
-                      this, SLOT(bRemoveCarSelected()));
+    QObject::connect(bRemoveCar, &QPushButton::released,
+        this, &ActivityEventProperties::bRemoveCarSelected);
     QPushButton *bJumpToCar = new QPushButton("Jump To Selected");
-    QObject::connect(bJumpToCar, SIGNAL(released()),
-                      this, SLOT(bJumpToCarSelected()));
+    QObject::connect(bJumpToCar, &QPushButton::released,
+        this, &ActivityEventProperties::bJumpToCarSelected);
     QPushButton *bDescCar = new QPushButton("Edit description");
-    QObject::connect(bDescCar, SIGNAL(released()),
-                      this, SLOT(bDescCarSelected()));
+    QObject::connect(bDescCar, &QPushButton::released,
+        this, &ActivityEventProperties::bDescCarSelected);
     bJumpToCar->setMinimumWidth(100);
     label = new QLabel("Wagon List:");
     label->setMaximumHeight(25);
@@ -164,8 +164,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     vlist->addWidget(&wagonList, 0, 1, 5, 1);
     QPushButton *pickNewEventWagon = new QPushButton("Pick Selected");
     vlist->addWidget(pickNewEventWagon, 1, 0);
-    QObject::connect(pickNewEventWagon, SIGNAL(released()),
-                      this, SLOT(bPickNewEventWagonToolSelected()));
+    QObject::connect(pickNewEventWagon, &QPushButton::released,
+        this, &ActivityEventProperties::bPickNewEventWagonToolSelected);
     vlist->addWidget(bJumpToCar, 2, 0);
     vlist->addWidget(bRemoveCar, 3, 0);
     vlist->addWidget(bDescCar, 4, 0);
@@ -193,23 +193,24 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     vlist->addWidget(label, row, 0);
     vlist->addWidget(&eLocationPosition, row++, 1, 1, 2);
     QPushButton *button = new QPushButton("Jump to location");
-    QObject::connect(button, SIGNAL(released()),
-                      this, SLOT(bJumpToEventLocationSelected()));
+    QObject::connect(button, &QPushButton::released,
+        this, &ActivityEventProperties::bJumpToEventLocationSelected);
     vlist->addWidget(button, row, 1);
-    QObject::connect(buttonTools["pickNewEventLocationTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(bPickEventLocationSelected(bool)));
+    QObject::connect(buttonTools["pickNewEventLocationTool"], &QPushButton::toggled,
+        this, &ActivityEventProperties::bPickEventLocationSelected);
     vlist->addWidget(buttonTools["pickNewEventLocationTool"], row++, 2);
     vlist->addWidget(new QLabel("Radius:"), row, 0);
     vlist->addWidget(&eLocationRadius, row++, 1, 1, 2);
     eLocationRadius.setRange(0,100);
-    QObject::connect(&eLocationRadius, SIGNAL(editingFinished()),
-                      this, SLOT(eLocationRadiusSelected()));
+    QObject::connect(&eLocationRadius, &QSpinBox::editingFinished,
+        this, &ActivityEventProperties::eLocationRadiusSelected);
     label = new QLabel("Train must stop:");
     label->setMinimumHeight(25);
     vlist->addWidget(label, row, 0);
     vlist->addWidget(&cLocationStop, row++, 1, 1, 2);
-    QObject::connect(&cLocationStop, SIGNAL(stateChanged(int)),
-                      this, SLOT(cLocationStopSelected(int)));
+    QObject::connect(&cLocationStop, &QCheckBox::stateChanged,
+        this, &ActivityEventProperties::cLocationStopSelected);
+
     
     locationWidget.setLayout(vlist);
     
@@ -228,8 +229,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     label->setMinimumWidth(100);
     vlist->addWidget(label, row, 0);
     vlist->addWidget(&eTime, row++, 1);
-    QObject::connect(&eTime, SIGNAL(timeChanged(QTime)),
-                      this, SLOT(eTimeSelected(QTime)));
+    QObject::connect(&eTime, &QTimeEdit::timeChanged,
+        this, &ActivityEventProperties::eTimeSelected);
     eTime.setDisplayFormat("HH:mm:ss");
     eTime.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     
@@ -256,40 +257,40 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     label->setMinimumWidth(100);
     vlist->addWidget(label, row, 0);
     vlist->addWidget(&eName, row++, 1);
-    QObject::connect(&eName, SIGNAL(editingFinished()),
-                      this, SLOT(eNameSelected()));
+    QObject::connect(&eName, &QLineEdit::editingFinished,
+        this, &ActivityEventProperties::eNameSelected);
     vlist->addWidget(new QLabel("Activation Level:"), row, 0);
     vlist->addWidget(&eActivationLevel, row++, 1);
     eActivationLevel.setRange(-100,100);
-    QObject::connect(&eActivationLevel, SIGNAL(editingFinished()),
-                      this, SLOT(eActivationLevelSelected()));
+    QObject::connect(&eActivationLevel, &QSpinBox::editingFinished,
+        this, &ActivityEventProperties::eActivationLevelSelected);
     vlist->addWidget(new QLabel("Triggered Text:"), row, 0);
     vlist->addWidget(&eTriggeredText, row++, 1);
-    QObject::connect(&eTriggeredText, SIGNAL(textEdited(QString)),
-                      this, SLOT(eTriggeredTextSelected(QString)));
+    QObject::connect(&eTriggeredText, &QLineEdit::textEdited,
+        this, &ActivityEventProperties::eTriggeredTextSelected);
     vlist->addWidget(new QLabel("Untriggered Text:"), row, 0);
     vlist->addWidget(&eUntriggeredText, row++, 1);
-    QObject::connect(&eUntriggeredText, SIGNAL(textEdited(QString)),
-                      this, SLOT(eUntriggeredTextSelected(QString)));
+    QObject::connect(&eUntriggeredText, &QLineEdit::textEdited,
+        this, &ActivityEventProperties::eUntriggeredTextSelected);
     vlist->addWidget(new QLabel("Notes:"), row, 0);
     vlist->addWidget(&eNotes, row++, 1);
-    QObject::connect(&eNotes, SIGNAL(textEdited(QString)),
-                      this, SLOT(eNotesSelected(QString)));
+    QObject::connect(&eNotes, &QLineEdit::textEdited,
+        this, &ActivityEventProperties::eNotesSelected);
     cAutoContinueLabel.setText("Disable pause:");
     cAutoContinueLabel.setMinimumHeight(22);
     vlist->addWidget(&cAutoContinueLabel, row, 0);
-    QObject::connect(&cAutoContinueLabel, SIGNAL(stateChanged(int)),
-                      this, SLOT(cAutoContinueLabelSelected(int)));
+    QObject::connect(&cAutoContinueLabel, &QCheckBox::stateChanged,
+        this, &ActivityEventProperties::cAutoContinueLabelSelected);
     vlist->addWidget(&eAutoContinue, row++, 1);
-    QObject::connect(&eAutoContinue, SIGNAL(editingFinished()),
-                      this, SLOT(eAutoContinueSelected()));
+    QObject::connect(&eAutoContinue, &QSpinBox::editingFinished,
+        this, &ActivityEventProperties::eAutoContinueSelected);
     //lReversable.setText("Reversable:");
     cReversable.setMinimumHeight(22);
     cReversable.setText("Reversable.");
     //vlist->addWidget(&lReversable, row, 0);
     vlist->addWidget(&cReversable, row++, 0);
-    QObject::connect(&cReversable, SIGNAL(stateChanged(int)),
-                      this, SLOT(cReversableSelected(int)));
+    QObject::connect(&cReversable, &QCheckBox::stateChanged,
+        this, &ActivityEventProperties::cReversableSelected);
     
     label = new QLabel("Outcomes:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -298,10 +299,11 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     vlist->addWidget(&outcomeList, row++, 0, 1, 2);
     QPushButton *bAddOutcome = new QPushButton("Add New");
     QPushButton *bRemoveOutcome = new QPushButton("Remove Selected");
-    QObject::connect(bAddOutcome, SIGNAL(released()),
-                      this, SLOT(bAddOutcomeSelected()));
-    QObject::connect(bRemoveOutcome, SIGNAL(released()),
-                      this, SLOT(bRemoveOutcomeSelected()));
+    QObject::connect(bAddOutcome, &QPushButton::released,
+        this, &ActivityEventProperties::bAddOutcomeSelected);
+    QObject::connect(bRemoveOutcome, &QPushButton::released,
+        this, &ActivityEventProperties::bRemoveOutcomeSelected);
+
     
     vlist->addWidget(bAddOutcome, row++, 0, 1, 2);
     vlist->addWidget(bRemoveOutcome, row++, 0, 1, 2);
@@ -313,8 +315,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     
     vlist->addWidget(new QLabel("Action:"), row, 0);
     vlist->addWidget(&cOutcome, row++, 1);
-    QObject::connect(&cOutcome, SIGNAL(activated(QString)),
-                      this, SLOT(outcomeActoionListSelected(QString)));
+    QObject::connect(&cOutcome, &QComboBox::textActivated,
+        this, &ActivityEventProperties::outcomeActionListSelected);
     vbox->addItem(vlist);
 
     // Outcome Event
@@ -328,8 +330,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     vlist->addWidget(label, row, 0);
     cOutcomeEvent.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     vlist->addWidget(&cOutcomeEvent, row++, 1);
-    QObject::connect(&cOutcomeEvent, SIGNAL(activated(QString)),
-                      this, SLOT(cOutcomeEventSelected(QString)));
+    QObject::connect(&cOutcomeEvent, &QComboBox::textActivated,
+        this, &ActivityEventProperties::cOutcomeEventSelected);
     outcomeProperties[(int)ActivityEvent::Outcome::CategoryEvent] = new QWidget(this);
     outcomeProperties[(int)ActivityEvent::Outcome::CategoryEvent]->setLayout(vlist);
     vbox->addWidget(outcomeProperties[(int)ActivityEvent::Outcome::CategoryEvent]);
@@ -342,8 +344,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     row = 0;
     vlist->addWidget(new QLabel("Message:"), row++, 0, 1, 2);
     vlist->addWidget(&eOutcomeMessage, row++, 0, 1, 2);
-    QObject::connect(&eOutcomeMessage, SIGNAL(textChanged()),
-                      this, SLOT(eOutcomeMessageSelected()));
+    QObject::connect(&eOutcomeMessage, &QPlainTextEdit::textChanged,
+        this, &ActivityEventProperties::eOutcomeMessageSelected);
     outcomeProperties[(int)ActivityEvent::Outcome::CategoryInfo] = new QWidget(this);
     outcomeProperties[(int)ActivityEvent::Outcome::CategoryInfo]->setLayout(vlist);
     vbox->addWidget(outcomeProperties[(int)ActivityEvent::Outcome::CategoryInfo]);
@@ -359,10 +361,12 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     vlist->addWidget(label, row, 0);
     eSoundFileName.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     vlist->addWidget(&eSoundFileName, row++, 1);
-    QObject::connect(&eSoundFileName, SIGNAL(textEdited(QString)), this, SLOT(eSoundFileNameEdited(QString)));
+    QObject::connect(&eSoundFileName, &QLineEdit::textEdited,
+        this, &ActivityEventProperties::eSoundFileNameEdited);
     vlist->addWidget(new QLabel("Sound Type:"), row, 0);
     vlist->addWidget(&cSoundType, row++, 1);
-    QObject::connect(&cSoundType, SIGNAL(activated(QString)), this, SLOT(cSoundTypeSelected(QString)));
+    QObject::connect(&cSoundType, &QComboBox::textActivated,
+        this, &ActivityEventProperties::cSoundTypeSelected);
     outcomeProperties[(int)ActivityEvent::Outcome::CategorySoundFile] = new QWidget(this);
     outcomeProperties[(int)ActivityEvent::Outcome::CategorySoundFile]->setLayout(vlist);
     vbox->addWidget(outcomeProperties[(int)ActivityEvent::Outcome::CategorySoundFile]);
@@ -381,7 +385,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     cWeatherChange.setMaxVisibleItems(30);
     cWeatherChange.view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     vlist->addWidget(&cWeatherChange, row++, 1);
-    QObject::connect(&cWeatherChange, SIGNAL(activated(QString)), this, SLOT(cWeatherChangeSelected(QString)));
+    QObject::connect(&cWeatherChange, &QComboBox::textActivated,
+        this, &ActivityEventProperties::cWeatherChangeSelected);
     outcomeProperties[(int)ActivityEvent::Outcome::CategoryWeatherChange] = new QWidget(this);
     outcomeProperties[(int)ActivityEvent::Outcome::CategoryWeatherChange]->setLayout(vlist);
     vbox->addWidget(outcomeProperties[(int)ActivityEvent::Outcome::CategoryWeatherChange]);
@@ -389,8 +394,8 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     vbox->addStretch(1);
     this->setLayout(vbox);
     
-    QObject::connect(&outcomeList, SIGNAL(itemClicked(QListWidgetItem*)),
-                      this, SLOT(outcomeListSelected(QListWidgetItem*)));
+    QObject::connect(&outcomeList, &QListWidget::itemClicked,
+        this, &ActivityEventProperties::outcomeListSelected);
     
     actionWidget.hide();
     actionWidgetSpeed.hide();
@@ -618,7 +623,7 @@ void ActivityEventProperties::outcomeListSelected(QListWidgetItem* item){
     }
 }
 
-void ActivityEventProperties::cActionTypeSelected(QString item){
+void ActivityEventProperties::cActionTypeSelected(QString val){
     if(event == NULL)
         return;
 
@@ -628,13 +633,13 @@ void ActivityEventProperties::cActionTypeSelected(QString item){
     selctOutcomeOnList(id);
 }
 
-void ActivityEventProperties::cStationStopActionSelected(QString item){
+void ActivityEventProperties::cStationStopActionSelected(QString val){
     if(event == NULL)
         return;
     event->setStationStop(cStationStopAction.currentData().toInt());
 }
 
-void ActivityEventProperties::outcomeActoionListSelected(QString item){
+void ActivityEventProperties::outcomeActionListSelected(QString val){
     if(outcome == NULL)
         return;
 

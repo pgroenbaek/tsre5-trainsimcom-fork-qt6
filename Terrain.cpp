@@ -3119,20 +3119,20 @@ bool Terrain::unselect(){
 
 void Terrain::pushContextMenuActions(QMenu *menu){
     if(contextMenuActions["togglewater"] == NULL){
-        contextMenuActions["togglewater"] = new QAction(tr("&Toggle Water")); 
-        QObject::connect(contextMenuActions["togglewater"], SIGNAL(triggered()), this, SLOT(menuToggleWater()));
+        contextMenuActions["togglewater"] = new QAction(tr("&Toggle Water"));
+        QObject::connect(contextMenuActions["togglewater"], &QAction::triggered, this, &Terrain::menuToggleWater);
     }
     if(contextMenuActions["puttexture"] == NULL){
-        contextMenuActions["puttexture"] = new QAction(tr("&Put Texture")); 
-        QObject::connect(contextMenuActions["puttexture"], SIGNAL(triggered()), this, SLOT(menuPutTexture()));
+        contextMenuActions["puttexture"] = new QAction(tr("&Put Texture"));
+        QObject::connect(contextMenuActions["puttexture"], &QAction::triggered, this, &Terrain::menuPutTexture);
     }
     if(contextMenuActions["toggledraw"] == NULL){
-        contextMenuActions["toggledraw"] = new QAction(tr("&Toggle Draw")); 
-        QObject::connect(contextMenuActions["toggledraw"], SIGNAL(triggered()), this, SLOT(menuToggleDraw()));
+        contextMenuActions["toggledraw"] = new QAction(tr("&Toggle Draw"));
+        QObject::connect(contextMenuActions["toggledraw"], &QAction::triggered, this, &Terrain::menuToggleDraw);
     }
     if(contextMenuActions["selectobjects"] == NULL){
-        contextMenuActions["selectobjects"] = new QAction(tr("&Select Objects")); 
-        QObject::connect(contextMenuActions["selectobjects"], SIGNAL(triggered()), this, SLOT(menuSelectObjects()));
+        contextMenuActions["selectobjects"] = new QAction(tr("&Select Objects"));
+        QObject::connect(contextMenuActions["selectobjects"], &QAction::triggered, this, &Terrain::menuSelectObjects);
     }
     menu->addAction(contextMenuActions["puttexture"]);
     menu->addAction(contextMenuActions["togglewater"]);

@@ -31,9 +31,9 @@ RandomConsist::RandomConsist(QWidget* parent) : QWidget(parent){
     QPushButton* ok = new QPushButton("Add Random");
     QPushButton* cancel = new QPushButton("Cancel");
     QPushButton* save = new QPushButton("Save");
-    connect(ok, SIGNAL (released()), this, SLOT (ok()));
-    connect(cancel, SIGNAL (released()), this, SLOT (cancel()));
-    connect(save, SIGNAL (released()), this, SLOT (save()));
+    QObject::connect(ok, &QPushButton::released, this, &RandomConsist::ok);
+    QObject::connect(cancel, &QPushButton::released, this, &RandomConsist::cancel);
+    QObject::connect(save, &QPushButton::released, this, &RandomConsist::save);
     
     QGridLayout *vlist = new QGridLayout;
     vlist->setSpacing(2);
@@ -41,8 +41,8 @@ RandomConsist::RandomConsist(QWidget* parent) : QWidget(parent){
     vlist->addWidget(&items, 1, 0, 1, 3, Qt::AlignCenter);
     vlist->addWidget(new QLabel("Or load List from disk:"), 2, 0, Qt::AlignLeft);
     vlist->addWidget(&list, 2, 1, 1, 2, Qt::AlignCenter);
-    QObject::connect(&list, SIGNAL(activated(QString)),
-                      this, SLOT(listSelected(QString)));
+    QObject::connect(&list, &QComboBox::textActivated,
+        this, &RandomConsist::listSelected);
     vlist->addWidget(new QLabel("Save current List as:"), 3, 0, Qt::AlignLeft);
     vlist->addWidget(&name, 3, 1, Qt::AlignCenter);
     vlist->addWidget(save, 3, 2, Qt::AlignCenter);

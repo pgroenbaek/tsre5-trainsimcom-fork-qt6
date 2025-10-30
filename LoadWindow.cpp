@@ -36,13 +36,15 @@ LoadWindow::LoadWindow() {
     myLabel->setPixmap(QPixmap::fromImage(*myImage));
 
     browse = new QPushButton("Browse");
-    connect(browse, SIGNAL (released()), this, SLOT (handleBrowseButton()));
+    QObject::connect(browse, &QPushButton::released,
+        this, [this]() { this->handleBrowseButton(); }
+    );
     load = new QPushButton("Load");
     load->setStyleSheet(QString("background-color: ")+Game::StyleGreenButton);
-    connect(load, SIGNAL (released()), this, SLOT (routeLoad()));
+    QObject::connect(load, &QPushButton::released, this, &LoadWindow::routeLoad);
     neww = new QPushButton("New");
     neww->setStyleSheet(QString("background-color: ")+Game::StyleYellowButton);
-    connect(neww, SIGNAL (released()), this, SLOT (setNewRoute()));
+    QObject::connect(neww, &QPushButton::released, this, &LoadWindow::setNewRoute);
     exit = new QPushButton("Exit");
     exit->setStyleSheet(QString("background-color: ")+Game::StyleRedButton);
 
@@ -63,8 +65,8 @@ LoadWindow::LoadWindow() {
     cRecent.setMaxVisibleItems(10);
     cRecent.view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     cRecent.setStyleSheet("combobox-popup: 0;");
-    QObject::connect(&cRecent, SIGNAL(activated(QString)),
-                      this, SLOT(cRecentEnabled(QString)));
+    QObject::connect(&cRecent, &QComboBox::textActivated,
+        this, &LoadWindow::cRecentEnabled);
     recentLayout->addRow("Recent: ", &cRecent);
     mainLayout->addItem(recentLayout);
     mainLayout->addWidget(&routeList);
@@ -99,14 +101,18 @@ LoadWindow::LoadWindow() {
     
     //nowaTrasa->hide();
 
-    QObject::connect(exit, SIGNAL (released()), this, SLOT(close()));
-    QObject::connect(&routeList, SIGNAL(itemClicked(QTableWidgetItem*)),
-                      this, SLOT(setLoadRoute()));
-    //QObject::connect(nowaTrasa, SIGNAL(textChanged(QString)),
-    //                  this, SLOT(setNewRoute()));
+    QObject::connect(exit, &QPushButton::released, this, &LoadWindow::close);
+    QObject::connect(&routeList, &QTableWidget::itemClicked,
+        this, [this](QTableWidgetItem*) { this->setLoadRoute(); }
+    );
     
- QObject::connect(&routeList, SIGNAL(itemDoubleClicked(QTableWidgetItem*)),
-                      this, SLOT(routeLoad()));
+    //QObject::connect(nowaTrasa, &QLineEdit::textChanged,
+    //    this, [this](const QString&) { this->setNewRoute(); }
+    //);
+    
+    QObject::connect(&routeList, &QTableWidget::itemDoubleClicked,
+        this, [this](QTableWidgetItem*) { this->routeLoad(); }
+    );
     
     listRoots();
     
@@ -322,7 +328,7 @@ void LoadWindow::downloadTemplateRoute(QString path){
     qDebug() << req.url();
     QNetworkReply* r = mgr->get(req);
     QEventLoop loop;
-    QObject::connect(r, SIGNAL(finished()), &loop, SLOT(quit()));
+    QObject::connect(r, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
     
     qDebug() << "Network Reply Loop End";

@@ -1154,11 +1154,11 @@ bool Game::loadRouteEditor(){
     }
     
     loadWindow = new LoadWindow();
-    QObject::connect(window, SIGNAL(exitNow()),
-                      loadWindow, SLOT(exitNow()));
-    
-    QObject::connect(loadWindow, SIGNAL(showMainWindow()),
-                      window, SLOT(show()));
+    QObject::connect(window, &RouteEditorWindow::exitNow,
+        loadWindow, &LoadWindow::exitNow);
+
+    QObject::connect(loadWindow, &LoadWindow::showMainWindow,
+        window, &RouteEditorWindow::show);
     
     if(Game::checkRoot(Game::root) && (Game::checkRoute(Game::route) || Game::createNewRoutes)){
         Game::window->show();
@@ -1505,7 +1505,7 @@ void Game::CheckForOpenAl(){
 #endif
     
     QNetworkAccessManager* mgr = new QNetworkAccessManager();
-    //connect(mgr, SIGNAL(finished(QNetworkReply*)), this, SLOT(isData(QNetworkReply*)));
+    //QObject::connect(mgr, &QNetworkAccessManager::finished, this, &Game::isData);
     qDebug() << "Wait ..";
 
     QNetworkRequest req;
@@ -1513,7 +1513,7 @@ void Game::CheckForOpenAl(){
     qDebug() << req.url();
     QNetworkReply* r = mgr->get(req);
     QEventLoop loop;
-    QObject::connect(r, SIGNAL(finished()), &loop, SLOT(quit()));
+    QObject::connect(r, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
     qDebug() << "Network Reply Loop End";
     QByteArray data = r->readAll();
@@ -1536,7 +1536,7 @@ void Game::DownloadAppData(QString path){
     qDebug() << req.url();
     QNetworkReply* r = mgr->get(req);
     QEventLoop loop;
-    QObject::connect(r, SIGNAL(finished()), &loop, SLOT(quit()));
+    QObject::connect(r, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
     
     qDebug() << "Network Reply Loop End";

@@ -62,24 +62,31 @@ EngListWidget::EngListWidget() : QWidget(){
     this->setMinimumWidth(250);
     couplingType.setStyleSheet("combobox-popup: 0;");
     
-    QObject::connect(&engType, SIGNAL(activated(QString)),
-                      this, SLOT(fs(QString)));
-    QObject::connect(&couplingType, SIGNAL(activated(QString)),
-                      this, SLOT(fs(QString)));
-    QObject::connect(&searchBox, SIGNAL(textEdited(QString)),
-                      this, SLOT(fs(QString)));
+    QObject::connect(&engType, &QComboBox::textActivated,
+        this, &EngListWidget::fs);
+
+    QObject::connect(&couplingType, &QComboBox::textActivated,
+        this, &EngListWidget::fs);
+
+    QObject::connect(&searchBox, &QLineEdit::textEdited,
+        this, &EngListWidget::fs);
+
+    QObject::connect(&items, &QListWidget::itemSelectionChanged,
+        this, &EngListWidget::itemsSelected);
     
-    QObject::connect(&items, SIGNAL(itemSelectionChanged()),
-                      this, SLOT(itemsSelected()));
-    
-    QObject::connect(&addBegButton, SIGNAL(released()),
-                      this, SLOT(addBegButtonSelected()));
-    QObject::connect(&addCurButton, SIGNAL(released()),
-                      this, SLOT(addCurButtonSelected()));
-    QObject::connect(&addEndButton, SIGNAL(released()),
-                      this, SLOT(addEndButtonSelected()));
-    QObject::connect(&addRandButton, SIGNAL(released()),
-                      this, SLOT(addRndButtonSelected()));
+    QObject::connect(&addCurButton, &QPushButton::released,
+        this, [this]() { this->addCurButtonSelected(); }
+    );
+    QObject::connect(&addBegButton, &QPushButton::released,
+        this, [this]() { this->addBegButtonSelected(); }
+    );
+    QObject::connect(&addEndButton, &QPushButton::released,
+        this, [this]() { this->addEndButtonSelected(); }
+    );
+    QObject::connect(&addRandButton, &QPushButton::released,
+        this, [this]() { this->addRndButtonSelected(); }
+    );
+
     
     items.viewport()->installEventFilter(this);
     items.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

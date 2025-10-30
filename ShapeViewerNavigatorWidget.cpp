@@ -21,7 +21,7 @@ ShapeViewerNavigatorWidget::ShapeViewerNavigatorWidget(QWidget* parent) : QWidge
     label->setContentsMargins(3,0,0,0);
     vbox->addWidget(label);
     vbox->addWidget(&searchFiles);
-    QObject::connect(&searchFiles, SIGNAL(textEdited(QString)), this, SLOT(searchFilesEnabled(QString)));
+    QObject::connect(&searchFiles, &QLineEdit::textEdited, this, &ShapeViewerNavigatorWidget::searchFilesEnabled);
     vbox->addWidget(&dirFiles);
     
     label = new QLabel("Current File Items:");
@@ -38,18 +38,17 @@ ShapeViewerNavigatorWidget::ShapeViewerNavigatorWidget(QWidget* parent) : QWidge
     dirFiles.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     fileItems.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     
-    
-    QObject::connect(&dirFiles, SIGNAL(itemClicked(QListWidgetItem*)),
-                      this, SLOT(dirFilesSelected(QListWidgetItem*)));
-    
-    QObject::connect(&fileItems, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
-                      this, SLOT(fileItemsSelected(QTreeWidgetItem*, int)));
+    QObject::connect(&dirFiles, &QListWidget::itemClicked, this,
+        [this](QListWidgetItem* item){ dirFilesItemsSelected(item); });
+
+    QObject::connect(&fileItems, &QTreeWidget::itemClicked, this,
+        [this](QTreeWidgetItem* item, int column){ fileItemsSelected(item, column); });
 }
 
 ShapeViewerNavigatorWidget::~ShapeViewerNavigatorWidget() {
 }
 
-void ShapeViewerNavigatorWidget::dirFilesSelected(QListWidgetItem* item){
+void ShapeViewerNavigatorWidget::dirFilesItemsSelected(QListWidgetItem* item){
     emit dirFilesSelected(item->data(9999).toString());
 }
 

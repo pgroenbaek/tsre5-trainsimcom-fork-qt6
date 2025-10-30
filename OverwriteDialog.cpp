@@ -18,9 +18,9 @@ OverwriteDialog::OverwriteDialog() : QDialog(){
     QPushButton* ok = new QPushButton("Yes");
     //QPushButton* trynew = new QPushButton("Try New FileName");
     QPushButton* cancel = new QPushButton("No");
-    connect(ok, SIGNAL (released()), this, SLOT (ok()));
-    connect(cancel, SIGNAL (released()), this, SLOT (cancel()));
-    //connect(trynew, SIGNAL (released()), this, SLOT (newName()));
+    QObject::connect(ok, &QPushButton::released, this, &OverwriteDialog::ok);
+    QObject::connect(cancel, &QPushButton::released, this, &OverwriteDialog::cancel);
+    //QObject::connect(trynew, &QPushButton::released, this, &OverwriteDialog::newName);
     
     QGridLayout *vlist = new QGridLayout;
     vlist->setSpacing(2);

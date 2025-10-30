@@ -515,7 +515,7 @@ bool StaticObj::isSimilar(WorldObj* obj){
 void StaticObj::pushContextMenuActions(QMenu *menu){
     /*if(contextMenuActions["Rot"] == NULL){
         contextMenuActions["Rot"] = new QAction(tr("&Rot")); 
-        QObject::connect(contextMenuActions["Rot"], SIGNAL(triggered()), this, SLOT(menuRot()));
+        QObject::connect(contextMenuActions["Rot"], &QAction::triggered, this, &StaticObj::menuRot);
     }
     menu->addAction(contextMenuActions["Rot"]);*/
 

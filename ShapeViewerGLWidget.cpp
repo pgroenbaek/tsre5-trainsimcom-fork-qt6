@@ -120,11 +120,10 @@ void ShapeViewerGLWidget::initializeGL() {
 
     QOpenGLContext* context = QOpenGLContext::currentContext();
     if (context) {
-        QSurfaceFormat fmt = context->format();
-        qDebug() << "OpenGL Version:" << fmt.majorVersion() << "." << fmt.minorVersion();
-        qDebug() << "Profile:" << fmt.profile(); // Core or Compatibility
+        QSurfaceFormat format = context->format();
+        qDebug() << "OpenGL Version:" << format.majorVersion() << "." << format.minorVersion();
+        qDebug() << "Profile:" << format.profile(); // Core or Compatibility
     }
-
 
     //sFile = new SFile("F:/TrainSim/trains/trainset/pkp_sp47/pkp_sp47-001.s", "F:/TrainSim/trains/trainset/pkp_sp47");
     //sFile = new SFile("f:/train simulator/routes/cmk/shapes/cottage3.s", "cottage3.s", "f:/train simulator/routes/cmk/textures");
@@ -395,18 +394,18 @@ void ShapeViewerGLWidget::mouseMoveEvent(QMouseEvent *event) {
 
 void ShapeViewerGLWidget::showContextMenu(const QPoint & point) {
     if(defaultMenuActions["flipSelected"] == NULL){
-        defaultMenuActions["flipSelected"] = new QAction(tr("&Flip"), this); 
-        QObject::connect(defaultMenuActions["flipSelected"], SIGNAL(triggered()), this, SLOT(flipConSelected()));
-        defaultMenuActions["leftSelected"] = new QAction(tr("&Move Left"), this); 
-        QObject::connect(defaultMenuActions["leftSelected"], SIGNAL(triggered()), this, SLOT(leftConSelected()));
-        defaultMenuActions["rightSelected"] = new QAction(tr("&Move right"), this); 
-        QObject::connect(defaultMenuActions["rightSelected"], SIGNAL(triggered()), this, SLOT(rightConSelected()));
-        defaultMenuActions["deleteSelected"] = new QAction(tr("&Delete"), this); 
-        QObject::connect(defaultMenuActions["deleteSelected"], SIGNAL(triggered()), this, SLOT(deleteConSelected()));
-        defaultMenuActions["copyUnit"] = new QAction(tr("&Copy"), this); 
-        QObject::connect(defaultMenuActions["copyUnit"], SIGNAL(triggered()), this, SLOT(copyUnitConSelected()));
-        defaultMenuActions["pasteUnit"] = new QAction(tr("&Paste Right"), this); 
-        QObject::connect(defaultMenuActions["pasteUnit"], SIGNAL(triggered()), this, SLOT(pasteUnitConSelected()));
+        defaultMenuActions["flipSelected"] = new QAction(tr("&Flip"), this);
+        QObject::connect(defaultMenuActions["flipSelected"], &QAction::triggered, this, &ShapeViewerGLWidget::flipConSelected);
+        defaultMenuActions["leftSelected"] = new QAction(tr("&Move Left"), this);
+        QObject::connect(defaultMenuActions["leftSelected"], &QAction::triggered, this, &ShapeViewerGLWidget::leftConSelected);
+        defaultMenuActions["rightSelected"] = new QAction(tr("&Move right"), this);
+        QObject::connect(defaultMenuActions["rightSelected"], &QAction::triggered, this, &ShapeViewerGLWidget::rightConSelected);
+        defaultMenuActions["deleteSelected"] = new QAction(tr("&Delete"), this);
+        QObject::connect(defaultMenuActions["deleteSelected"], &QAction::triggered, this, &ShapeViewerGLWidget::deleteConSelected);
+        defaultMenuActions["copyUnit"] = new QAction(tr("&Copy"), this);
+        QObject::connect(defaultMenuActions["copyUnit"], &QAction::triggered, this, &ShapeViewerGLWidget::copyUnitConSelected);
+        defaultMenuActions["pasteUnit"] = new QAction(tr("&Paste Right"), this);
+        QObject::connect(defaultMenuActions["pasteUnit"], &QAction::triggered, this, &ShapeViewerGLWidget::pasteUnitConSelected);
     }
     
     if(renderItem == 3 && con != NULL){

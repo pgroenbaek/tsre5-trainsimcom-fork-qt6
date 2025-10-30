@@ -49,10 +49,11 @@ PropertiesSiding::PropertiesSiding() {
     vbox->addStretch(1);
     this->setLayout(vbox);
     
-    QObject::connect(&disablePlatform, SIGNAL(stateChanged(int)),
-                      this, SLOT(disablePlatformEnabled(int)));
-    QObject::connect(&namePlatform, SIGNAL(textEdited(QString)),
-                      this, SLOT(namePlatformEnabled(QString)));
+    QObject::connect(&disablePlatform, &QCheckBox::stateChanged,
+        this, &PropertiesSiding::disablePlatformEnabled);
+    QObject::connect(&namePlatform, &QLineEdit::textEdited,
+        this, &PropertiesSiding::namePlatformEnabled);
+
 }
 
 PropertiesSiding::~PropertiesSiding() {

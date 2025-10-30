@@ -27,11 +27,11 @@ ActivityTrafficWindow::ActivityTrafficWindow(QWidget* parent) : QWidget(parent) 
     actionListLayout->setContentsMargins(0,0,0,0);
     actionListLayout->setSpacing(0);
     QPushButton *bNew = new QPushButton("New Traffic");
-    QObject::connect(bNew, SIGNAL(released()),
-                      this, SLOT(bNewTrafficSelected()));
+    QObject::connect(bNew, &QPushButton::released,
+        this, &ActivityTrafficWindow::bNewTrafficSelected);
     QPushButton *bDelete = new QPushButton("Delete");
-    //QObject::connect(bDelete, SIGNAL(released()),
-    //                  this, SLOT(bDeleteTrafficSelected()));
+    //QObject::connect(bDelete, &QPushButton::released,
+    //    this, &ActivityTrafficWindow::bDeleteTrafficSelected);
     QStringList list;
     list.append("Name:");
     list.append("This:");
@@ -54,8 +54,9 @@ ActivityTrafficWindow::ActivityTrafficWindow(QWidget* parent) : QWidget(parent) 
     v->addWidget(trafficProperties);
     this->setLayout(v);
     
-    QObject::connect(&lTraffic, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
-                      this, SLOT(lTrafficSelected(QTreeWidgetItem*, int)));
+    QObject::connect(&lTraffic, &QTreeWidget::itemClicked,
+        this, &ActivityTrafficWindow::lTrafficSelected);
+
 }
 
 ActivityTrafficWindow::~ActivityTrafficWindow() {

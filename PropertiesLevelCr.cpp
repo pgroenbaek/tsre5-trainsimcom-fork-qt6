@@ -66,11 +66,13 @@ PropertiesLevelCr::PropertiesLevelCr() {
     vbox->addWidget(new QLabel("Activate LevelCr by [s]:"));
     vbox->addWidget(&eActivateLevelCrossing);
     eActivateLevelCrossing.setValidator(doubleValidator);
-    QObject::connect(&eActivateLevelCrossing, SIGNAL(textEdited(QString)), this, SLOT(eActivateLevelCrossingEnabled(QString)));
+    QObject::connect(&eActivateLevelCrossing, &QLineEdit::textEdited,
+        this, &PropertiesLevelCr::eActivateLevelCrossingEnabled);
     vbox->addWidget(new QLabel("Min activation distance [m]:"));
     vbox->addWidget(&eMinActDist);
     eMinActDist.setValidator(doubleValidator);
-    QObject::connect(&eMinActDist, SIGNAL(textEdited(QString)), this, SLOT(eMinActDistEnabled(QString)));
+    QObject::connect(&eMinActDist, &QLineEdit::textEdited,
+        this, &PropertiesLevelCr::eMinActDistEnabled);
     //vbox->addItem(vlist);
     label = new QLabel("Level Crossing Timing:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -82,15 +84,18 @@ PropertiesLevelCr::PropertiesLevelCr() {
     vbox->addWidget(new QLabel("Initial warning phase [s]:"));
     vbox->addWidget(&eInitialWarning);
     eInitialWarning.setValidator(doubleValidator);
-    QObject::connect(&eInitialWarning, SIGNAL(textEdited(QString)), this, SLOT(eInitialWarningEnabled(QString)));
+    QObject::connect(&eInitialWarning, &QLineEdit::textEdited,
+        this, &PropertiesLevelCr::eInitialWarningEnabled);
     vbox->addWidget(new QLabel("Serious warning phase [s]:"));
     vbox->addWidget(&eMoreWarning);
     eMoreWarning.setValidator(doubleValidator);
-    QObject::connect(&eMoreWarning, SIGNAL(textEdited(QString)), this, SLOT(eMoreWarningEnabled(QString)));
+    QObject::connect(&eMoreWarning, &QLineEdit::textEdited,
+        this, &PropertiesLevelCr::eMoreWarningEnabled);
     vbox->addWidget(new QLabel("Gate animation length [s]:"));
     vbox->addWidget(&eGateAnimLength);
     eGateAnimLength.setValidator(doubleValidator);
-    QObject::connect(&eGateAnimLength, SIGNAL(textEdited(QString)), this, SLOT(eGateAnimLengthEnabled(QString)));
+    QObject::connect(&eGateAnimLength, &QLineEdit::textEdited,
+        this, &PropertiesLevelCr::eGateAnimLengthEnabled);
     //vbox->addItem(vlist);
 
     label = new QLabel("More Options:");
@@ -103,14 +108,15 @@ PropertiesLevelCr::PropertiesLevelCr() {
     vbox->addWidget(new QLabel("Crash probability:"));
     vbox->addWidget(&eCrashProbability);
     eCrashProbability.setValidator(doubleValidator);
-    QObject::connect(&eCrashProbability, SIGNAL(textEdited(QString)), this, SLOT(eCrashProbabilityEnabled(QString)));
+    QObject::connect(&eCrashProbability, &QLineEdit::textEdited,
+        this, &PropertiesLevelCr::eCrashProbabilityEnabled);
     //vbox->addItem(vlist);
     vbox->addWidget(&chInvisible);
-    QObject::connect(&chInvisible, SIGNAL(stateChanged(int)),
-                      this, SLOT(chInvisibleEnabled(int)));
+    QObject::connect(&chInvisible, &QCheckBox::stateChanged,
+        this, &PropertiesLevelCr::chInvisibleEnabled);
     vbox->addWidget(&chSilentHax);
-    QObject::connect(&chSilentHax, SIGNAL(stateChanged(int)),
-                      this, SLOT(chSilentHaxEnabled(int)));
+    QObject::connect(&chSilentHax, &QCheckBox::stateChanged,
+        this, &PropertiesLevelCr::chSilentHaxEnabled);
     chInvisible.setText("Crossing is invisible");
     chSilentHax.setText("Silent crossing MSTS HAX");
     
@@ -121,8 +127,8 @@ PropertiesLevelCr::PropertiesLevelCr() {
     
     QPushButton *bDeleteSelected = new QPushButton("Delete Selected");
     vbox->addWidget(bDeleteSelected);
-    QObject::connect(bDeleteSelected, SIGNAL(released()),
-                      this, SLOT(bDeleteSelectedEnabled()));
+    QObject::connect(bDeleteSelected, &QPushButton::released,
+        this, &PropertiesLevelCr::bDeleteSelectedEnabled);
     
     label = new QLabel("Sound File:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -131,11 +137,12 @@ PropertiesLevelCr::PropertiesLevelCr() {
     cSoundType.addItem("DEFAULT");
     cSoundType.addItem("CUSTOM");
     cSoundType.setStyleSheet("combobox-popup: 0;");
-    QObject::connect(&cSoundType, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(cSoundTypeEnabled(int)));
+    QObject::connect(&cSoundType, &QComboBox::currentIndexChanged,
+        this, &PropertiesLevelCr::cSoundTypeEnabled);
     vbox->addWidget(&cSoundType);
     vbox->addWidget(&eSoundName);
-    QObject::connect(&eSoundName, SIGNAL(textEdited(QString)), this, SLOT(eSoundNameEnabled(QString)));
+    QObject::connect(&eSoundName, &QLineEdit::textEdited,
+        this, &PropertiesLevelCr::eSoundNameEnabled);
 
     
     label = new QLabel("Global settings:");
@@ -145,7 +152,8 @@ PropertiesLevelCr::PropertiesLevelCr() {
     vbox->addWidget(new QLabel("Max placing radius:"));
     vbox->addWidget(&eMaxPlacingDistance);
     eMaxPlacingDistance.setValidator(doubleValidator);
-    QObject::connect(&eMaxPlacingDistance, SIGNAL(textEdited(QString)), this, SLOT(eMaxPlacingDistanceEnabled(QString)));
+    QObject::connect(&eMaxPlacingDistance, &QLineEdit::textEdited,
+        this, &PropertiesLevelCr::eMaxPlacingDistanceEnabled);
     
     
     vbox->addStretch(1);

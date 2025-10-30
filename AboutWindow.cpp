@@ -37,7 +37,7 @@ AboutWindow::AboutWindow(QWidget* parent) : QWidget(parent) {
     myLabel->setPixmap(QPixmap::fromImage(*myImage));
 
     QPushButton* browse = new QPushButton("Close");
-    connect(browse, SIGNAL (released()), this, SLOT (close()));
+    connect(browse, &QPushButton::released, this, &QWidget::close);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(myLabel);

@@ -48,8 +48,8 @@ PropertiesSoundSource::PropertiesSoundSource() {
     vbox->addWidget(label);
     vbox->addWidget(&this->sources);
     this->sources.setStyleSheet("combobox-popup: 0;");
-    QObject::connect(&this->sources, SIGNAL(activated(QString)),
-        this, SLOT(sourcesListSelected(QString)));
+    QObject::connect(&this->sources, &QComboBox::textActivated,
+        this, &PropertiesSoundSource::sourcesListSelected);
     vbox->addStretch(1);
     this->setLayout(vbox);
 }

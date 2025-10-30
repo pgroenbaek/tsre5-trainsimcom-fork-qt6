@@ -27,11 +27,11 @@ ActivityServiceWindow::ActivityServiceWindow(QWidget* parent) : QWidget(parent) 
     actionListLayout->setContentsMargins(0,0,0,0);
     actionListLayout->setSpacing(0);
     QPushButton *bNewActionEvent = new QPushButton("New Service");
-    QObject::connect(bNewActionEvent, SIGNAL(released()),
-                      this, SLOT(bNewServiceSelected()));
+    QObject::connect(bNewActionEvent, &QPushButton::released,
+        this, &ActivityServiceWindow::bNewServiceSelected);
     QPushButton *bDeleteActionEvent = new QPushButton("Delete");
-    QObject::connect(bDeleteActionEvent, SIGNAL(released()),
-                      this, SLOT(bDeleteServiceSelected()));
+    QObject::connect(bDeleteActionEvent, &QPushButton::released,
+        this, &ActivityServiceWindow::bDeleteServiceSelected);
     actionListLayout->addWidget(&serviceList);
     actionListLayout->addWidget(bNewActionEvent);
     actionListLayout->addWidget(bDeleteActionEvent);
@@ -54,8 +54,8 @@ ActivityServiceWindow::ActivityServiceWindow(QWidget* parent) : QWidget(parent) 
     v->addWidget(serviceProperties);
     this->setLayout(v);
     
-    QObject::connect(&serviceList, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
-                      this, SLOT(serviceListSelected(QTreeWidgetItem*, int)));
+    QObject::connect(&serviceList, &QTreeWidget::itemClicked,
+        this, &ActivityServiceWindow::serviceListSelected);
 }
 
 ActivityServiceWindow::~ActivityServiceWindow() {

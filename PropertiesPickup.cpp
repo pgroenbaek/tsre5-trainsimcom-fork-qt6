@@ -26,8 +26,8 @@ PropertiesPickup::PropertiesPickup() {
     cPickupType.addItem("Fuel - diesel");
     cPickupType.addItem("Special - mail");
     cPickupType.setStyleSheet("combobox-popup: 0;");
-    QObject::connect(&cPickupType, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(cPickupTypeEdited(int)));
+    QObject::connect(&cPickupType, &QComboBox::currentIndexChanged,
+        this, &PropertiesPickup::cPickupTypeEdited);
 
     cAnimType.addItem("Activated animation only");
     cAnimType.addItem("Proximity animation only");
@@ -37,8 +37,8 @@ PropertiesPickup::PropertiesPickup() {
     cAnimType.addItem("On empty animation only");
     cAnimType.addItem("Fuel hose only");
     cAnimType.setStyleSheet("combobox-popup: 0;");
-    QObject::connect(&cAnimType, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(cAnimTypeEdited(int)));
+    QObject::connect(&cAnimType, &QComboBox::currentIndexChanged,
+        this, &PropertiesPickup::cAnimTypeEdited);
 
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->setSpacing(2);
@@ -73,23 +73,28 @@ PropertiesPickup::PropertiesPickup() {
     vbox->addWidget(&cPickupType);
     vlist->addRow("Capacity:", &eCapacity);
     eCapacity.setValidator(doubleValidator);
-    QObject::connect(&eCapacity, SIGNAL(textEdited(QString)), this, SLOT(eCapacityEnabled(QString)));
+    QObject::connect(&eCapacity, &QLineEdit::textEdited,
+        this, &PropertiesPickup::eCapacityEnabled);
 
     vlist->addRow("Content:", &eContent);
     eContent.setValidator(doubleValidator);
-    QObject::connect(&eContent, SIGNAL(textEdited(QString)), this, SLOT(eContentEnabled(QString)));
+    QObject::connect(&eContent, &QLineEdit::textEdited,
+        this, &PropertiesPickup::eContentEnabled);
 
     vlist->addRow("Fill rate:", &eFill);
     eFill.setValidator(doubleValidator);
-    QObject::connect(&eFill, SIGNAL(textEdited(QString)), this, SLOT(eFillEnabled(QString)));
+    QObject::connect(&eFill, &QLineEdit::textEdited,
+        this, &PropertiesPickup::eFillEnabled);
 
     vlist->addRow("Speed min:", &eSpeedMin);
     eSpeedMin.setValidator(doubleValidator);
-    QObject::connect(&eSpeedMin, SIGNAL(textEdited(QString)), this, SLOT(eSpeedMinEnabled(QString)));
+    QObject::connect(&eSpeedMin, &QLineEdit::textEdited,
+        this, &PropertiesPickup::eSpeedMinEnabled);
 
     vlist->addRow("Speed max:", &eSpeedMax);
     eSpeedMax.setValidator(doubleValidator);
-    QObject::connect(&eSpeedMax, SIGNAL(textEdited(QString)), this, SLOT(eSpeedMaxEnabled(QString)));
+    QObject::connect(&eSpeedMax, &QLineEdit::textEdited,
+        this, &PropertiesPickup::eSpeedMaxEnabled);
 
     vbox->addItem(vlist);
     label = new QLabel("Anim type:");
@@ -101,17 +106,18 @@ PropertiesPickup::PropertiesPickup() {
     vlist->setContentsMargins(3, 0, 3, 0);
     vlist->addRow("Anim lenght:", &eAnimLength);
     eAnimLength.setValidator(doubleValidator);
-    QObject::connect(&eAnimLength, SIGNAL(textEdited(QString)), this, SLOT(eAnimLengthEnabled(QString)));
+    QObject::connect(&eAnimLength, &QLineEdit::textEdited,
+        this, &PropertiesPickup::eAnimLengthEnabled);
 
     vbox->addItem(vlist);
     vbox->addWidget(&chInfinite);
     vbox->addWidget(&chBroken);
     chInfinite.setText("Infinite capacity");
-    QObject::connect(&chInfinite, SIGNAL(stateChanged(int)),
-            this, SLOT(chInfiniteEnabled(int)));
+    QObject::connect(&chInfinite, &QCheckBox::stateChanged,
+        this, &PropertiesPickup::chInfiniteEnabled);
     chBroken.setText("Broken by default");
-    QObject::connect(&chBroken, SIGNAL(stateChanged(int)),
-            this, SLOT(chBrokenEnabled(int)));
+    QObject::connect(&chBroken, &QCheckBox::stateChanged,
+        this, &PropertiesPickup::chBrokenEnabled);
     vbox->addStretch(1);
     this->setLayout(vbox);
 

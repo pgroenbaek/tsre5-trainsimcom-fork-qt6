@@ -116,31 +116,36 @@ PropertiesDyntrack::PropertiesDyntrack() {
     elevType.addItem("1 in 'X' m");
     elevType.addItem("Angle º");
     elevType.setStyleSheet("combobox-popup: 0;");
-    QObject::connect(&elevType, SIGNAL(currentTextChanged(QString)),
-                      this, SLOT(elevTypeEdited(QString)));
+    QObject::connect(&elevType, &QComboBox::currentTextChanged,
+        this, &PropertiesDyntrack::elevTypeEdited);
     
     elevPromLabel.setText("‰");
     vlist->addRow(&elevPromLabel,&elevProm);
     elevProm.setValidator(doubleValidator1);
-    QObject::connect(&elevProm, SIGNAL(textEdited(QString)), this, SLOT(elevPromEnabled(QString)));
+    QObject::connect(&elevProm, &QLineEdit::textEdited,
+        this, &PropertiesDyntrack::elevPromEnabled);
     //oneInXm
     elev1inXmLabel.setText("1 in 'x' m");
     vlist->addRow(&elev1inXmLabel,&elev1inXm);
     elev1inXm.setValidator(doubleValidator);
-    QObject::connect(&elev1inXm, SIGNAL(textEdited(QString)), this, SLOT(elev1inXmEnabled(QString)));
+    QObject::connect(&elev1inXm, &QLineEdit::textEdited,
+        this, &PropertiesDyntrack::elev1inXmEnabled);
     //º
     elevProgLabel.setText("º");
     vlist->addRow(&elevProgLabel,&elevProg);
     elevProg.setValidator(doubleValidator1);
-    QObject::connect(&elevProg, SIGNAL(textEdited(QString)), this, SLOT(elevProgEnabled(QString)));
+    QObject::connect(&elevProg, &QLineEdit::textEdited,
+        this, &PropertiesDyntrack::elevProgEnabled);
     //%
     elevPropLabel.setText("%");
     vlist->addRow(&elevPropLabel,&elevProp);
     elevProp.setValidator(doubleValidator1);
-    QObject::connect(&elevProp, SIGNAL(textEdited(QString)), this, SLOT(elevPropEnabled(QString)));
+    QObject::connect(&elevProp, &QLineEdit::textEdited,
+        this, &PropertiesDyntrack::elevPropEnabled);
     vlist->addRow("Step:",&elevStep);
     elevStep.setValidator(doubleValidator);
-    QObject::connect(&elevStep, SIGNAL(textEdited(QString)), this, SLOT(elevStepEnabled(QString)));
+    QObject::connect(&elevStep, &QLineEdit::textEdited,
+        this, &PropertiesDyntrack::elevStepEnabled);
     hideElevBoxes();
     elevType.setCurrentIndex(Game::DefaultElevationBox);
     showElevBox(elevType.currentText());
@@ -167,26 +172,20 @@ PropertiesDyntrack::PropertiesDyntrack() {
         sSectR[i].setSingleStep(1.0);
     }
     
-    for(int i = 0; i < 5; i++){
-        dyntrackChSect.setMapping(&chSect[i], i);
-        connect(&chSect[i], SIGNAL(clicked()), &dyntrackChSect, SLOT(map()));
+    for (int i = 0; i < 5; i++) {
+        QObject::connect(&chSect[i], &QCheckBox::clicked, [this, i]() {
+            this->chSectEnabled(i);
+        });
+
+        QObject::connect(&sSectR[i], QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+            [this, i](double){ this->sSectEnabled(i); });
+
+        QObject::connect(&sSectA[i], QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+            [this, i](double){ this->sSectEnabled(i); });
     }
     
-    QObject::connect(&dyntrackChSect, SIGNAL(mapped(int)),
-            this, SLOT(chSectEnabled(int)));
-    
-    for(int i = 0; i < 5; i++){
-        dyntrackSect.setMapping(&sSectR[i], i);
-        connect(&sSectR[i], SIGNAL(valueChanged(double)), &dyntrackSect, SLOT(map()));
-        dyntrackSect.setMapping(&sSectA[i], i);
-        connect(&sSectA[i], SIGNAL(valueChanged(double)), &dyntrackSect, SLOT(map()));
-    }
-    
-    QObject::connect(&dyntrackSect, SIGNAL(mapped(int)),
-            this, SLOT(sSectEnabled(int)));
-    
-    QObject::connect(buttonTools["FlexTool"], SIGNAL(released()),
-                      this, SLOT(flexEnabled()));
+    QObject::connect(buttonTools["FlexTool"], &QPushButton::released,
+        this, &PropertiesDyntrack::flexEnabled);
     
 }
 

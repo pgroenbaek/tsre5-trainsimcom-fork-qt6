@@ -18,8 +18,8 @@ ChooseFileDialog::ChooseFileDialog() : QDialog(){
     //QLabel *label = new QLabel("Save changes in consists?");
     QPushButton* ok = new QPushButton("Edit");
     QPushButton* cancel = new QPushButton("Close");
-    connect(ok, SIGNAL (released()), this, SLOT (ok()));
-    connect(cancel, SIGNAL (released()), this, SLOT (cancel()));
+    QObject::connect(ok, &QPushButton::released, this, &ChooseFileDialog::ok);
+    QObject::connect(cancel, &QPushButton::released, this, &ChooseFileDialog::cancel);
     
     QGridLayout *vlist = new QGridLayout;
     vlist->setSpacing(2);
