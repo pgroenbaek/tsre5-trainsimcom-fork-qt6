@@ -135,12 +135,21 @@ To run the build script:
 
 ### Packaging TSRE5
 
-- TODO: Guide on using the packaging script.
-- TODO: Something about qtwindeploy.exe
-- TODO: Something about libcrypto and libssl dlls
-- TODO: Something about OpenGL software rendering ddls?
-- TODO: What if using dynamic vcpkg triplets?
-- TODO: Probably more?
+First, make sure you have run `configure-build.bat` as well as `build.bat`.
+
+Then run:
+
+```powershell
+./package-windows.bat
+```
+
+This script will create a `./dist` folder with the compiled .exe, along with all DLLs and app data required to run TSRE5.
+
+Windows 10+ is required as the script uses `curl`. On earlier versions of windows, you can probably download curl and add it to the syste, environment path to run the script.
+
+The script uses `curl` to download replacements for `opengl32sw.dll` that is included with Qt6. This DLL is used when no GPU or hardware acceleration is available on a machine and OpenGL falls back to using software-based rendering. The `opengl32sw.dll` binary does not support OpenGL 3.0+, and therefore does not work with TSRE. So, the script downloads replacements from the Mesa3D package that actually work with OpenGl 3.0+ for this purpose.
+
+Otherwise, the script only copies binaries and other assets from the local machine into the `./dist` folder. These are binaries from the Qt6 installation, binaries built through vcpkg and assets from the project folder.
 
 ## Linux (Debian-based distros)
 
