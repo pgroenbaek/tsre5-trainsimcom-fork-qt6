@@ -30,7 +30,7 @@ fi
 read -p "Enter vcpkg triplet (x64-linux-dynamic/x64-osx-dynamic/arm64-osx-dynamic) [x64-linux-dynamic]: " TRIPLET
 TRIPLET=${TRIPLET:-x64-linux-dynamic}
 
-# Set Qt path to that it is visible to CMake
+# Set Qt path so that it is visible to CMake
 export QT_PATH
 
 # Build directory relative to script

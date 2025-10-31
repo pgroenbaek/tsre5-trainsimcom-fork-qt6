@@ -30,7 +30,7 @@ if not exist "%VCPKG_PATH%" (
 set /p TRIPLET="Enter vcpkg triplet (x86-mingw-dynamic/x64-mingw-dynamic) [x64-mingw-dynamic]: "
 if "!TRIPLET!"=="" set "TRIPLET=x64-mingw-dynamic"
 
-:: Set Qt path to that it is visible to CMake
+:: Set Qt path so that it is visible to CMake
 set "QT_PATH=%QT_PATH%"
 
 :: Build directory relative to script
