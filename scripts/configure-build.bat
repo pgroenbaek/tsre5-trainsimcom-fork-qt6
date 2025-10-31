@@ -19,7 +19,7 @@ if not exist "%QT_PATH%" (
 )
 
 set /p VCPKG_PATH="Enter full path to your vcpkg directory (e.g., C:\vcpkg) [C:\vcpkg]: "
-if "!VCPKG_PATH!"=="" set VCPKG_PATH="C:\vcpkg"
+if "!VCPKG_PATH!"=="" set "VCPKG_PATH=C:\vcpkg"
 
 :: Check if VCPKG_PATH directory exists
 if not exist "%VCPKG_PATH%" (
@@ -28,7 +28,7 @@ if not exist "%VCPKG_PATH%" (
 )
 
 set /p TRIPLET="Enter vcpkg triplet (x86-mingw-dynamic/x64-mingw-dynamic) [x64-mingw-dynamic]: "
-if "!TRIPLET!"=="" set TRIPLET="x64-mingw-dynamic"
+if "!TRIPLET!"=="" set "TRIPLET=x64-mingw-dynamic"
 
 :: Build directory relative to script
 set SCRIPT_DIR=%~dp0
@@ -46,13 +46,12 @@ echo.
 echo Running CMake...
 cmake -B "%BUILD_DIR%" -S "%SCRIPT_DIR%..\." ^
   -G "MinGW Makefiles" ^
-  -DCMAKE_C_COMPILER="%QT_PATH%\..\..\Tools\mingw1310_64\bin\gcc.exe" ^
-  -DCMAKE_CXX_COMPILER="%QT_PATH%\..\..\Tools\mingw1310_64\bin\g++.exe" ^
-  -DCMAKE_MAKE_PROGRAM="%QT_PATH%\..\..\Tools\mingw1310_64\bin\mingw32-make.exe" ^
-  -DCMAKE_PREFIX_PATH="%QT_PATH%\lib\cmake" ^
+  -DQT_PATH="%QT_PATH%" ^
   -DCMAKE_TOOLCHAIN_FILE="%VCPKG_PATH%\scripts\buildsystems\vcpkg.cmake" ^
+  -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="%SCRIPT_DIR%..\toolchains\qt-mingw-toolchain.cmake" ^
   -DVCPKG_TARGET_TRIPLET="%TRIPLET%" ^
-  -DVCPKG_HOST_TRIPLET="%TRIPLET%"
+  -DVCPKG_HOST_TRIPLET="%TRIPLET%" ^
+  -DVCPKG_FEATURE_FLAGS="manifests"
 
 echo.
 echo CMake configuration complete.

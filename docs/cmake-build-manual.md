@@ -50,11 +50,11 @@ It should look something like `C:\path\to\Qt\6.x.x\mingw_64`, or similar, depend
 
 In the windows build of Qt6, CMake is included. So you don't need to download and install it yourself.
 
-But you need to add the CMake directory within the Qt6 installation to your system env path variable.
+**Note:** You will need to add the CMake directory within the Qt6 installation to your system env path variable.
 
 The directory looks like `C:\path\to\Qt\Tools\CMake_64\bin`, or similar, depending on where you installed Qt6.
 
-Open a new powershell window, and verify you can run:
+Add the directory to path. Then open a new powershell window, and verify you can run:
 
 ```powershell
 cmake --version
@@ -107,7 +107,7 @@ cd <local repo directory name>
 
 Enter the scripts directory:
 
-```bash
+```powershell
 cd scripts
 ```
 
@@ -120,7 +120,7 @@ The vcpkg triplets you can use are:
 - x86-mingw-dynamic
 
 To run the build configuration script:
-```bash
+```powershell
 ./configure-build.bat
 ```
 
@@ -129,7 +129,7 @@ You only need to run the build configuration script once. Or again if you later 
 When the build directory is configured you can run `build.bat`.
 
 To run the build script:
-```bash
+```powershell
 ./build.bat
 ```
 
@@ -145,7 +145,7 @@ Then run:
 
 This script will create a `./dist` folder with the compiled .exe, along with all DLLs and app data required to run TSRE5.
 
-Windows 10+ is required as the script uses `curl`. On earlier versions of windows, you can probably download curl and add it to the syste, environment path to run the script.
+Windows 10+ is required as the script uses `curl`. On earlier versions of windows, you can probably download curl and add it to the system environment path to run the script.
 
 The script uses `curl` to download replacements for `opengl32sw.dll` that is included with Qt6. This DLL is used when no GPU or hardware acceleration is available on a machine and OpenGL falls back to using software-based rendering. The `opengl32sw.dll` binary does not support OpenGL 3.0+, and therefore does not work with TSRE. So, the script downloads replacements from the Mesa3D package that actually work with OpenGl 3.0+ for this purpose.
 

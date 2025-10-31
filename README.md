@@ -23,7 +23,7 @@ https://www.trainsim.com/tsre
 
 The experimental Qt6 version has the following unresolved issues:
 
-1. Deprecation of QCheckBox::stateChanged(int)
+1. Deprecation warnings from QCheckBox::stateChanged(int)
    
    Easy fix: Refactor it to use the new QCheckBox::checkStateChanged(Qt::CheckState) instead.
 

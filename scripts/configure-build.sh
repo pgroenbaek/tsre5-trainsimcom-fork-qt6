@@ -30,8 +30,9 @@ fi
 read -p "Enter vcpkg triplet (x64-linux-dynamic/x64-osx-dynamic/arm64-osx-dynamic) [x64-linux-dynamic]: " TRIPLET
 TRIPLET=${TRIPLET:-x64-linux-dynamic}
 
-# Build directory relative to project root
-BUILD_DIR="$(dirname "$0")/../build"
+# Build directory relative to script
+SCRIPT_DIR="$(dirname "$0")"
+BUILD_DIR="$SCRIPT_DIR/../build"
 
 # Remove existing build dir
 if [ -d "$BUILD_DIR" ]; then
@@ -45,9 +46,11 @@ echo
 echo "Running CMake..."
 cmake -B "$BUILD_DIR" -S "$(dirname "$0")/.." \
   -G"Unix Makefiles" \
-  -DCMAKE_PREFIX_PATH="$QT_PATH/lib/cmake" \
+  -DQT_PATH="$QT_PATH" \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_PATH/scripts/buildsystems/vcpkg.cmake" \
-  -DVCPKG_TARGET_TRIPLET="$TRIPLET"
+  -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE="$SCRIPT_DIR/../toolchains/qt-linux-toolchain.cmake" \
+  -DVCPKG_TARGET_TRIPLET="$TRIPLET" \
+  -DVCPKG_FEATURE_FLAGS="manifests"
 
 echo
 echo "CMake configuration complete."
