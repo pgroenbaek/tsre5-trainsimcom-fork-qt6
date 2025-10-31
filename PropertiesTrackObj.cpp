@@ -147,7 +147,7 @@ PropertiesTrackObj::PropertiesTrackObj(){
     QCheckBox* defaultDetailLevelLabel = new QCheckBox("Default", this);
     defaultDetailLevelLabel->setDisabled(true);
     defaultDetailLevelLabel->setChecked(true);
-    QObject::connect(&enableCustomDetailLevel, &QCheckBox::stateChanged,
+    QObject::connect(&enableCustomDetailLevel, &QCheckBox::checkStateChanged,
         this, &PropertiesTrackObj::enableCustomDetailLevelEnabled);
     this->customDetailLevel.setDisabled(true);
     this->customDetailLevel.setAlignment(Qt::AlignCenter);
@@ -731,12 +731,12 @@ void PropertiesTrackObj::editFileNameEnabled(){
     }
 }
 
-void PropertiesTrackObj::enableCustomDetailLevelEnabled(int val){
+void PropertiesTrackObj::enableCustomDetailLevelEnabled(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     TrackObj* tObj = (TrackObj*) worldObj;
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         customDetailLevel.setEnabled(true);
         customDetailLevel.setText("0");
         tObj->setCustomDetailLevel(0);

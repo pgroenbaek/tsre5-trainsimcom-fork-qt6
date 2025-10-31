@@ -24,7 +24,7 @@ public:
     void showObj(GameObj* obj);
     
 public slots:
-    void disablePlatformEnabled(int state);
+    void disablePlatformEnabled(Qt::CheckState state);
     void namePlatformEnabled(QString val);
         
 signals:

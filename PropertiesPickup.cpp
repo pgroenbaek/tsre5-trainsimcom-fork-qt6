@@ -113,10 +113,10 @@ PropertiesPickup::PropertiesPickup() {
     vbox->addWidget(&chInfinite);
     vbox->addWidget(&chBroken);
     chInfinite.setText("Infinite capacity");
-    QObject::connect(&chInfinite, &QCheckBox::stateChanged,
+    QObject::connect(&chInfinite, &QCheckBox::checkStateChanged,
         this, &PropertiesPickup::chInfiniteEnabled);
     chBroken.setText("Broken by default");
-    QObject::connect(&chBroken, &QCheckBox::stateChanged,
+    QObject::connect(&chBroken, &QCheckBox::checkStateChanged,
         this, &PropertiesPickup::chBrokenEnabled);
     vbox->addStretch(1);
     this->setLayout(vbox);
@@ -248,24 +248,24 @@ void PropertiesPickup::eAnimLengthEnabled(QString val){
     }
 }
 
-void PropertiesPickup::chInfiniteEnabled(int val){
+void PropertiesPickup::chInfiniteEnabled(Qt::CheckState val){
     if (pobj == NULL) {
         return;
     }
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         pobj->setInfinite(true);
     } else {
         pobj->setInfinite(false);
     }
 }
 
-void PropertiesPickup::chBrokenEnabled(int val){
+void PropertiesPickup::chBrokenEnabled(Qt::CheckState val){
     if (pobj == NULL) {
         return;
     }
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         pobj->setBroken(true);
     } else {
         pobj->setBroken(false);

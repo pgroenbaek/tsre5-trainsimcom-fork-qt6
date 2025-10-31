@@ -208,7 +208,7 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     label->setMinimumHeight(25);
     vlist->addWidget(label, row, 0);
     vlist->addWidget(&cLocationStop, row++, 1, 1, 2);
-    QObject::connect(&cLocationStop, &QCheckBox::stateChanged,
+    QObject::connect(&cLocationStop, &QCheckBox::checkStateChanged,
         this, &ActivityEventProperties::cLocationStopSelected);
 
     
@@ -279,7 +279,7 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     cAutoContinueLabel.setText("Disable pause:");
     cAutoContinueLabel.setMinimumHeight(22);
     vlist->addWidget(&cAutoContinueLabel, row, 0);
-    QObject::connect(&cAutoContinueLabel, &QCheckBox::stateChanged,
+    QObject::connect(&cAutoContinueLabel, &QCheckBox::checkStateChanged,
         this, &ActivityEventProperties::cAutoContinueLabelSelected);
     vlist->addWidget(&eAutoContinue, row++, 1);
     QObject::connect(&eAutoContinue, &QSpinBox::editingFinished,
@@ -289,7 +289,7 @@ ActivityEventProperties::ActivityEventProperties(QWidget* parent) : QWidget(pare
     cReversable.setText("Reversable.");
     //vlist->addWidget(&lReversable, row, 0);
     vlist->addWidget(&cReversable, row++, 0);
-    QObject::connect(&cReversable, &QCheckBox::stateChanged,
+    QObject::connect(&cReversable, &QCheckBox::checkStateChanged,
         this, &ActivityEventProperties::cReversableSelected);
     
     label = new QLabel("Outcomes:");
@@ -756,7 +756,7 @@ void ActivityEventProperties::eLocationRadiusSelected(){
     event->setLocationRadius(eLocationRadius.value());
 }
 
-void ActivityEventProperties::cLocationStopSelected(int val){
+void ActivityEventProperties::cLocationStopSelected(Qt::CheckState val){
     if(event == NULL)
         return;
     if(val == Qt::Checked)
@@ -765,7 +765,7 @@ void ActivityEventProperties::cLocationStopSelected(int val){
         event->setLocationStop(false);
 }
 
-void ActivityEventProperties::cReversableSelected(int val){
+void ActivityEventProperties::cReversableSelected(Qt::CheckState val){
     if(event == NULL)
         return;
     if(val == Qt::Checked)
@@ -780,7 +780,7 @@ void ActivityEventProperties::eAutoContinueSelected(){
     event->setAutoContinue(eAutoContinue.value());
 }
 
-void ActivityEventProperties::cAutoContinueLabelSelected(int val){
+void ActivityEventProperties::cAutoContinueLabelSelected(Qt::CheckState val){
     if(event == NULL)
         return;
     if(val == Qt::Checked){

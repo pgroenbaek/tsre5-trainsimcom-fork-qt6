@@ -129,11 +129,11 @@ PropertiesSpeedpost::PropertiesSpeedpost() {
         this, &PropertiesSpeedpost::speedEnabled);
     QObject::connect(&number, &QLineEdit::textEdited,
         this, &PropertiesSpeedpost::numberEnabled);
-    QObject::connect(&chNumberDot, &QCheckBox::stateChanged,
+    QObject::connect(&chNumberDot, &QCheckBox::checkStateChanged,
         this, &PropertiesSpeedpost::numberDotEnabled);
-    QObject::connect(&chCustomNumber, &QCheckBox::stateChanged,
+    QObject::connect(&chCustomNumber, &QCheckBox::checkStateChanged,
         this, &PropertiesSpeedpost::chCustomNumberEnabled);
-    QObject::connect(&chCustomSpeed, &QCheckBox::stateChanged,
+    QObject::connect(&chCustomSpeed, &QCheckBox::checkStateChanged,
         this, &PropertiesSpeedpost::chCustomSpeedEnabled);
     QObject::connect(&kmm, QOverload<int>::of(&QComboBox::activated),
         this, &PropertiesSpeedpost::kmmListSelected);
@@ -173,26 +173,26 @@ void PropertiesSpeedpost::numberEnabled(QString val){
     Undo::StateEnd();
 }
 
-void PropertiesSpeedpost::numberDotEnabled(int val){
+void PropertiesSpeedpost::numberDotEnabled(Qt::CheckState val){
     if(sobj == NULL) return;
     if(Game::debugOutput) qDebug()<<"aaa";
     Undo::StateBegin();
     Undo::PushGameObjData(worldObj);
     Undo::PushTrackDB(Game::trackDB, false);
-    if(val == 2)
+    if(val == Qt::Checked)
         sobj->setNumberDot(true);
     else
         sobj->setNumberDot(false);
     Undo::StateEnd();
 }
 
-void PropertiesSpeedpost::chCustomNumberEnabled(int val){
+void PropertiesSpeedpost::chCustomNumberEnabled(Qt::CheckState val){
     if(sobj == NULL) return;
     if(Game::debugOutput) qDebug()<<"aaa";
     Undo::StateBegin();
     Undo::PushGameObjData(worldObj);
     Undo::PushTrackDB(Game::trackDB, false);
-    if(val == 2){
+    if(val == Qt::Checked){
         sobj->setNumberInsteadSpeed(true);
         this->number.show();
         this->chNumberDot.show();
@@ -206,13 +206,13 @@ void PropertiesSpeedpost::chCustomNumberEnabled(int val){
     Undo::StateEnd();
 }
 
-void PropertiesSpeedpost::chCustomSpeedEnabled(int val){
+void PropertiesSpeedpost::chCustomSpeedEnabled(Qt::CheckState val){
     if(sobj == NULL) return;
     if(Game::debugOutput) qDebug()<<"aaa";
     Undo::StateBegin();
     Undo::PushGameObjData(worldObj);
     Undo::PushTrackDB(Game::trackDB, false);
-    if(val == 2){
+    if(val == Qt::Checked){
         sobj->setSpeedInsteadNumber(true);
         this->speedlabel->show();
         this->speed.show();

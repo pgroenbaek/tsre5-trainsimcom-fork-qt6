@@ -76,7 +76,7 @@ PropertiesGroup::PropertiesGroup() {
     QObject::connect(rtransform, &QPushButton::released,
         this, &PropertiesGroup::rtransformEnabled);
     chSeparateRotation.setText("Separate Rotation");
-    QObject::connect(&chSeparateRotation, &QCheckBox::stateChanged,
+    QObject::connect(&chSeparateRotation, &QCheckBox::checkStateChanged,
         this, &PropertiesGroup::chIndividualRotationEdited);
     
     posRotList->addWidget(copyPos, 0, 0);
@@ -102,7 +102,7 @@ PropertiesGroup::PropertiesGroup() {
     QCheckBox* defaultDetailLevelLabel = new QCheckBox("Default", this);
     defaultDetailLevelLabel->setDisabled(true);
     defaultDetailLevelLabel->setChecked(true);
-    QObject::connect(&enableCustomDetailLevel, &QCheckBox::stateChanged,
+    QObject::connect(&enableCustomDetailLevel, &QCheckBox::checkStateChanged,
         this, &PropertiesGroup::enableCustomDetailLevelEnabled);
     this->customDetailLevel.setDisabled(true);
     this->customDetailLevel.setAlignment(Qt::AlignCenter);
@@ -139,10 +139,10 @@ PropertiesGroup::PropertiesGroup() {
     checkboxAnim.setText("Animate Object");
     checkboxTerrain.setText("Terrain Object");
     vbox->addWidget(&checkboxAnim);
-    QObject::connect(&checkboxAnim, &QCheckBox::stateChanged,
+    QObject::connect(&checkboxAnim, &QCheckBox::checkStateChanged,
         this, &PropertiesGroup::checkboxAnimEdited);
     vbox->addWidget(&checkboxTerrain);
-    QObject::connect(&checkboxTerrain, &QCheckBox::stateChanged,
+    QObject::connect(&checkboxTerrain, &QCheckBox::checkStateChanged,
         this, &PropertiesGroup::checkboxTerrainEdited);
     cShadowType.addItem("No Shadow");
     cShadowType.addItem("Round Shadow");
@@ -240,11 +240,11 @@ bool PropertiesGroup::support(GameObj* obj){
     return false;
 }
 
-void PropertiesGroup::enableCustomDetailLevelEnabled(int val){
+void PropertiesGroup::enableCustomDetailLevelEnabled(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     GroupObj* staticObj = (GroupObj*) worldObj;
-    if(val == 2){
+    if(val == Qt::Checked){
         customDetailLevel.setEnabled(true);
         customDetailLevel.setText("0");
         staticObj->setCustomDetailLevel(0);
@@ -267,10 +267,10 @@ void PropertiesGroup::customDetailLevelEdited(QString val){
     }
 }
 
-void PropertiesGroup::checkboxAnimEdited(int val){
+void PropertiesGroup::checkboxAnimEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
-    if(val == 2){
+    if(val == Qt::Checked){
         worldObj->setAnimated(true);
     } else {
         worldObj->setAnimated(false);
@@ -278,10 +278,10 @@ void PropertiesGroup::checkboxAnimEdited(int val){
     this->flags.setText(ParserX::MakeFlagsString(worldObj->staticFlags));
 }
 
-void PropertiesGroup::checkboxTerrainEdited(int val){
+void PropertiesGroup::checkboxTerrainEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
-    if(val == 2){
+    if(val == Qt::Checked){
         worldObj->setTerrainObj(true);
     } else {
         worldObj->setTerrainObj(false);
@@ -296,11 +296,11 @@ void PropertiesGroup::cShadowTypeEdited(int val){
     this->flags.setText(ParserX::MakeFlagsString(worldObj->staticFlags));
 }
 
-void PropertiesGroup::chIndividualRotationEdited(int val){
+void PropertiesGroup::chIndividualRotationEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     GroupObj *gobj = (GroupObj*)worldObj;
-    if(val == 2){
+    if(val == Qt::Checked){
         gobj->setIndividualRotation(true);
     } else {
         gobj->setIndividualRotation(false);

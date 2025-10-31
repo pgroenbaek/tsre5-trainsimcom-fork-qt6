@@ -24,9 +24,9 @@ public:
     void showObj(GameObj* obj);
     
 public slots:
-    void leftSideEnabled(int state);
-    void rightSideEnabled(int state);
-    void disablePlatformEnabled(int state);
+    void leftSideEnabled(Qt::CheckState state);
+    void rightSideEnabled(Qt::CheckState state);
+    void disablePlatformEnabled(Qt::CheckState state);
     void nameStationEnabled(QString val);
     void namePlatformEnabled(QString val);
     void waitMinEnabled(QString val);

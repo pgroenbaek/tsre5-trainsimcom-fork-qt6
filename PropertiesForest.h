@@ -27,7 +27,7 @@ public slots:
     void sizeEnabled(QString val);
     void populationEnabled(QString val);
     void densitykmEnabled(QString val);
-    void enableCustomDetailLevelEnabled(int val);
+    void enableCustomDetailLevelEnabled(Qt::CheckState val);
     void customDetailLevelEdited(QString val);
     
 signals:

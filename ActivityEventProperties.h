@@ -49,9 +49,9 @@ public slots:
     void bPickEventLocationSelected(bool val);
     void msg(QString text, QString val);
     void eLocationRadiusSelected();
-    void cLocationStopSelected(int val);
-    void cReversableSelected(int val);
-    void cAutoContinueLabelSelected(int val);
+    void cLocationStopSelected(Qt::CheckState val);
+    void cReversableSelected(Qt::CheckState val);
+    void cAutoContinueLabelSelected(Qt::CheckState val);
     void eAutoContinueSelected();
     void bJumpToCarSelected();
     void bRemoveCarSelected();

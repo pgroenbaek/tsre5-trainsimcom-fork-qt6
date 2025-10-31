@@ -76,11 +76,11 @@ PropertiesPlatform::PropertiesPlatform() {
     waitSec.setValidator( new QIntValidator(0, 60, this) );
     waitPas.setValidator( new QIntValidator(0, 999, this) );
     
-    QObject::connect(&leftSide, &QCheckBox::stateChanged,
+    QObject::connect(&leftSide, &QCheckBox::checkStateChanged,
         this, &PropertiesPlatform::leftSideEnabled);
-    QObject::connect(&rightSide, &QCheckBox::stateChanged,
+    QObject::connect(&rightSide, &QCheckBox::checkStateChanged,
         this, &PropertiesPlatform::rightSideEnabled);
-    QObject::connect(&disablePlatform, &QCheckBox::stateChanged,
+    QObject::connect(&disablePlatform, &QCheckBox::checkStateChanged,
         this, &PropertiesPlatform::disablePlatformEnabled);
     QObject::connect(&nameStation, &QLineEdit::textEdited,
         this, &PropertiesPlatform::nameStationEnabled);
@@ -138,7 +138,7 @@ bool PropertiesPlatform::support(GameObj* obj){
     return false;
 }
 
-void PropertiesPlatform::leftSideEnabled(int state){
+void PropertiesPlatform::leftSideEnabled(Qt::CheckState state){
     if(pobj == NULL) return;
     Undo::StateBegin();
     Undo::PushGameObjData(worldObj);
@@ -149,7 +149,7 @@ void PropertiesPlatform::leftSideEnabled(int state){
         pobj->setSideLeft(false);
     Undo::StateEnd();
 }
-void PropertiesPlatform::rightSideEnabled(int state){
+void PropertiesPlatform::rightSideEnabled(Qt::CheckState state){
     if(pobj == NULL) return;
     Undo::StateBegin();
     Undo::PushGameObjData(worldObj);
@@ -160,7 +160,7 @@ void PropertiesPlatform::rightSideEnabled(int state){
         pobj->setSideRight(false);
     Undo::StateEnd();
 }
-void PropertiesPlatform:: disablePlatformEnabled(int state){
+void PropertiesPlatform:: disablePlatformEnabled(Qt::CheckState state){
     if(pobj == NULL) return;
     Undo::StateBegin();
     Undo::PushGameObjData(worldObj);

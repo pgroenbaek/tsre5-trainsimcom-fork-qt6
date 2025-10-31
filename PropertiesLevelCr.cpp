@@ -112,10 +112,10 @@ PropertiesLevelCr::PropertiesLevelCr() {
         this, &PropertiesLevelCr::eCrashProbabilityEnabled);
     //vbox->addItem(vlist);
     vbox->addWidget(&chInvisible);
-    QObject::connect(&chInvisible, &QCheckBox::stateChanged,
+    QObject::connect(&chInvisible, &QCheckBox::checkStateChanged,
         this, &PropertiesLevelCr::chInvisibleEnabled);
     vbox->addWidget(&chSilentHax);
-    QObject::connect(&chSilentHax, &QCheckBox::stateChanged,
+    QObject::connect(&chSilentHax, &QCheckBox::checkStateChanged,
         this, &PropertiesLevelCr::chSilentHaxEnabled);
     chInvisible.setText("Crossing is invisible");
     chSilentHax.setText("Silent crossing MSTS HAX");
@@ -341,24 +341,24 @@ void PropertiesLevelCr::eCrashProbabilityEnabled(QString val){
     }
 }
 
-void PropertiesLevelCr::chInvisibleEnabled(int val){
+void PropertiesLevelCr::chInvisibleEnabled(Qt::CheckState val){
     if(lobj == NULL){
         return;
     }
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         lobj->setInvisible(true);
     } else {
         lobj->setInvisible(false);
     }
 }
 
-void PropertiesLevelCr::chSilentHaxEnabled(int val){
+void PropertiesLevelCr::chSilentHaxEnabled(Qt::CheckState val){
     if(lobj == NULL){
         return;
     }
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         lobj->setSilentMstsHax(true);
     } else {
         lobj->setSilentMstsHax(false);

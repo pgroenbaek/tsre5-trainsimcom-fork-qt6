@@ -125,10 +125,10 @@ GeoTools::GeoTools(QString name)
     QObject::connect(buttonTools["removeTileTextureTool"], &QPushButton::toggled,
         this, &GeoTools::removeTileTextureToolEnabled);
 
-    QObject::connect(chAutoCreateTile, &QCheckBox::stateChanged,
+    QObject::connect(chAutoCreateTile, &QCheckBox::checkStateChanged,
         this, &GeoTools::chAutoCreateTileEnabled);
 
-    QObject::connect(chAutoGeoTerrain, &QCheckBox::stateChanged,
+    QObject::connect(chAutoGeoTerrain, &QCheckBox::checkStateChanged,
         this, &GeoTools::chAutoGeoTerrainEnabled);
     
 }
@@ -212,14 +212,14 @@ void GeoTools::generateLoTilesFromTDBEnabled(){
     emit createNewLoTiles(tileList);
 }
 
-void GeoTools::chAutoCreateTileEnabled(int state){
+void GeoTools::chAutoCreateTileEnabled(Qt::CheckState state){
     if(state == Qt::Checked)
         Game::autoNewTiles = true;
     else
         Game::autoNewTiles = false;
 }
 
-void GeoTools::chAutoGeoTerrainEnabled(int state){
+void GeoTools::chAutoGeoTerrainEnabled(Qt::CheckState state){
     if(state == Qt::Checked)
         Game::autoGeoTerrain = true;
     else

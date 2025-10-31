@@ -32,8 +32,8 @@ public slots:
     void eSpeedMinEnabled(QString val);
     void eSpeedMaxEnabled(QString val);
     void eAnimLengthEnabled(QString val);
-    void chInfiniteEnabled(int val);
-    void chBrokenEnabled(int val);
+    void chInfiniteEnabled(Qt::CheckState val);
+    void chBrokenEnabled(Qt::CheckState val);
 signals:
     
 private:

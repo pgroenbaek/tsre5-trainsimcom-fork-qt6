@@ -150,7 +150,7 @@ PropertiesSignal::PropertiesSignal() {
     QCheckBox* defaultDetailLevelLabel = new QCheckBox("Default", this);
     defaultDetailLevelLabel->setDisabled(true);
     defaultDetailLevelLabel->setChecked(true);
-    QObject::connect(&enableCustomDetailLevel, &QCheckBox::stateChanged,
+    QObject::connect(&enableCustomDetailLevel, &QCheckBox::checkStateChanged,
         this, &PropertiesSignal::enableCustomDetailLevelEnabled);
     this->customDetailLevel.setDisabled(true);
     this->customDetailLevel.setAlignment(Qt::AlignCenter);
@@ -189,10 +189,10 @@ PropertiesSignal::PropertiesSignal() {
     checkboxAnim.setText("Animate Object");
     checkboxTerrain.setText("Terrain Object");
     vbox->addWidget(&checkboxAnim);
-    QObject::connect(&checkboxAnim, &QCheckBox::stateChanged,
+    QObject::connect(&checkboxAnim, &QCheckBox::checkStateChanged,
         this, &PropertiesSignal::checkboxAnimEdited);
     vbox->addWidget(&checkboxTerrain);
-    QObject::connect(&checkboxTerrain, &QCheckBox::stateChanged,
+    QObject::connect(&checkboxTerrain, &QCheckBox::checkStateChanged,
         this, &PropertiesSignal::checkboxTerrainEdited);
     cShadowType.addItem("No Shadow");
     cShadowType.addItem("Round Shadow");
@@ -408,11 +408,11 @@ bool PropertiesSignal::support(GameObj* obj){
     return false;
 }
 
-void PropertiesSignal::checkboxAnimEdited(int val){
+void PropertiesSignal::checkboxAnimEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         worldObj->setAnimated(true);
     } else {
         worldObj->setAnimated(false);
@@ -420,11 +420,11 @@ void PropertiesSignal::checkboxAnimEdited(int val){
     this->flags.setText(ParserX::MakeFlagsString(worldObj->staticFlags));
 }
 
-void PropertiesSignal::checkboxTerrainEdited(int val){
+void PropertiesSignal::checkboxTerrainEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         worldObj->setTerrainObj(true);
     } else {
         worldObj->setTerrainObj(false);
@@ -495,12 +495,12 @@ void PropertiesSignal::haxFixFlagsEnabled(){
 
 //// SDL for Signals EFO
 
-void PropertiesSignal::enableCustomDetailLevelEnabled(int val){
+void PropertiesSignal::enableCustomDetailLevelEnabled(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     SignalObj* signalObj = (SignalObj*) worldObj;
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         customDetailLevel.setEnabled(true);
         customDetailLevel.setText("0");
         signalObj->setCustomDetailLevel(0);

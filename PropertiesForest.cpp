@@ -142,7 +142,7 @@ PropertiesForest::PropertiesForest() {
     QCheckBox* defaultDetailLevelLabel = new QCheckBox("Default", this);
     defaultDetailLevelLabel->setDisabled(true);
     defaultDetailLevelLabel->setChecked(true);
-    QObject::connect(&enableCustomDetailLevel, &QCheckBox::stateChanged,
+    QObject::connect(&enableCustomDetailLevel, &QCheckBox::checkStateChanged,
         this, &PropertiesForest::enableCustomDetailLevelEnabled);
     this->customDetailLevel.setDisabled(true);
     this->customDetailLevel.setAlignment(Qt::AlignCenter);
@@ -260,7 +260,7 @@ bool PropertiesForest::support(GameObj* obj){
     return false;
 }
 
-void PropertiesForest::enableCustomDetailLevelEnabled(int val){
+void PropertiesForest::enableCustomDetailLevelEnabled(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     ForestObj* forestObj = (ForestObj*) worldObj;

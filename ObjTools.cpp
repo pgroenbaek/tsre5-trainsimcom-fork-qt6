@@ -150,7 +150,7 @@ ObjTools::ObjTools(QString name)
     QCheckBox *chSnapableOnlyRotation = new QCheckBox("Only Rot ");
     vlist3->addWidget(chSnapableOnlyRotation,row++,4,1,3);
     chSnapableOnlyRotation->setChecked(Game::snapableOnlyRot);
-    QObject::connect(chSnapableOnlyRotation, &QCheckBox::stateChanged,
+    QObject::connect(chSnapableOnlyRotation, &QCheckBox::checkStateChanged,
         this, &ObjTools::chSnapableOnlyRotation);
     vlist3->addWidget(autoPlacementDeleteLast,row++,0,1,7);
     autoPlacementPosX.setValidator(doubleValidator);
@@ -230,7 +230,7 @@ ObjTools::ObjTools(QString name)
     QObject::connect(resetRotationButton, &QPushButton::released,
         this, &ObjTools::resetRotationButtonEnabled);
 
-    QObject::connect(&stickToTDB, &QCheckBox::stateChanged,
+    QObject::connect(&stickToTDB, &QCheckBox::checkStateChanged,
         this, &ObjTools::stickToTDBEnabled);
 
 }
@@ -638,7 +638,7 @@ void ObjTools::itemSelected(Ref::RefItem* item){     /// EFO Item selected on th
 	}
 }
 
-void ObjTools::stickToTDBEnabled(int state){
+void ObjTools::stickToTDBEnabled(Qt::CheckState state){
     if(state == Qt::Checked)
         this->sendMsg("stickToTDB", true);
     else
@@ -712,7 +712,7 @@ void ObjTools::autoSnapableRadiusEnabled(QString val){
 }
 
 
-void ObjTools::chSnapableOnlyRotation(int val){
+void ObjTools::chSnapableOnlyRotation(Qt::CheckState val){
     if(val == 2)
          this->route->snapableOnlyRotation = true;
     else

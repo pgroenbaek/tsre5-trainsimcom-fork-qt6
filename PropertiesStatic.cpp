@@ -132,7 +132,7 @@ PropertiesStatic::PropertiesStatic(){
     QCheckBox* defaultDetailLevelLabel = new QCheckBox("Default", this);
     defaultDetailLevelLabel->setDisabled(true);
     defaultDetailLevelLabel->setChecked(true);
-    QObject::connect(&enableCustomDetailLevel, &QCheckBox::stateChanged,
+    QObject::connect(&enableCustomDetailLevel, &QCheckBox::checkStateChanged,
         this, &PropertiesStatic::enableCustomDetailLevelEnabled);
     this->customDetailLevel.setDisabled(true);
     this->customDetailLevel.setAlignment(Qt::AlignCenter);
@@ -169,10 +169,10 @@ PropertiesStatic::PropertiesStatic(){
     checkboxAnim.setText("Animate Object");
     checkboxTerrain.setText("Terrain Object");
     vbox->addWidget(&checkboxAnim);
-    QObject::connect(&checkboxAnim, &QCheckBox::stateChanged,
+    QObject::connect(&checkboxAnim, &QCheckBox::checkStateChanged,
         this, &PropertiesStatic::checkboxAnimEdited);
     vbox->addWidget(&checkboxTerrain);
-    QObject::connect(&checkboxTerrain, &QCheckBox::stateChanged,
+    QObject::connect(&checkboxTerrain, &QCheckBox::checkStateChanged,
         this, &PropertiesStatic::checkboxTerrainEdited);
     cShadowType.addItem("No Shadow");
     cShadowType.addItem("Round Shadow");
@@ -336,12 +336,12 @@ void PropertiesStatic::editPositionEnabled(QString val){
     staticObj->setMartix();
 }
 
-void PropertiesStatic::enableCustomDetailLevelEnabled(int val){
+void PropertiesStatic::enableCustomDetailLevelEnabled(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     StaticObj* staticObj = (StaticObj*) worldObj;
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         customDetailLevel.setEnabled(true);
         customDetailLevel.setText("0");
         staticObj->setCustomDetailLevel(0);
@@ -365,11 +365,11 @@ void PropertiesStatic::customDetailLevelEdited(QString val){
     }
 }
 
-void PropertiesStatic::checkboxAnimEdited(int val){
+void PropertiesStatic::checkboxAnimEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         worldObj->setAnimated(true);
     } else {
         worldObj->setAnimated(false);
@@ -377,11 +377,11 @@ void PropertiesStatic::checkboxAnimEdited(int val){
     this->flags.setText(ParserX::MakeFlagsString(worldObj->staticFlags));
 }
 
-void PropertiesStatic::checkboxTerrainEdited(int val){
+void PropertiesStatic::checkboxTerrainEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         worldObj->setTerrainObj(true);
     } else {
         worldObj->setTerrainObj(false);

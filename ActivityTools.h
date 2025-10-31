@@ -57,7 +57,7 @@ public slots:
     void eStartTimeEnabled();
     void cSeasonEnabled(int val);
     void cWeatherEnabled(int val);
-    void cHornAtCrossingsEnabled(int val);
+    void cHornAtCrossingsEnabled(Qt::CheckState val);
     void eORTSAICrossingHornPatternEnabled(QString val);
     void eFuelCoalEnabled(QString val);
     void sFuelCoalEnabled();

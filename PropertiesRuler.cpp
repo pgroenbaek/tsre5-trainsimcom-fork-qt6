@@ -102,12 +102,12 @@ PropertiesRuler::PropertiesRuler() {
     checkboxTwoPoint.setText("Only Two-Point Ruler");
     checkboxTwoPoint.setChecked(false);
     vbox->addWidget(&checkboxTwoPoint);
-    QObject::connect(&checkboxTwoPoint, &QCheckBox::stateChanged,
+    QObject::connect(&checkboxTwoPoint, &QCheckBox::checkStateChanged,
         this, &PropertiesRuler::checkboxTwoPointEdited);
     checkboxDrawPoints.setText("Render points");
     checkboxDrawPoints.setChecked(false);
     vbox->addWidget(&checkboxDrawPoints);
-    QObject::connect(&checkboxDrawPoints, &QCheckBox::stateChanged,
+    QObject::connect(&checkboxDrawPoints, &QCheckBox::checkStateChanged,
         this, &PropertiesRuler::checkboxDrawPointsEdited);
     label = new QLabel("Experimental:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -240,22 +240,22 @@ void PropertiesRuler::updateObj(GameObj* obj){
     }
 }
 
-void PropertiesRuler::checkboxTwoPointEdited(int val){
+void PropertiesRuler::checkboxTwoPointEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     RulerObj* robj = (RulerObj*)worldObj;
-    if(val == 2){
+    if(val == Qt::Checked){
         robj->TwoPointRuler = true;
     } else {
         robj->TwoPointRuler = false;
     }
 }
 
-void PropertiesRuler::checkboxDrawPointsEdited(int val){
+void PropertiesRuler::checkboxDrawPointsEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     RulerObj* robj = (RulerObj*)worldObj;
-    if(val == 2){
+    if(val == Qt::Checked){
         robj->DrawPoints = true;
     } else {
         robj->DrawPoints = false;

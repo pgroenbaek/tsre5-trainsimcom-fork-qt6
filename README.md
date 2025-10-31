@@ -23,15 +23,11 @@ https://www.trainsim.com/tsre
 
 The experimental Qt6 version has the following unresolved issues:
 
-1. Deprecation warnings from QCheckBox::stateChanged(int)
-   
-   Easy fix: Refactor it to use the new QCheckBox::checkStateChanged(Qt::CheckState) instead.
+1. OpenAL32.dll built through vcpkg throws error upon launch (codecvt something-something)
 
-2. OpenAL32.dll built through vcpkg throws a missing symbol error (codecvt something-something)
+   Has something to do with a mismatch between the libstdc++/libgcc used with TSRE and what OpenAL was compiled with. This is due to a setup issue in CMakeLists.txt and vcpkg. For now can be worked around by dropping the OpenAL32.dll from one of the 8.005 releases into the dist folder created by the `package-windows.bat` script.
 
-   Has something to do with a mismatch between the libstdc++/libgcc used with TSRE and what OpenAL was compiled with. This is due to some setup issue in CMakeLists.txt and vcpkg. For now can be worked around by dropping the OpenAL32.dll from one of the 8.005 releases into the dist folder created by the `package-windows.bat` script.
-
-3. Support for .DDS not built into Qt6 by default
+2. Support for .DDS not built into Qt6 by default
    
    Since around Qt5.8 there is no DDS support in QImage by default. The Qt DDS plugin must be compiled from scratch, and even that
    is sketchy because it is not maintained properly. So, it must be implemented from scratch or another library must be used for this (e.g. [OpenImageIO](https://github.com/AcademySoftwareFoundation/OpenImageIO) looks like a good option).

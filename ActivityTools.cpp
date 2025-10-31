@@ -305,7 +305,7 @@ ActivityTools::ActivityTools(QString name)
     vlist->addWidget(new QLabel("Horn At Crossings: "), row, 0);
     cHornAtCrossings.setMinimumHeight(25);
     vlist->addWidget(&cHornAtCrossings, row++, 1, 1, 2);
-    QObject::connect(&cHornAtCrossings, &QCheckBox::stateChanged,
+    QObject::connect(&cHornAtCrossings, &QCheckBox::checkStateChanged,
         this, &ActivityTools::cHornAtCrossingsEnabled);
     
     vlist->addWidget(new QLabel("Horn Pattern:"), row, 0);
@@ -1056,7 +1056,7 @@ void ActivityTools::cWeatherEnabled(int val){
     a->setWeather(val);
 }
 
-void ActivityTools::cHornAtCrossingsEnabled(int val){
+void ActivityTools::cHornAtCrossingsEnabled(Qt::CheckState val){
     Activity *a = ActLib::Act[actShow.currentData().toInt()];
     if(a == NULL)
         return;
