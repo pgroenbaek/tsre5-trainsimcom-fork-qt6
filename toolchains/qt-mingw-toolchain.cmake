@@ -1,6 +1,7 @@
-
-if(NOT DEFINED QT_PATH AND DEFINED ENV{QT_PATH})
-    set(QT_PATH "$ENV{QT_PATH}" CACHE PATH "Qt path")
+if(NOT QT_PATH)
+    if(DEFINED ENV{QT_PATH})
+        set(QT_PATH "$ENV{QT_PATH}" CACHE PATH "Qt path")
+    endif()
 endif()
 
 if(NOT DEFINED QT_PATH)
