@@ -4,7 +4,13 @@ set -e
 echo "---- TSRE5 CMake Build Configuration Script ----"
 echo
 
-read -p "Enter full path to your Qt6 installation directory (e.g., ~/Programs/Qt/6.9.3/gcc_64): " QT_PATH
+# Default values
+DEFAULT_QT_PATH="~/Programs/Qt/6.9.3/gcc_64"
+DEFAULT_VCPKG_PATH="~/.vcpkg"
+DEFAULT_TRIPLET="x64-linux-dynamic"
+
+read -p "Enter full path to your Qt6 installation directory (e.g., /path/to/Qt/6.9.3/gcc_64) [$DEFAULT_QT_PATH]: " QT_PATH
+QT_PATH=${QT_PATH:-$DEFAULT_QT_PATH}
 
 # Check that QT_PATH is not empty
 if [[ -z "$QT_PATH" ]]; then
@@ -18,8 +24,8 @@ if [[ ! -d "$QT_PATH" ]]; then
     exit 1
 fi
 
-read -p "Enter full path to your vcpkg directory (e.g., ~/.vcpkg) [~/.vcpkg]: " VCPKG_PATH
-VCPKG_PATH=${VCPKG_PATH:-~/.vcpkg}
+read -p "Enter full path to your vcpkg directory (e.g., ~/.vcpkg) [$DEFAULT_VCPKG_PATH]: " VCPKG_PATH
+VCPKG_PATH=${VCPKG_PATH:-$DEFAULT_VCPKG_PATH}
 
 # Check that VCPKG_PATH exists
 if [[ ! -d "$VCPKG_PATH" ]]; then
@@ -27,8 +33,8 @@ if [[ ! -d "$VCPKG_PATH" ]]; then
     exit 1
 fi
 
-read -p "Enter vcpkg triplet (x64-linux-dynamic/x64-osx-dynamic/arm64-osx-dynamic) [x64-linux-dynamic]: " TRIPLET
-TRIPLET=${TRIPLET:-x64-linux-dynamic}
+read -p "Enter vcpkg triplet (x64-linux-dynamic/x64-osx-dynamic/arm64-osx-dynamic) [$DEFAULT_TRIPLET]: " TRIPLET
+TRIPLET=${TRIPLET:-$DEFAULT_TRIPLET}
 
 # Set Qt path so that it is visible to CMake
 export QT_PATH

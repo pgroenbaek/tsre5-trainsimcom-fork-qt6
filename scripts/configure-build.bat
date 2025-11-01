@@ -4,7 +4,14 @@ setlocal enabledelayedexpansion
 echo ---- TSRE5 CMake Build Configuration Script ----
 echo.
 
-set /p QT_PATH="Enter full path to your Qt6 installation directory (e.g., C:\Qt\6.9.3\mingw_64): "
+:: Default values
+set "DEFAULT_QT_PATH=C:\Qt6.9\6.9.3\mingw_64"
+set "DEFAULT_VCPKG_PATH=C:\vcpkg"
+set "DEFAULT_TRIPLET=x64-mingw-dynamic"
+
+:: Ask for Qt6 path
+set /P QT_PATH="Enter full path to your Qt6 installation directory (e.g., C:\path\to\Qt\6.x.x\mingw_64) [%DEFAULT_QT_PATH%]: "
+if "%QT_PATH%"=="" set "QT_PATH=%DEFAULT_QT_PATH%"
 
 :: Enforce that QT_PATH is not empty
 if "%QT_PATH%"=="" (
@@ -18,8 +25,8 @@ if not exist "%QT_PATH%" (
     exit /b 1
 )
 
-set /p VCPKG_PATH="Enter full path to your vcpkg directory (e.g., C:\vcpkg) [C:\vcpkg]: "
-if "!VCPKG_PATH!"=="" set "VCPKG_PATH=C:\vcpkg"
+set /p VCPKG_PATH="Enter full path to your vcpkg directory (e.g., C:\vcpkg) [%DEFAULT_VCPKG_PATH%]: "
+if "!VCPKG_PATH!"=="" set "VCPKG_PATH=%DEFAULT_VCPKG_PATH%"
 
 :: Check if VCPKG_PATH directory exists
 if not exist "%VCPKG_PATH%" (
@@ -27,11 +34,15 @@ if not exist "%VCPKG_PATH%" (
     exit /b 1
 )
 
-set /p TRIPLET="Enter vcpkg triplet (x86-mingw-dynamic/x64-mingw-dynamic) [x64-mingw-dynamic]: "
-if "!TRIPLET!"=="" set "TRIPLET=x64-mingw-dynamic"
+set /p TRIPLET="Enter vcpkg triplet (x86-mingw-dynamic/x64-mingw-dynamic) [%DEFAULT_TRIPLET%]: "
+if "!TRIPLET!"=="" set "TRIPLET=%DEFAULT_TRIPLET%"
 
 :: Set Qt path so that it is visible to CMake
 set "QT_PATH=%QT_PATH%"
+
+:: Prepend the MinGW compiler and CMake from the Qt installation to path
+set "PATH=%QT_PATH%\..\..\Tools\mingw1310_64\bin;%PATH%"
+set "PATH=%QT_PATH%\..\..\Tools\CMake_64\bin;%PATH%"
 
 :: Build directory relative to script
 set "SCRIPT_DIR=%~dp0"

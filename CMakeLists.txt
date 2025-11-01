@@ -13,9 +13,6 @@ set(CMAKE_AUTORCC ON)
 # OpenGL preference
 set(OpenGL_GL_PREFERENCE LEGACY)
 
-# Set compiler flags
-add_compile_options(-Wall -O2)
-
 # Set CXX properties
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -23,8 +20,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Find the libraries
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network OpenGL OpenGLWidgets WebSockets)
-find_package(fmt CONFIG REQUIRED)
-find_package(OpenAL CONFIG REQUIRED)
+find_package(fmt REQUIRED)
+find_package(OpenAL REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(OpenSSL REQUIRED)
 
@@ -43,21 +40,11 @@ if(WIN32)
     list(APPEND SRC_FILES TSRE5_resource.rc)
 endif()
 
+# Set compiler flags
+add_compile_options(-Wall -O2)
+
 # Tell CMake to create the executable
 add_executable(TSRE5 ${SRC_FILES})
-
-# Set CXX properties
-#set_target_properties(TSRE5 PROPERTIES
-#    CXX_STANDARD 14
-#    CXX_STANDARD_REQUIRED YES
-#    CXX_EXTENSIONS NO
-#)
-
-# Set target compile options
-#target_compile_options(TSRE5 PRIVATE
-#    -Wall
-#    -O2
-#)
 
 # Add the required Qt6 modules and other libraries for linking
 target_link_libraries(TSRE5 PRIVATE

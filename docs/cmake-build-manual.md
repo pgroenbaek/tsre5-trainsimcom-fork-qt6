@@ -1,7 +1,5 @@
 # CMake build manual
 
-**Note:** This manual is work-in-progress and is updated as I go along.
-
 ## Prerequisites
 
 | Tool             | Why it's needed                                                          |
@@ -50,15 +48,7 @@ It should look something like `C:\path\to\Qt\6.x.x\mingw_64`, or similar, depend
 
 In the windows build of Qt6, CMake is included. So you don't need to download and install it yourself.
 
-**Note:** You will need to add the CMake directory within the Qt6 installation to your system env path variable.
-
-The directory looks like `C:\path\to\Qt\Tools\CMake_64\bin`, or similar, depending on where you installed Qt6.
-
-Add the directory to path. Then open a new powershell window, and verify you can run:
-
-```powershell
-cmake --version
-```
+The scripts will find the path to the CMake binary automatically when you provide the Qt6 directory.
 
 ### Installing MinGW:
 
