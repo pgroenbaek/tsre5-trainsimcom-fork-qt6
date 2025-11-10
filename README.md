@@ -25,7 +25,11 @@ The experimental Qt6 version has the following unresolved issues:
 
 1. Support for .DDS not built into Qt6 by default
    
-   Since around Qt5.8 there is no DDS support in QImage by default. The Qt DDS plugin must be compiled from scratch, and even that
+   Since around Qt5.8 there is no DDS support in `QImage` by default. The Qt DDS plugin must be compiled from scratch, and even that
    is sketchy because it is not maintained properly. So, it must be implemented from scratch or another library must be used for this (e.g. [OpenImageIO](https://github.com/AcademySoftwareFoundation/OpenImageIO) looks like a good option).
 
-2. More things might show up while testing
+2. KML files that previously worked with v0.8.005-RC2 now do not. `QXmlStreamReader` is more strict in Qt6, so it might be something with the KML files or the code might need adjustments. This needs looking into.
+
+3. Something seems off with signal linking?
+
+4. More things might show up while testing...
