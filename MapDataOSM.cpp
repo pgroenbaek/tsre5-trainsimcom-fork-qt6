@@ -610,7 +610,7 @@ void MapDataOSM::loadData(QByteArray* data){
         QFile file("F:/OSM/tczew.osm");
         if (!file.open(QFile::ReadOnly | QFile::Text)) {
             qDebug() << "no file" << file.errorString();
-            return;
+            exit(0);
         }
         qDebug() << "file loaded";
         xmlData = file.readAll();
