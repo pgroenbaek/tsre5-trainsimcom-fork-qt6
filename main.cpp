@@ -332,10 +332,10 @@ int main(int argc, char *argv[]){
     // Hide console if running on windows and consoleOutput is set to false
     #ifdef Q_OS_WIN32
         if(!Game::consoleOutput) {
-            HWND consoleWnd = ::GetConsoleWindow();
-            if (consoleWnd) {
+            HWND consoleWindow = ::GetConsoleWindow();
+            if (consoleWindow) {
                 ::FreeConsole(); // Detach the console from the process
-                ::PostMessage(consoleWnd, WM_CLOSE, 0, 0); // Request console to close
+                ::PostMessage(consoleWindow, WM_CLOSE, 0, 0); // Request console to close
             }
         }
     #endif
