@@ -28,7 +28,9 @@ The experimental Qt6 version has the following unresolved issues:
    Since around Qt5.8 there is no DDS support in `QImage` by default. The Qt DDS plugin must be compiled from scratch, and even that
    is sketchy because it is not maintained properly. So, it must be implemented from scratch or another library must be used for this (e.g. [OpenImageIO](https://github.com/AcademySoftwareFoundation/OpenImageIO) looks like a good option).
 
-2. Loading map data from OSM does not work, never preceeds from "Wait ..."
+2. If the new pointer-based signal/slot connection syntax is used on a superclass and the subclass redefines the same signal/slot
+   the connection will not happen properly to the subclass. This was the case for MapData andthe MapDataOSM/MapDataUrlImage subclasses
+   and may be the case in other places as well.
 
 3. Something seems off with signal linking?
 

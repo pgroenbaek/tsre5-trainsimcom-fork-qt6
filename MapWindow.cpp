@@ -204,6 +204,7 @@ void MapWindow::load(){
 
 void MapWindow::isStatusInfo(QString val){
     loadButton->setText(val);
+    qDebug() << val;
 }
 
 void MapWindow::reload(){

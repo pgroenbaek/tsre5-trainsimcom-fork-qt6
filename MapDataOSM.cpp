@@ -563,11 +563,11 @@ void MapDataOSM::get(LatitudeLongitudeCoordinate* min, LatitudeLongitudeCoordina
     +","
     +QString::number(max->Latitude)
     ) ) );
-    mgr->get(req);
     
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
     config.setProtocol(QSsl::TlsV1_2);
     req.setSslConfiguration(config);
+    mgr->get(req);
 }
 
 void MapDataOSM::isData(QNetworkReply* r){
@@ -593,7 +593,7 @@ void MapDataOSM::isData(QNetworkReply* r){
         emit statusInfo(QString("Load"));
     } else {
         loadData(&data);
-        loadCount++;
+        loadCount++; 
         if(loadCount == totalLoadCount){
             emit statusInfo(QString("Load"));
             emit loaded(); 
