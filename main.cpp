@@ -285,15 +285,6 @@ int main(int argc, char *argv[]){
     //    ::ShowWindow( ::GetConsoleWindow(), SW_HIDE ); //hide console window
     //#endif
 
-    #ifdef Q_OS_WIN32
-        HWND consoleWnd = ::GetConsoleWindow();
-        if (consoleWnd) {
-            ::FreeConsole(); // Detach the console from the process
-            ::PostMessage(consoleWnd, WM_CLOSE, 0, 0); // Request console to close
-        }
-    #endif
-
-
     /// set the version here to avoid changing Game.cpp so much
 //    Game::AppVersion = "v8.005a";
     
@@ -336,7 +327,19 @@ int main(int argc, char *argv[]){
         QDir::setCurrent(QCoreApplication::applicationDirPath());
     }
     
-    Game::load();    
+    Game::load();
+
+    // Hide console if running on windows and consoleOutput is set to false
+    #ifdef Q_OS_WIN32
+        if(!Game::consoleOutput) {
+            HWND consoleWnd = ::GetConsoleWindow();
+            if (consoleWnd) {
+                ::FreeConsole(); // Detach the console from the process
+                ::PostMessage(consoleWnd, WM_CLOSE, 0, 0); // Request console to close
+            }
+        }
+    #endif
+
     if(Game::debugOutput) qDebug() << "workingDir" << workingDir;
     
     QCommandLineParser parser;
