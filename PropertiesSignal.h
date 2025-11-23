@@ -41,9 +41,6 @@ public slots:
     void msg(QString name, QString val);
     void editPositionEnabled(QString val);
     
-signals:
-    void enableTool(QString val);
-    
 private:
     QLineEdit name;
     QLineEdit description;
