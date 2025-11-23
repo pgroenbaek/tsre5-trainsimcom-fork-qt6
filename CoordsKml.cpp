@@ -47,12 +47,14 @@ CoordsKml::CoordsKml(QString path) {
     IghCoordinate* igh;
     PreciseTileCoordinate* ppp;
     
-    QXmlStreamReader reader((data));
-    reader.readNext();
+    QXmlStreamReader reader;
+    reader.addData(data);
+    reader.setNamespaceProcessing(false);
     QString name;
     QXmlStreamAttributes attr;
     int linecounter;
-    while (!reader.isEndDocument()) {
+    reader.readNext();
+    while (!reader.atEnd()) {
         //qDebug() << reader.name().toString();
         if(reader.name().toString().trimmed() == "") linecounter++;
         if(linecounter > 10000) {  qWarning() << "Aborting read of " << path << " after excessive bad line reads."; break; }

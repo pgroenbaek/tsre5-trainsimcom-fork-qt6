@@ -604,16 +604,20 @@ void MapDataOSM::isData(QNetworkReply* r){
 }
 
 void MapDataOSM::loadData(QByteArray* data){
-    if(data == NULL){
+    QByteArray xmlData;
+
+    if (data == NULL) {
         QFile file("F:/OSM/tczew.osm");
         if (!file.open(QFile::ReadOnly | QFile::Text)) {
             qDebug() << "no file" << file.errorString();
-            exit(0);
+            return;
         }
-        qDebug() <<  "file";
-        QByteArray data2 = file.readAll();
-        data = &data2;
-    } 
+        qDebug() << "file loaded";
+        xmlData = file.readAll();
+    }
+    else {
+        xmlData = *data;
+    }
     
     int inode = 0;
     int iway = 0;
@@ -625,11 +629,12 @@ void MapDataOSM::loadData(QByteArray* data){
     Node* tnode;
     Way* tway;
     
-    QXmlStreamReader reader((*data));
-    reader.readNext();
+    QXmlStreamReader reader(xmlData);
+    reader.setNamespaceProcessing(false);
     QString name;
     QXmlStreamAttributes attr;
-    while (!reader.isEndDocument()) {
+    reader.readNext();
+    while (!reader.atEnd()) {
         if (reader.isStartElement()) {
             name = reader.name().toString();
             attr = reader.attributes();
