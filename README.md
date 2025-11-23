@@ -29,9 +29,7 @@ The experimental Qt6 version has the following unresolved issues:
    is sketchy because it is not maintained properly. So, it must be implemented from scratch or another library must be used for this (e.g. [OpenImageIO](https://github.com/AcademySoftwareFoundation/OpenImageIO) looks like a good option).
 
 2. If the new pointer-based signal/slot connection syntax is used on a superclass and the subclass redefines the same signal/slot
-   the connection will not happen properly to the subclass. This was the case for MapData andthe MapDataOSM/MapDataUrlImage subclasses
-   and may be the case in other places as well.
+   the connection will not happen properly to the subclass. This was the case for MapData and the MapDataOSM/MapDataUrlImage subclasses
+   and may be the case in other places as well (looking at you PropertiesAbstract.cpp). For example the enabletool stuff is broken with signal linking.
 
-3. Something seems off with signal linking?
-
-4. More things might show up while testing...
+3. More things might show up while testing...
