@@ -23,15 +23,4 @@ https://www.trainsim.com/tsre
 
 The experimental Qt6 version has the following unresolved issues:
 
-1. Support for .DDS not built into Qt6 by default
-   
-   Since around Qt5.8 there is no DDS support in `QImage` by default. The Qt DDS plugin must be compiled from scratch, and even that
-   is sketchy because it is not maintained properly. So, it must be implemented from scratch or another library must be used for this (e.g. [OpenImageIO](https://github.com/AcademySoftwareFoundation/OpenImageIO) looks like a good option).
-
-2. If the new pointer-based signal/slot connection syntax is used on a superclass and the subclass redeclares the same signal/slot,
-   the connection will not happen properly to the subclass. This was the case for MapData and the MapDataOSM/MapDataUrlImage subclasses, as well as for PropertiesAbstract and the PropertiesSignal subclass.
-   
-   If part of the UI does not work, this type of issue is a likely candidate. The solution is to simply remove the redeclaration from the .h file of the subclass,
-   then things work through inheritance.
-
-3. More things might show up while testing...
+- No issues known at the moment. More things are probably going to show up while testing...

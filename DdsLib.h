@@ -13,6 +13,8 @@
 
 #include <QThread>
 #include "Texture.h"
+#include <cstdint>
+#include <vector>
 
 class DdsLib : public QThread
 {
@@ -22,9 +24,13 @@ public:
     DdsLib();
     static bool IsThread;
     Texture* texture;
-    void run();
+    void run() override;
+
 private:
-    
+    void decodeDXT1(const uint8_t* block, std::vector<unsigned char>& out, int bx, int by, int width);
+    void decodeDXT3(const uint8_t* block, std::vector<unsigned char>& out, int bx, int by, int width);
+    void decodeDXT5(const uint8_t* block, std::vector<unsigned char>& out, int bx, int by, int width);
+
 protected:
 
 };

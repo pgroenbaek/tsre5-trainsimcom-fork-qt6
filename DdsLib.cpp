@@ -8,86 +8,10 @@
  *  See LICENSE.md or https://www.gnu.org/licenses/gpl.html
  */
 
-/*#include "DdsLib.h"
-#include <QDebug>
-#include <QString>
-#include <QOpenGLShaderProgram>
-#include "Game.h"
-#include <OpenImageIO/imageio.h>
-#include <memory>
-
-OIIO_NAMESPACE_USING
-
-bool DdsLib::IsThread = true;
-
-DdsLib::DdsLib() {}
-
-void DdsLib::run() {
-    std::string filename = texture->pathid.toStdString();
-    std::unique_ptr<ImageInput> in(ImageInput::open(filename));
-
-    if (!in) {
-        if (!IsThread) {
-            texture->missing = true;
-            if (Game::debugOutput)
-                qDebug() << "DDS: not exist or cannot open " << texture->pathid;
-        }
-        return;
-    }
-
-    const ImageSpec &spec = in->spec();
-    int width = spec.width;
-    int height = spec.height;
-    int channels = spec.nchannels;
-
-    if (channels < 3) {
-        // Force at least RGB
-        if (Game::debugOutput)
-            qDebug() << "DDS: image has less than 3 channels " << texture->pathid;
-        channels = 3;
-    }
-
-    std::vector<unsigned char> pixels(width * height * channels);
-    if (!in->read_image(0, 0, 0, channels, TypeDesc::UINT8, &pixels[0])) {
-        if (!IsThread) {
-            texture->missing = true;
-            qDebug() << "DDS: failed to read image " << texture->pathid;
-        }
-        return;
-    }
-    in->close();
-
-    texture->width = width;
-    texture->height = height;
-    texture->bytesPerPixel = channels;
-
-    if (channels == 4) {
-        texture->type = GL_RGBA;
-    } else {
-        texture->type = GL_RGB;
-    }
-
-    // Copy pixel data
-    texture->imageData = new unsigned char[width * height * channels];
-    memcpy(texture->imageData, pixels.data(), width * height * channels);
-
-    texture->loaded = true;
-    texture->editable = true;
-
-    if (!IsThread) {
-        qDebug() << "tex:" << texture->pathid
-                 << " " << width << "x" << height
-                 << " channels:" << channels;
-    }
-
-    return;
-}*/
-
 #include "DdsLib.h"
 #include <QDebug>
 #include <QString>
 #include <QOpenGLShaderProgram>
-#include "Game.h"
 #include <fstream>
 #include <vector>
 #include <cstring>
@@ -124,7 +48,6 @@ struct DDS_HEADER {
 };
 #pragma pack(pop)
 
-// DDS flags
 #define DDSD_CAPS 0x1
 #define DDSD_HEIGHT 0x2
 #define DDSD_WIDTH 0x4
@@ -134,12 +57,10 @@ struct DDS_HEADER {
 #define DDSD_LINEARSIZE 0x80000
 #define DDSD_DEPTH 0x800000
 
-// Pixel format flags
 #define DDPF_ALPHAPIXELS 0x1
 #define DDPF_FOURCC 0x4
 #define DDPF_RGB 0x40
 
-// Compression FourCC
 #define FOURCC_DXT1 0x31545844
 #define FOURCC_DXT3 0x33545844
 #define FOURCC_DXT5 0x35545844
@@ -148,92 +69,171 @@ bool DdsLib::IsThread = true;
 
 DdsLib::DdsLib() {}
 
+static void fillColor(unsigned char* dst, uint32_t color, bool hasAlpha, uint8_t alpha = 255) {
+    dst[0] = (color & 0xFF);
+    dst[1] = (color >> 8) & 0xFF;
+    dst[2] = (color >> 16) & 0xFF;
+    dst[3] = hasAlpha ? alpha : 255;
+}
+
+void DdsLib::decodeDXT1(const uint8_t* block, std::vector<unsigned char>& out, int bx, int by, int width) {
+    uint16_t c0 = block[0] | (block[1] << 8);
+    uint16_t c1 = block[2] | (block[3] << 8);
+
+    unsigned char r[4], g[4], b[4];
+    r[0] = ((c0 >> 11) & 0x1F) << 3;
+    g[0] = ((c0 >> 5) & 0x3F) << 2;
+    b[0] = (c0 & 0x1F) << 3;
+
+    r[1] = ((c1 >> 11) & 0x1F) << 3;
+    g[1] = ((c1 >> 5) & 0x3F) << 2;
+    b[1] = (c1 & 0x1F) << 3;
+
+    if (c0 > c1) {
+        r[2] = (2*r[0]+r[1])/3; g[2] = (2*g[0]+g[1])/3; b[2] = (2*b[0]+b[1])/3;
+        r[3] = (r[0]+2*r[1])/3; g[3] = (g[0]+2*g[1])/3; b[3] = (b[0]+2*b[1])/3;
+    } else {
+        r[2] = (r[0]+r[1])/2; g[2] = (g[0]+g[1])/2; b[2] = (b[0]+b[1])/2;
+        r[3] = 0; g[3] = 0; b[3] = 0;
+    }
+
+    uint32_t indices = block[4] | (block[5]<<8) | (block[6]<<16) | (block[7]<<24);
+
+    for(int j=0;j<4;j++) {
+        for(int i=0;i<4;i++) {
+            int idx = (indices >> (2*(4*j+i))) & 0x03;
+            int px = bx*4 + i;
+            int py = by*4 + j;
+            if(px < width && py < out.size()/width/4) {
+                unsigned char* dst = &out[(py*width+px)*4];
+                dst[0] = r[idx];
+                dst[1] = g[idx];
+                dst[2] = b[idx];
+            }
+        }
+    }
+}
+
+
+void DdsLib::decodeDXT3(const uint8_t* block, std::vector<unsigned char>& out, int bx, int by, int width) {
+    for(int j=0;j<4;j++) {
+        uint16_t rowAlpha = block[j*2] | (block[j*2+1]<<8);
+        for(int i=0;i<4;i++) {
+            int alpha = ((rowAlpha >> (i*4)) & 0xF) * 17;
+            int px = bx*4 + i;
+            int py = by*4 + j;
+            if(px < width && py < out.size()/width/4) {
+                unsigned char* dst = &out[(py*width+px)*4];
+                dst[3] = alpha;
+            }
+        }
+    }
+    decodeDXT1(block+8, out, bx, by, width);
+}
+
+
+void DdsLib::decodeDXT5(const uint8_t* block, std::vector<unsigned char>& out, int bx, int by, int width) {
+    uint8_t alpha0 = block[0];
+    uint8_t alpha1 = block[1];
+
+    uint64_t alphaBits = 0;
+    for(int i=0;i<6;i++) alphaBits |= (uint64_t(block[2+i]) << (8*i));
+
+    for(int i=0;i<16;i++) {
+        int shift = i*3;
+        uint8_t index = (alphaBits >> shift) & 0x7;
+
+        int alphaVal = 0;
+        if(index==0) alphaVal = alpha0;
+        else if(index==1) alphaVal = alpha1;
+        else if(alpha0 > alpha1) alphaVal = ((8-index)*alpha0 + (index-1)*alpha1)/7;
+        else alphaVal = ((6-index)*alpha0 + (index-1)*alpha1)/5;
+
+        int px = bx*4 + (i%4);
+        int py = by*4 + (i/4);
+        if(px < width && py < out.size()/width/4) {
+            out[(py*width+px)*4 + 3] = alphaVal;
+        }
+    }
+    decodeDXT1(block+8, out, bx, by, width);
+}
+
+
 void DdsLib::run() {
     std::string filename = texture->pathid.toStdString();
     std::ifstream file(filename, std::ios::binary);
     if (!file.is_open()) {
-        if (!IsThread) {
-            texture->missing = true;
-            if (Game::debugOutput)
-                qDebug() << "DDS: not exist or cannot open " << texture->pathid;
-        }
+        texture->missing = true;
         return;
     }
 
-    // Read magic number
     char magic[4];
     file.read(magic, 4);
     if (strncmp(magic, "DDS ", 4) != 0) {
-        if (!IsThread) {
-            texture->missing = true;
-            qDebug() << "DDS: invalid magic " << texture->pathid;
-        }
+        texture->missing = true;
         return;
     }
 
-    // Read DDS header
     DDS_HEADER header;
     file.read(reinterpret_cast<char*>(&header), sizeof(DDS_HEADER));
 
     int width = header.dwWidth;
     int height = header.dwHeight;
-    int mipMapCount = (header.dwFlags & DDSD_MIPMAPCOUNT) ? header.dwMipMapCount : 1;
 
-    GLenum format = 0;
-    bool compressed = false;
-    int blockSize = 16;
+    uint32_t fourcc = header.ddspf.dwFourCC;
+    bool isCompressed = (header.ddspf.dwFlags & DDPF_FOURCC);
 
-    if (header.ddspf.dwFlags & DDPF_FOURCC) {
-        compressed = true;
-        switch (header.ddspf.dwFourCC) {
-            case FOURCC_DXT1: format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT; blockSize = 8; break;
-            case FOURCC_DXT3: format = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT; break;
-            case FOURCC_DXT5: format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT; break;
-            default:
-                qDebug() << "DDS: unsupported compression " << texture->pathid;
-                texture->missing = true;
-                return;
-        }
-    } else if (header.ddspf.dwFlags & DDPF_RGB) {
-        format = (header.ddspf.dwRGBBitCount == 32) ? GL_RGBA : GL_RGB;
-        compressed = false;
-    } else {
-        qDebug() << "DDS: unsupported format " << texture->pathid;
-        texture->missing = true;
-        return;
-    }
+    int blockSize = (fourcc == FOURCC_DXT1 ? 8 : 16);
+    size_t dataSize = ((width+3)/4) * ((height+3)/4) * blockSize;
 
-    size_t dataSize = 0;
-    if (compressed) {
-        // Compressed: calculate size of all mip levels
-        int w = width, h = height;
-        for (int i = 0; i < mipMapCount; i++) {
-            int size = ((w+3)/4) * ((h+3)/4) * blockSize;
-            dataSize += size;
-            w = std::max(1, w/2);
-            h = std::max(1, h/2);
-        }
-    } else {
-        dataSize = width * height * ((header.ddspf.dwRGBBitCount) / 8);
-    }
-
-    std::vector<unsigned char> pixels(dataSize);
-    file.read(reinterpret_cast<char*>(pixels.data()), dataSize);
+    std::vector<uint8_t> data(dataSize);
+    file.read((char*)data.data(), dataSize);
     file.close();
+
+    std::vector<unsigned char> out(width * height * 4, 0);
+
+    if (!isCompressed) {
+        memcpy(out.data(), data.data(), width * height * (header.ddspf.dwRGBBitCount/8));
+    } else {
+        int bx = (width + 3) / 4;
+        int by = (height + 3) / 4;
+
+        const uint8_t* ptr = data.data();
+
+        for (int y = 0; y < by; y++) {
+            for (int x = 0; x < bx; x++) {
+                switch (fourcc) {
+                    case FOURCC_DXT1: decodeDXT1(ptr, out, x, y, width); break;
+                    case FOURCC_DXT3: decodeDXT3(ptr, out, x, y, width); break;
+                    case FOURCC_DXT5: decodeDXT5(ptr, out, x, y, width); break;
+                }
+                ptr += blockSize;
+            }
+        }
+    }
 
     texture->width = width;
     texture->height = height;
-    texture->bytesPerPixel = (header.ddspf.dwRGBBitCount) / 8;
-    texture->type = format;
-    texture->imageData = new unsigned char[dataSize];
-    memcpy(texture->imageData, pixels.data(), dataSize);
-    texture->loaded = true;
-    texture->editable = true;
-
-    if (!IsThread) {
-        qDebug() << "DDS:" << texture->pathid
-                 << width << "x" << height
-                 << "mipmaps:" << mipMapCount
-                 << "compressed:" << compressed;
+    
+    if (isCompressed) {
+        texture->bytesPerPixel = 4;
+        texture->type = GL_RGBA;
+    } else {
+        if (header.ddspf.dwRGBBitCount == 32) {
+            texture->bytesPerPixel = 4;
+            texture->type = GL_RGBA;
+        } else if (header.ddspf.dwRGBBitCount == 24) {
+            texture->bytesPerPixel = 3;
+            texture->type = GL_RGB;
+        } else {
+            texture->bytesPerPixel = 4;
+            texture->type = GL_RGBA;
+        }
     }
+
+    texture->imageData = new unsigned char[width * height * 4];
+    memcpy(texture->imageData, out.data(), width * height * 4);
+
+    texture->loaded = true;
+    texture->editable = false;
 }
