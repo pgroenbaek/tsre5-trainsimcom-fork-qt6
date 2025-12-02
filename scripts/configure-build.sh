@@ -5,8 +5,8 @@ echo "---- TSRE5 CMake Build Configuration Script ----"
 echo
 
 # Default values
-DEFAULT_QT_PATH="~/Programs/Qt/6.9.3/gcc_64"
-DEFAULT_VCPKG_PATH="~/.vcpkg"
+DEFAULT_QT_PATH="$HOME/Programs/Qt/6.9.3/gcc_64"
+DEFAULT_VCPKG_PATH="$HOME/.vcpkg"
 DEFAULT_TRIPLET="x64-linux-dynamic"
 
 read -p "Enter full path to your Qt6 installation directory (e.g., /path/to/Qt/6.9.3/gcc_64) [$DEFAULT_QT_PATH]: " QT_PATH
