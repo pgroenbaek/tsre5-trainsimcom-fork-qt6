@@ -23,4 +23,5 @@ https://www.trainsim.com/tsre
 
 The experimental Qt6 version has the following unresolved issues:
 
-- No issues known at the moment. More things are probably going to show up while testing...
+- There is an issue with tile-loading. For example, large routes fail to load but a clean-ish route with a single tile works.
+- More things are probably going to show up while testing...
