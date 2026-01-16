@@ -23,5 +23,7 @@ https://www.trainsim.com/tsre
 
 The experimental Qt6 version has the following unresolved issues:
 
-- There is an issue with tile-loading. For example, large routes fail to load but a clean-ish route with a single tile works.
+- There are some issues crashing with the Mesa3D drivers for software rendering using OpenGL (maybe just remove it and only allow hardware-based rendering?)
+- KML markers are not being displayed in the route editor OpenGL window
+- Crash when trying to display terrain textures to pick/put in the terrain tool UI.
 - More things are probably going to show up while testing...
