@@ -25,5 +25,9 @@ The experimental Qt6 version has the following unresolved issues:
 
 - There are some issues crashing with the Mesa3D drivers for software rendering using OpenGL (maybe just remove it and only allow hardware-based rendering?)
 - KML markers are not being displayed in the route editor OpenGL window
-- Crash when trying to display terrain textures to pick/put in the terrain tool UI.
+- Maps loaded from OpenStreetMap looks different than in earlier versions. More pixelated and with more irrelevant details drawn. Problem with loading XML?
+- Crash when trying to display terrain textures in the terrain tool UI.
+- Path editing in the activity tool does not seem to work properly (tool selection issue?).
+- Activity tools dialogs: Are you supposed to be able to check "This" in the dialog lists?
+- There seems to be a problem when linking signals (tool selection issue?).
 - More things are probably going to show up while testing...
