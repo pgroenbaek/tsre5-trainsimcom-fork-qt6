@@ -79,7 +79,7 @@ Texture::Texture(const Texture* orig) {
         this->editable = true;
     }
 
-    tex = new unsigned int[1];
+    tex = new unsigned int[1]{0};
     glGenTextures(1, tex);
     glBindTexture(GL_TEXTURE_2D, tex[0]);
     glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, imageData);
@@ -133,8 +133,8 @@ unsigned char * Texture::getImageData(int width, int height){
     
     for(int i = 0; i < height; i++ )
         for(int j = 0; j < width; j++ ){
-            int wsi = scaleh*i;
-            int hsi = scalew*j;
+            int wsi = std::clamp((int)(scaleh * i), 0, this->height - 1);
+            int hsi = std::clamp((int)(scalew * j), 0, this->width - 1);
             out[i*width*bytesPerPixel + j*bytesPerPixel+0] = imageData[wsi*lineWidth + hsi*bytesPerPixel+0];
             out[i*width*bytesPerPixel + j*bytesPerPixel+1] = imageData[wsi*lineWidth + hsi*bytesPerPixel+1];
             out[i*width*bytesPerPixel + j*bytesPerPixel+2] = imageData[wsi*lineWidth + hsi*bytesPerPixel+2];
@@ -369,7 +369,7 @@ bool Texture::GLTextures(bool mipmaps) {
                 imageData[i*bytesPerPixel + 3] = 0;
         }
 
-    tex = new unsigned int[1];
+    tex = new unsigned int[1]{0};
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     
     glGenTextures(1, tex);
