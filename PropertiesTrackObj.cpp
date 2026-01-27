@@ -111,8 +111,8 @@ PropertiesTrackObj::PropertiesTrackObj(){
     QObject::connect(pasteQrot, &QPushButton::released,
         this, &PropertiesTrackObj::pasteREnabled);
     QPushButton *copyPosRot = new QPushButton("Copy Pos+Rot", this);
-    QObject::connect(pasteQrot, &QPushButton::released,
-        this, &PropertiesTrackObj::pasteREnabled);
+    QObject::connect(copyPosRot, &QPushButton::released,
+        this, &PropertiesTrackObj::copyPREnabled);
     QPushButton *pastePosRot = new QPushButton("Paste", this);
     QObject::connect(pastePosRot, &QPushButton::released,
         this, &PropertiesTrackObj::pastePREnabled);
