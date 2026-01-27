@@ -29,5 +29,4 @@ The experimental Qt6 version has the following unresolved issues:
 - Crash when trying to display terrain textures in the terrain tool UI.
 - Path editing in the activity tool does not seem to work properly (tool selection issue?).
 - Activity tools dialogs: Are you supposed to be able to check "This" in the dialog lists?
-- There seems to be a problem when linking signals (tool selection issue?).
 - _More things are probably going to show up while testing..._
