@@ -23,12 +23,11 @@ https://www.trainsim.com/tsre
 
 The experimental Qt6 version has the following unresolved issues:
 
-- KML markers are not being displayed in the route editor OpenGL window
-- Maps loaded from OpenStreetMap look different than in earlier versions. More pixelated and with more irrelevant details drawn. Problem with loading XML?
+- KML markers are not being displayed in the route editor OpenGL window at all
 - _More things are probably going to show up while testing..._
 
-The following unresolved issues seem to also be present in v0.8.005:
+The following unresolved issues are also present in v0.8.005:
 
-- Path editing in the activity tool is not implemented, can only show paths.
+- Path creation/editing in the activity tool is not implemented, can only show paths.
 - Occasional crashes while using the activity dialogs
 
