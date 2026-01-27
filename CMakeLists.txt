@@ -26,9 +26,10 @@ find_package(OpenGL REQUIRED)
 find_package(OpenSSL REQUIRED)
 
 # Automatically include all .cpp and .h files in the root folder
-file(GLOB SRC_FILES
+file(GLOB SRC_FILES    # CONFIGURE_DEPENDS
   "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
   "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
+  #"${CMAKE_CURRENT_SOURCE_DIR}/*.ui"
   "${CMAKE_CURRENT_SOURCE_DIR}/*.qrc"
 )
 
@@ -41,7 +42,9 @@ if(WIN32)
 endif()
 
 # Set compiler flags
-add_compile_options(-Wall -O2)
+if (MINGW)
+    add_compile_options(-Wall -Wextra -O2)
+endif()
 
 # Tell CMake to create the executable
 add_executable(TSRE5 ${SRC_FILES})

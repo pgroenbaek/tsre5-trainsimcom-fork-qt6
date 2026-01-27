@@ -5,7 +5,7 @@ echo ---- TSRE5 CMake Build Script ----
 echo.
 
 :: Default values
-set "DEFAULT_QT_PATH=C:\Qt6.9\6.9.3\mingw_64"
+set "DEFAULT_QT_PATH=D:\Devtools\Qt\Qt6.9\6.9.3\mingw_64"
 
 :: Ask for Qt6 path
 set /P QT_PATH="Enter full path to your Qt6 installation directory (e.g., C:\path\to\Qt\6.x.x\mingw_64) [%DEFAULT_QT_PATH%]: "

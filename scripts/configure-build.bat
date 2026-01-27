@@ -5,8 +5,8 @@ echo ---- TSRE5 CMake Build Configuration Script ----
 echo.
 
 :: Default values
-set "DEFAULT_QT_PATH=C:\Qt6.9\6.9.3\mingw_64"
-set "DEFAULT_VCPKG_PATH=C:\vcpkg"
+set "DEFAULT_QT_PATH=D:\Devtools\Qt\Qt6.9\6.9.3\mingw_64"
+set "DEFAULT_VCPKG_PATH=D:\Devtools\vcpkg"
 set "DEFAULT_TRIPLET=x64-mingw-dynamic"
 
 :: Ask for Qt6 path

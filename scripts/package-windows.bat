@@ -5,7 +5,7 @@ echo ---- TSRE5 Windows Packaging Script ----
 echo.
 
 :: Default values
-set "DEFAULT_QT_PATH=C:\Qt6.9\6.9.3\mingw_64"
+set "DEFAULT_QT_PATH=D:\Devtools\Qt\Qt6.9\6.9.3\mingw_64"
 set "DEFAULT_ARCH=x64"
 
 :: Set project directories
@@ -58,28 +58,28 @@ del "%DIST_DIR%\opengl32sw.dll"
 
 :: Download and copy DLLs necessary for software-based rendering with OpenGL 3.0+
 :: These DLLs are replacements for opengl32sw.dll from Mesa3D that actually work with the TSRE5 OpenGL pipeline.
-set "MESA_URL=https://github.com/pal1000/mesa-dist-win/releases/download/25.2.5/mesa3d-25.2.5-release-mingw.7z"
-set "SEVENZIP_URL=https://www.7-zip.org/a/7zr.exe"
-set "TEMP_DIR=%BUILD_DIR%\temp"
-set "MESA_ARCHIVE=%TEMP_DIR%\mesa3d-25.2.5-release-mingw.7z"
-set "SEVENZIP_PATH=%TEMP_DIR%\7zr.exe"
+@REM set "MESA_URL=https://github.com/pal1000/mesa-dist-win/releases/download/25.2.5/mesa3d-25.2.5-release-mingw.7z"
+@REM set "SEVENZIP_URL=https://www.7-zip.org/a/7zr.exe"
+@REM set "TEMP_DIR=%BUILD_DIR%\temp"
+@REM set "MESA_ARCHIVE=%TEMP_DIR%\mesa3d-25.2.5-release-mingw.7z"
+@REM set "SEVENZIP_PATH=%TEMP_DIR%\7zr.exe"
 
-mkdir "%TEMP_DIR%"
+@REM mkdir "%TEMP_DIR%"
 
-echo Downloading Mesa3D 25.2.5 MinGW release archive...
-curl -# -L %MESA_URL% -o "%MESA_ARCHIVE%"
+@REM echo Downloading Mesa3D 25.2.5 MinGW release archive...
+@REM curl -# -L %MESA_URL% -o "%MESA_ARCHIVE%"
 
-echo Downloading 7-Zip extractor...
-curl -# -L %SEVENZIP_URL% -o "%SEVENZIP_PATH%"
+@REM echo Downloading 7-Zip extractor...
+@REM curl -# -L %SEVENZIP_URL% -o "%SEVENZIP_PATH%"
 
-echo Extracting Mesa3D DLLs to replace opengl32sw.dll...
-"%SEVENZIP_PATH%" x "%MESA_ARCHIVE%" %ARCH%\dxil.dll %ARCH%\opengl32.dll %ARCH%\libgallium_wgl.dll "-o%TEMP_DIR%\extract" -y >nul 2>&1
+@REM echo Extracting Mesa3D DLLs to replace opengl32sw.dll...
+@REM "%SEVENZIP_PATH%" x "%MESA_ARCHIVE%" %ARCH%\dxil.dll %ARCH%\opengl32.dll %ARCH%\libgallium_wgl.dll "-o%TEMP_DIR%\extract" -y >nul 2>&1
 
-echo Copying Mesa3D DLLs to replace opengl32sw.dll...
-xcopy "%TEMP_DIR%\extract\%ARCH%\*.dll" "%DIST_DIR%" /Y
+@REM echo Copying Mesa3D DLLs to replace opengl32sw.dll...
+@REM xcopy "%TEMP_DIR%\extract\%ARCH%\*.dll" "%DIST_DIR%" /Y
 
-echo Cleaning up temporary files...
-rmdir /s /q "%TEMP_DIR%"
+@REM echo Cleaning up temporary files...
+@REM rmdir /s /q "%TEMP_DIR%"
 
 :: Copy icons and images
 echo Copying icons and images...

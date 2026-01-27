@@ -114,6 +114,8 @@ To run the build configuration script:
 ./configure-build.bat
 ```
 
+**Note:** Make sure you don't have spaces in the path to the cloned TSRE directory with code. The build of OpenSSL handled through vcpkg does not like spaces in the path.
+
 You only need to run the build configuration script once. Or again if you later want to change directory paths or triplets.
 
 When the build directory is configured you can run `build.bat`.
