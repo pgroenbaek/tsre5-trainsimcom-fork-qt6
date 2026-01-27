@@ -23,10 +23,12 @@ https://www.trainsim.com/tsre
 
 The experimental Qt6 version has the following unresolved issues:
 
-- There are some issues crashing with the Mesa3D drivers for software rendering using OpenGL (maybe just remove it and only allow hardware-based rendering?)
 - KML markers are not being displayed in the route editor OpenGL window
-- Maps loaded from OpenStreetMap looks different than in earlier versions. More pixelated and with more irrelevant details drawn. Problem with loading XML?
-- Crash when trying to display terrain textures in the terrain tool UI.
-- Path editing in the activity tool does not seem to work properly (tool selection issue?).
-- Activity tools dialogs: Are you supposed to be able to check "This" in the dialog lists?
+- Maps loaded from OpenStreetMap look different than in earlier versions. More pixelated and with more irrelevant details drawn. Problem with loading XML?
 - _More things are probably going to show up while testing..._
+
+The following unresolved issues seem to also be present in v0.8.005:
+
+- Path editing in the activity tool is not implemented, can only show paths.
+- Occasional crashes while using the activity dialogs
+

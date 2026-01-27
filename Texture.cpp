@@ -133,8 +133,8 @@ unsigned char * Texture::getImageData(int width, int height){
     
     for(int i = 0; i < height; i++ )
         for(int j = 0; j < width; j++ ){
-            int wsi = std::clamp((int)(scaleh * i), 0, this->height - 1);
-            int hsi = std::clamp((int)(scalew * j), 0, this->width - 1);
+            int wsi = scaleh*i;
+            int hsi = scalew*j;
             out[i*width*bytesPerPixel + j*bytesPerPixel+0] = imageData[wsi*lineWidth + hsi*bytesPerPixel+0];
             out[i*width*bytesPerPixel + j*bytesPerPixel+1] = imageData[wsi*lineWidth + hsi*bytesPerPixel+1];
             out[i*width*bytesPerPixel + j*bytesPerPixel+2] = imageData[wsi*lineWidth + hsi*bytesPerPixel+2];
