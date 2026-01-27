@@ -633,8 +633,8 @@ void MapDataOSM::loadData(QByteArray* data){
     reader.setNamespaceProcessing(false);
     QString name;
     QXmlStreamAttributes attr;
-    reader.readNext();
-    while (!reader.atEnd()) {
+    while (!reader.atEnd() && !reader.hasError()) {
+        reader.readNext();
         if (reader.isStartElement()) {
             name = reader.name().toString();
             attr = reader.attributes();
@@ -748,8 +748,6 @@ void MapDataOSM::loadData(QByteArray* data){
         } else if (reader.isCharacters()) {
 
         }
-        
-        reader.readNext();
     }
     qDebug() << "node/way: " << inode << "/" << iway;
 }

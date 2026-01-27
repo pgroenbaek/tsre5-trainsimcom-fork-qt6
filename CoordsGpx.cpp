@@ -48,8 +48,8 @@ CoordsGpx::CoordsGpx(QString path) {
     reader.setNamespaceProcessing(false);
     QString name;
     QXmlStreamAttributes attr;
-    reader.readNext();
-    while (!reader.atEnd()) {
+    while (!reader.atEnd() && !reader.hasError()) {
+        reader.readNext();
         if (reader.isStartElement()) {
             name = reader.name().toString();
             attr = reader.attributes();
@@ -131,8 +131,6 @@ CoordsGpx::CoordsGpx(QString path) {
                 markerList.back().name = reader.text().toString();
             }
         }
-        
-        reader.readNext();
     }
     loaded = true;
     

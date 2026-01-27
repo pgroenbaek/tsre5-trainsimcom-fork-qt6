@@ -52,11 +52,11 @@ CoordsKml::CoordsKml(QString path) {
     reader.setNamespaceProcessing(false);
     QString name;
     QXmlStreamAttributes attr;
-    int linecounter;
-    reader.readNext();
-    while (!reader.atEnd()) {
+    int linecounter = 0;
+    while (!reader.atEnd() && !reader.hasError()) {
+        reader.readNext();
         //qDebug() << reader.name().toString();
-        if(reader.name().toString().trimmed() == "") linecounter++;
+        if(reader.tokenType() == QXmlStreamReader::Invalid) linecounter++;
         if(linecounter > 10000) {  qWarning() << "Aborting read of " << path << " after excessive bad line reads."; break; }
         if (reader.isStartElement()) {
             name = reader.name().toString();
@@ -174,8 +174,6 @@ CoordsKml::CoordsKml(QString path) {
                 }
             }
         }
-        
-        reader.readNext();
     }
     loaded = true;
     
