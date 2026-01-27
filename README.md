@@ -23,7 +23,7 @@ https://www.trainsim.com/tsre
 
 The experimental Qt6 version has the following unresolved issues:
 
-- KML markers are not being displayed in the route editor OpenGL window at all
+- Crashes occur when trying to interact with the terrain texture pick/put tool
 - _More things are probably going to show up while testing..._
 
 The following unresolved issues are also present in v0.8.005:
