@@ -51,6 +51,7 @@
     },
     {
       "name": "linux-qt-debug",
+      "hidden": true,
       "displayName": "Linux Qt Debug",
       "generator": "Unix Makefiles",
       "binaryDir": "${sourceDir}/build/Debug",
@@ -71,13 +72,13 @@
     },
     {
       "name": "linux-qt-release",
+      "hidden": true,
       "displayName": "Linux Qt Release",
       "generator": "Unix Makefiles",
       "binaryDir": "${sourceDir}/build/Release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/dist/Release",
-        "CMAKE_VS_DEBUGGER_WORKING_DIRECTORY": "${sourceDir}/dist/Release",
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/toolchains/qt-linux-toolchain.cmake",
         "VCPKG_TARGET_TRIPLET": "$env{VCPKG_TRIPLET}",

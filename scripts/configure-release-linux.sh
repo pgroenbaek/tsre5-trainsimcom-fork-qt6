@@ -2,11 +2,11 @@
 set -e
 set -u
 
-echo "---- TSRE5 CMake Configure (Debug) ----"
+echo "---- TSRE5 CMake Configure (Release) ----"
 echo
 
 ROOT_DIR="$(dirname "$(realpath "$0")")/.."
-BUILD_DIR="$ROOT_DIR/build/Debug"
+BUILD_DIR="$ROOT_DIR/build/Release"
 
 # Remove and re-create existing build directory
 if [ -d "$BUILD_DIR" ]; then
@@ -19,7 +19,7 @@ mkdir -p "$BUILD_DIR"
 echo
 echo "Running CMake..."
 cd "$ROOT_DIR"
-if ! cmake --preset linux-qt-debug-userenv; then
+if ! cmake --preset linux-qt-release-userenv; then
     echo
     echo "[ERROR] CMake configuration failed."
     exit 1
