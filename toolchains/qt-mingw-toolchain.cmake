@@ -1,16 +1,26 @@
-if(NOT QT_PATH)
-    if(DEFINED ENV{QT_PATH})
-        set(QT_PATH "$ENV{QT_PATH}" CACHE PATH "Qt path")
-    endif()
+if(NOT QT_ROOT)
+  set(QT_ROOT $ENV{QT_ROOT} CACHE PATH "Qt root")
 endif()
 
-if(NOT DEFINED QT_PATH)
-    message(FATAL_ERROR "QT_PATH not defined! Pass it or export as environment variable.")
+if(NOT QT_VERSION)
+  set(QT_VERSION $ENV{QT_VERSION} CACHE STRING "Qt version")
 endif()
 
-set(CMAKE_C_COMPILER "${QT_PATH}/../../Tools/mingw1310_64/bin/gcc.exe" CACHE FILEPATH "")
-set(CMAKE_CXX_COMPILER "${QT_PATH}/../../Tools/mingw1310_64/bin/g++.exe" CACHE FILEPATH "")
-set(CMAKE_RC_COMPILER "${QT_PATH}/../../Tools/mingw1310_64/bin/windres.exe" CACHE FILEPATH "")
-set(CMAKE_MAKE_PROGRAM "${QT_PATH}/../../Tools/mingw1310_64/bin/mingw32-make.exe" CACHE FILEPATH "")
+if(NOT QT_ARCH)
+  set(QT_ARCH $ENV{QT_ARCH} CACHE STRING "Qt arch")
+endif()
 
-set(CMAKE_PREFIX_PATH "${QT_PATH}/lib/cmake" CACHE PATH "Qt6 CMake modules")
+if(NOT QT_MINGW_VERSION)
+  set(QT_MINGW_VERSION $ENV{QT_MINGW_VERSION} CACHE STRING "Qt MinGW version")
+endif()
+
+set(QT_PATH "${QT_ROOT}/${QT_VERSION}/${QT_ARCH}" CACHE PATH "Qt full path")
+
+set(MINGW_BIN "${QT_ROOT}/Tools/${QT_MINGW_VERSION}/bin")
+
+set(CMAKE_C_COMPILER "${MINGW_BIN}/gcc.exe" CACHE FILEPATH "")
+set(CMAKE_CXX_COMPILER "${MINGW_BIN}/g++.exe" CACHE FILEPATH "")
+set(CMAKE_RC_COMPILER "${MINGW_BIN}/windres.exe" CACHE FILEPATH "")
+set(CMAKE_MAKE_PROGRAM "${MINGW_BIN}/mingw32-make.exe" CACHE FILEPATH "")
+
+set(CMAKE_PREFIX_PATH "${QT_PATH}/lib/cmake" CACHE PATH "Qt CMake modules")
