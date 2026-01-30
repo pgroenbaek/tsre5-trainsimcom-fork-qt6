@@ -25,7 +25,7 @@ set "QT_PATH=%QT_ROOT%\%QT_VERSION%\%QT_ARCH%"
 set "BUILD_DIR=%ROOT_DIR%\build\Debug"
 set "DIST_DIR=%ROOT_DIR%\dist\Debug"
 
-:: Copy batch files to dist folder
+:: Copy executable and batch files to dist folder
 echo Copying executable and .bat files...
 xcopy "%BUILD_DIR%\TSRE5.exe" "%DIST_DIR%" /Y
 xcopy "%ROOT_DIR%\ConsistEditor.bat" "%DIST_DIR%" /Y

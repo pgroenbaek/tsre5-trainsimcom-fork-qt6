@@ -125,23 +125,56 @@ To run the build script:
 ./build.bat
 ```
 
-### Packaging TSRE5
-
-First, make sure you have run `configure-build.bat` as well as `build.bat`.
-
-Then run:
-
-```powershell
-./package-windows.bat
+```json
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "windows-userenv",
+      "hidden": true,
+      "environment": {
+        "QT_ROOT": "C:/path/to/Qt6.9",
+        "QT_VERSION": "6.9.3",
+        "QT_ARCH": "mingw_64",
+        "QT_MINGW_VERSION": "mingw1310_64",
+        "VCPKG_ROOT": "C:/path/to/vcpkg",
+        "VCPKG_TRIPLET": "x64-mingw-dynamic"
+      }
+    },
+    {
+      "name": "linux-userenv",
+      "hidden": true,
+      "environment": {
+        "QT_ROOT": "/path/to/Qt/Qt6.9",
+        "QT_VERSION": "6.9.3",
+        "QT_ARCH": "gcc_64",
+        "VCPKG_ROOT": "$env{HOME}/.vcpkg",
+        "VCPKG_TRIPLET": "x64-linux-dynamic"
+      }
+    },
+    {
+      "name": "windows-qt-debug-userenv",
+      "inherits": ["windows-userenv", "windows-qt-debug"],
+      "displayName": "Windows Qt MinGW Debug (User Env)"
+    },
+    {
+      "name": "windows-qt-release-userenv",
+      "inherits": ["windows-userenv", "windows-qt-release"],
+      "displayName": "Windows Qt MinGW Release (User Env)"
+    },
+    {
+      "name": "linux-qt-debug-userenv",
+      "inherits": ["linux-userenv", "linux-qt-debug"],
+      "displayName": "Linux Qt GCC Debug (User Env)"
+    },
+    {
+      "name": "linux-qt-release-userenv",
+      "inherits": ["linux-userenv", "linux-qt-release"],
+      "displayName": "Linux Qt GCC Release (User Env)"
+    }
+  ]
+}
 ```
-
-This script will create a `./dist` folder with the compiled .exe, along with all DLLs and app data required to run TSRE5.
-
-Windows 10+ is required as the script uses `curl`. On earlier versions of windows, you can probably download curl and add it to the system environment path to run the script.
-
-The script uses `curl` to download replacements for `opengl32sw.dll` that is included with Qt6. This DLL is used when no GPU or hardware acceleration is available on a machine and OpenGL falls back to using software-based rendering. The `opengl32sw.dll` binary does not support OpenGL 3.0+, and therefore does not work with TSRE. So, the script downloads replacements from the Mesa3D package that actually work with OpenGl 3.0+ for this purpose.
-
-Otherwise, the script only copies binaries and other assets from the local machine into the `./dist` folder. These are binaries from the Qt6 installation, binaries built through vcpkg and assets from the project folder.
 
 ## Linux (Debian-based distros)
 
