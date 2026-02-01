@@ -50,7 +50,7 @@ https://www.qt.io/download-qt-installer-oss
 
     Make sure that _"Qt 6.x for desktop development"_ and _"Customize install"_ are checked.
 
-    You can also check _"Qt Design Studio"_ if you want to be able to edit .ui files with a drag and drop editor.
+    You can also check _"Qt Design Studio"_ if you want to be able to edit `.ui` files with a drag and drop editor.
 
     ![Qt6 Windows Installation Options](/docs/images/qt6-windows-installation-options.png)
 
@@ -118,7 +118,7 @@ The vcpkg dependency manager must be fetched through git and requires a few extr
 
 ### Building TSRE5 on Windows
 
-Once you have the prerequisites in place you can perform the initial setup for building TSRE5.
+Once you have the prerequisites in place you can perform the initial setup for building TSRE5:
 
 1. First, clone a copy of the TSRE5 repository to your local machine.
 
@@ -126,7 +126,7 @@ Once you have the prerequisites in place you can perform the initial setup for b
 
     If you cloned the TSRE5 repository into e.g. `C:/path/to/TSRE5Repo`, then place the file at `C:/path/to/TSRE5Repo/CMakeUserPresets.json`.
 
-    The file should have the following content:
+    The file must contain the following content:
 
     ```json
     {
@@ -160,18 +160,23 @@ Once you have the prerequisites in place you can perform the initial setup for b
 
 3. Change the `QT_ROOT` and `VCPKG_ROOT` values to where you installed Qt6 and vcpkg.
 
-    If you selected a different Qt6 version and MinGW compiler version during the Qt6 installation, then adjust those values as well.
+    If you selected different versions of Qt6 and MinGW during the Qt6 installation, then adjust those values as well. The values correspond to the folder names found in `C:/path/to/Qt6` and `C:/path/to/Qt6/Tools` respectively.
 
-    The values for the Qt6 version and MinGW compiler version correspond to the folder names found in `C:/path/to/Qt6` and `C:/path/to/Qt6/Tools` respectively.
-
-You are now ready to build TSRE5. There are two ways to do this. You can either use the CMake Extension in Visual Studio Code, or run the build scripts provided in the `/scripts` folder.
+You are now ready to build TSRE5 using CMake. There are two ways to do this. Either use the CMake Extension in Visual Studio Code, or run the build scripts provided in the `/scripts` folder by hand.
 
 #### Building through the CMake Extension in VS Code
 
-[build manual](/docs/setting-up-vscode.md)
+To build through Visual Studio Code you first need to install the CMake Extension. For how to do this, see the [setting up VS Code](/docs/setting-up-vscode.md) guide.
+
+configure
+build
+package
+debugging/launch (see [debugging on Windows](/docs/setting-up-vscode.md))
 
 
-#### Building through the provided .bat scripts
+#### Building through the provided `.bat` scripts
+
+
 
 Enter the scripts directory:
 

@@ -33,15 +33,10 @@ file(GLOB_RECURSE ALL_PROJECT_FILES
     "*.qrc"
 )
 
-# Add the .rc file on windows only
-if(WIN32)
-    list(APPEND SRC_FILES TSRE5_resource.rc)
-endif()
-
 # Tell CMake to create the executable
 add_executable(TSRE5)
 
-# Automatically include all .cpp and .h files in the root folder
+# Automatically include all .cpp, .h, .ui, and .qrc files
 file(GLOB_RECURSE CPP_FILES CONFIGURE_DEPENDS "*.cpp" "*.h")
 file(GLOB_RECURSE UI_FILES CONFIGURE_DEPENDS "*.ui")
 file(GLOB_RECURSE QRC_FILES CONFIGURE_DEPENDS "*.qrc")
@@ -60,6 +55,11 @@ target_sources(TSRE5 PRIVATE
 target_sources(TSRE5 PRIVATE
     ${UI_FILES}
 )
+
+# Add the .rc file on windows only
+if(WIN32)
+    target_sources(TSRE5 PRIVATE TSRE5_resource.rc)
+endif()
 
 # Set compile options
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
