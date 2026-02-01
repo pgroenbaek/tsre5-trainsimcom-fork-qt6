@@ -180,7 +180,7 @@ You can build the project when CMake has been configured with either the Debug o
 
 On Windows, CMake is configured to create `/dist` folders as part of the build process. These folders contain all libraries and assets needed to run TSRE5, and the contents can be packaged into a zip file or an installer.
 
-Once you've built TSRE5, you can launch it through the debugger or through the executable itself using the buttons marked with green.
+Once you've built TSRE5, you can launch it through the debugger or through the executable itself using the buttons marked with green. You can also launch it clicking the executable or `.bat` files in the `/dist` folders.
 
 See also: [Guide on how to do debugging on Windows](/docs/setting-up-vscode.md)
 
@@ -189,37 +189,29 @@ See also: [Guide on how to do debugging on Windows](/docs/setting-up-vscode.md)
 
 #### Building through the provided `.bat` scripts
 
+As an alternative to using the VS Code CMake extension you can also run the `.bat` files in the `/scripts` directory.
 
+They do the same as the CMake extension and will also use the information you put into the `CMakeUserPresets.json` file.
 
-Enter the scripts directory:
+Using the scripts (either release or debug):
 
-```powershell
-cd scripts
-```
+1. Enter the `/scripts` directory in powershell:
 
-Now run `configure-build.bat`, this script will set up the build directory using CMake.
+    ```powershell
+    cd scripts
+    ```
 
-The build configuration script will ask you to provide the Qt installation directory, the vcpkg directory and which vcpkg triplet you want to use.
+2. Execute the `configure-windows-<config>.bat` script, this script will set up the build directory using CMake.
 
-The vcpkg triplets you can use are:
-- x64-mingw-dynamic
-- x86-mingw-dynamic
+    **Note:** The first time you configure, vcpkg will fetch and build all dependencies. Expect it to take more than 20 minutes. Be patient. This is normal. On subsequent configuration runs, vcpkg will use cached libraries and be much quicker.
 
-To run the build configuration script:
-```powershell
-./configure-build.bat
-```
+3. Execute the `build-windows-<config>.bat` script, this script will actually build the TSRE5 executable.
 
-**Note:** Make sure you don't have spaces in the path to the cloned TSRE directory with code. The build of OpenSSL handled through vcpkg does not like spaces in the path.
+    On Windows, CMake is configured to create `/dist` folders as part of the build process. These folders contain all libraries and assets needed to run TSRE5, and the contents can be packaged into a zip file or an installer.
 
-You only need to run the build configuration script once. Or again if you later want to change directory paths or triplets.
+4. You can now launch TSRE5 using the executable or `.bat` files in the `/dist` folders.
 
-When the build directory is configured you can run `build.bat`.
-
-To run the build script:
-```powershell
-./build.bat
-```
+You can also remove the contents of the `/dist/<config>` folder and clean up artifacts in the build folder using the `clean-windows-<config>.bat` script.
 
 ## Linux (Debian-based distros)
 
