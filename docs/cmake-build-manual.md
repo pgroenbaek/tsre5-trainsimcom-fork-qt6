@@ -46,15 +46,15 @@ https://www.qt.io/download-qt-installer-oss
 
    Specify where you want Qt
 
-![Qt6 Windows Installation Options](/docs/images/qt6-windows-installation-options.png)
+   ![Qt6 Windows Installation Options](/docs/images/qt6-windows-installation-options.png)
 
-![Qt6 Windows Installation Customization](/docs/images/qt6-windows-installation-customize.png)
+   ![Qt6 Windows Installation Customization](/docs/images/qt6-windows-installation-customize.png)
 
-![Qt6 Windows Installation Customization - Qt Arch](/docs/images/qt6-windows-installation-customize-qt-arch.png)
+   ![Qt6 Windows Installation Customization - Qt Arch](/docs/images/qt6-windows-installation-customize-qt-arch.png)
 
-![Qt6 Windows Installation Customization - Qt WebSockets](/docs/images/qt6-windows-installation-customize-qt-websockets.png)
+   ![Qt6 Windows Installation Customization - Qt WebSockets](/docs/images/qt6-windows-installation-customize-qt-websockets.png)
 
-![Qt6 Windows Installation Customization - Compilers](/docs/images/qt6-windows-installation-customize-compilers.png)
+   ![Qt6 Windows Installation Customization - Compilers](/docs/images/qt6-windows-installation-customize-compilers.png)
 
 **Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration. Make sure to check it in the treeview menu: `Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets`
 
