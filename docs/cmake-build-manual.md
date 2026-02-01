@@ -247,8 +247,6 @@ git --version
 
 ### Installing Qt6.x
 
-#### Installing Qt6.x:
-
 Download the installer for _Linux x64_:
 https://www.qt.io/download-qt-installer-oss
 
@@ -284,7 +282,7 @@ https://www.qt.io/download-qt-installer-oss
 
     ![Qt6 Linux Installation Customization](/docs/images/qt6-linux-installation-customize.png)
 
-    In the expanded dropdown menu of the selected Qt version, you can uncheck `MSVC 2022 ARM64`, `LLVM-MinGW 17.0.6 64-bit`, `MSVC 2022 64-bit` and `Android`. They are not needed for building TSRE5 and will only take up unnecessary disk space.
+    In the expanded dropdown menu of the selected Qt version, you can uncheck `Android`. It is not needed for building TSRE5 and will only take up unnecessary disk space.
 
     ![Qt6 Linux Installation Customization - Qt Arch](/docs/images/qt6-linux-installation-customize-qt-arch.png)
 
@@ -292,7 +290,7 @@ https://www.qt.io/download-qt-installer-oss
 
     ![Qt6 Linux Installation Customization - Qt WebSockets](/docs/images/qt6-linux-installation-customize-qt-websockets.png)
 
-    Also make sure `MinGW 13.1.0 64-bit` and `CMake` are checked under Build Tools.
+    Also make sure `Ninja` and `CMake` are checked under Build Tools.
 
     ![Qt6 Linux Installation Customization - Compilers](/docs/images/qt6-linux-installation-customize-compilers.png)
 
@@ -300,6 +298,76 @@ https://www.qt.io/download-qt-installer-oss
 
 6. Done!
 
+
+### Installing gcc and ninja:
+
+```bash
+sudo apt install build-essential ninja-build
+```
+
+Verify that you can run `gcc` and `ninja`:
+```bash
+gcc --version
+ninja --version
+```
+
+### Installing CMake:
+
+```bash
+sudo apt install cmake
+```
+
+Verify that you can run `cmake`:
+```bash
+cmake --version
+```
+
+### Installing and setting up vcpkg:
+
+The vcpkg dependency manager must be fetched through git and requires a few extra steps to set it up correctly.
+
+1. First clone the vcpkg repository:
+
+    ```bash
+    git clone https://github.com/microsoft/vcpkg.git ~/.vcpkg
+    ```
+2. Change directory to the cloned repo:
+
+    ```bash
+    cd ~/.vcpkg
+    ```
+
+3. Next, run the bootstrap script:
+
+    ```bash
+    ./bootstrap-vcpkg.sh -disableMetrics
+    ```
+
+4. Edit your `~/.bashrc` (or similar, depending on the shell you use) and add this line at the bottom:
+
+    ```bash
+    export PATH="$HOME/.vcpkg:$PATH"
+    ```
+
+    To reload your shell:
+
+    ```bash
+    source ~/.bashrc
+    ```
+
+5. Verify that you can run `vcpkg`:
+
+    ```bash
+    vcpkg --version
+    ```
+
+6. To integrate `vcpkg`:
+
+    ```bash
+    vcpkg integrate install
+    ```
+
+7. Done!
 
 ### Building TSRE5 for Linux
 
