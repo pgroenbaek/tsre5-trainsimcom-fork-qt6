@@ -183,7 +183,7 @@ To apply a configuration preset, click the edit button under _"Configure"_ and s
 
 **Note:** The first time you configure, vcpkg will fetch and build all dependencies. Expect it to take more than 20 minutes. Be patient. This is normal. On subsequent configuration runs, vcpkg will use cached libraries and be much quicker.
 
-![VSCode CMake configuration selection](/docs/images/vscode-cmake-ext-configurations.png)
+![VSCode CMake configuration selection](/docs/images/vscode-windows-cmake-ext-configurations.png)
 
 You can build the project when CMake has been configured with either the Debug or Release preset. To build, click one of the buttons marked with red in the image below.
 
@@ -191,7 +191,7 @@ On Windows, CMake is configured to create `/dist` folders as part of the build p
 
 Once you've built TSRE5, you can launch it through the debugger or through the executable itself using the buttons marked with green. You can also launch it clicking the executable or `.bat` files in the `/dist` folders.
 
-![VSCode CMake running build, debug, and launch](/docs/images/vscode-cmake-ext-annotated.png)
+![VSCode CMake running build, debug, and launch](/docs/images/vscode-windows-cmake-ext-annotated.png)
 
 
 #### Building through the provided `.bat` scripts
@@ -417,155 +417,56 @@ Once you have the prerequisites in place you can perform the initial setup for b
 You are now ready to build TSRE5 using CMake. There are two ways to do this. Either use the CMake extension in Visual Studio Code, or run the build scripts provided in the `/scripts` folder by hand.
 
 
-<!-- 
-## Linux (Debian-based distros)
+#### Building through the CMake extension in VS Code
 
-### Installing git:
+To build through Visual Studio Code, you first need to install the CMake extension. For how to do this, see the [setting up VS Code](/docs/setting-up-vscode.md) guide.
 
-```bash
-sudo apt install git
-```
+Once the CMake extension is installed, and you open the project in VS Code, the extension will automatically pick up on the project configurations and the information you put into the `CMakeUserPresets.json` file.
 
-Verify that you can run `git`:
-```bash
-git --version
-```
+To apply a configuration preset, click the edit button under _"Configure"_ and select either Debug or Release in the menu that pops up.
 
-### Installing Qt6.9.x:
+**Note:** The first time you configure, vcpkg will fetch and build all dependencies. Expect it to take more than 20 minutes. Be patient. This is normal. On subsequent configuration runs, vcpkg will use cached libraries and be much quicker.
 
-Download the installer:
-https://www.qt.io/download-qt-installer-oss
+![VSCode CMake configuration selection](/docs/images/vscode-linux-cmake-ext-configurations.png)
 
-Select the right OS and install somewhere you can find it.
+You can build the project when CMake has been configured with either the Debug or Release preset. To build, click one of the build buttons.
 
-**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration. Make sure to check it in the treeview menu: `Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets`
+Unlike for Windows, the Linux configurations are not configured to create `/dist` folders with the all necessary libraries and assets. You will have to do that by hand at the moment.
 
-Find the path to the `gcc_64` folder within the Qt6 installation, you will need it later.
+#### Building through the provided `.sh` scripts
 
-It should look something like `/path/to/Qt/6.x.x/gcc_64`, or similar, depending on version and where you installed Qt6.
+As an alternative to using the VS Code CMake extension, you can also run the `.sh` files in the `/scripts` directory.
 
-### Installing gcc:
+They do the same as the CMake extension and will also use the information you put into the `CMakeUserPresets.json` file.
 
-```bash
-sudo apt install build-essential ninja-build
-```
+To use the scripts (either release or debug):
 
-Verify that you can run `gcc`:
-```bash
-gcc --version
-```
+1. If you execute the scripts in a terminal, first enter the `/scripts` directory:
 
-### Installing CMake:
+    ```bash
+    cd scripts
+    ```
 
-```bash
-sudo apt install cmake
-```
+    You can also double-click the scripts in explorer, and then this step is not needed.
 
-Verify that you can run `cmake`:
-```bash
-cmake --version
-```
+2. Execute the `configure-<config>-linux.sh` script. This script will set up the build directory using CMake.
 
-### Installing and setting up vcpkg:
+    ```bash
+    ./configure-<config>-linux.sh
+    ```
 
-```bash
-cd ~
-git clone https://github.com/microsoft/vcpkg.git ~/.vcpkg
-cd ~/.vcpkg
-```
+    **Note:** The first time you configure, vcpkg will fetch and build all dependencies. Expect it to take more than 20 minutes. Be patient. This is normal. On subsequent configuration runs, vcpkg will use cached libraries and be much quicker.
 
-Next, run the bootstrap script:
+3. Execute the `build-<config>-linux.sh` script. This script will actually build the TSRE5 executable.
 
-```bash
-./bootstrap-vcpkg.sh -disableMetrics
-```
+    ```powershell
+    ./build-<config>-linux.sh
+    ```
 
-Edit your `~/.bashrc` (or similar, depending on the shell you use) and add this line at the bottom:
-```bash
-export PATH="$HOME/.vcpkg:$PATH"
-```
+    Unlike for Windows, the Linux configurations are not configured to create `/dist` folders with the all necessary libraries and assets. You will have to do that by hand at the moment.
 
-To reload your shell
-```bash
-source ~/.bashrc
-```
+Using the `clean-<config>-linux.sh` script, you can also clean up any artifacts in the build folder.
 
-Verify that you can run `vcpkg`:
-```bash
-vcpkg --version
-```
-
-To integrate `vcpkg` with `cmake`:
-```bash
-vcpkg integrate install
-```
-
-### Building TSRE5
-
-Clone and change directory to the TSRE5 repository:
-```bash
-git clone <repo url>
-cd <local repo directory name>
-```
-
-Enter the scripts directory:
-
-```bash
-cd scripts
-```
-
-Now run `configure-build.sh`, this script will set up the build directory using CMake.
-You might need to use `chmod +x configure-build.sh` before you can execute the script.
-
-The vcpkg triplet you can use is:
-- x64-linux-dynamic
-
-Qt will always be linked dynamically regardless of what you use, it needs to be due to their OSS license.
-
-To run the build configuration script:
-```bash
-./configure-build.sh
-```
-
-You only need to run the build configuration script once. Or again if you later want to change directory paths or triplets.
-
-When the build directory is configured you can run `build.sh`.
-Again, you might need to use `chmod +x build.sh` before you can execute the script.
-
-To run the build script:
-```bash
-./build.sh
-```
-
-
-```json
-{
-  "version": 3,
-  "configurePresets": [
-    {
-      "name": "linux-userenv",
-      "hidden": true,
-      "environment": {
-        "QT_ROOT": "/path/to/Qt/Qt6.9",
-        "QT_VERSION": "6.9.3",
-        "QT_ARCH": "gcc_64",
-        "VCPKG_ROOT": "$env{HOME}/.vcpkg",
-        "VCPKG_TRIPLET": "x64-linux-dynamic"
-      }
-    },
-    {
-      "name": "linux-qt-debug-userenv",
-      "inherits": ["linux-userenv", "linux-qt-debug"],
-      "displayName": "Linux Qt GCC Debug (User Env)"
-    },
-    {
-      "name": "linux-qt-release-userenv",
-      "inherits": ["linux-userenv", "linux-qt-release"],
-      "displayName": "Linux Qt GCC Release (User Env)"
-    }
-  ]
-}
-``` -->
 
 ## macOS
 
