@@ -2,7 +2,7 @@
 
 Visual Studio Code can be set up with IDE-like functionality to get proper debugging capabilities, etc. This will also allow you to build TSRE5 without using the scripts in the `\scripts` folder.
 
-## Required extensions:
+## Required extensions
 
 The following extension is required:
 - CMake Tools (ms-vscode.cmake-tools)
@@ -11,7 +11,7 @@ You can search for the extension in the extensions tab using the extension ident
 
 ![VSCode extension search](/docs/images/vscode-extension-search.png)
 
-### Optional extensions:
+### Optional extensions
 
 - C/C++ (ms-vscode.cpptools)
 - Qt Core (theqtcompany.qt-core)
