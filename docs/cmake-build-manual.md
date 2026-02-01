@@ -220,7 +220,7 @@ To use the scripts (either release or debug):
 4. You can now launch TSRE5 using the executable or `.bat` files in the `/dist/<config>` folder.
 
 Using the `clean-<config>-windows.bat` script, you can also remove the contents of the `/dist/<config>` folder and clean up any artifacts in the build folder.
-
+<!-- 
 ## Linux (Debian-based distros)
 
 ### Installing git:
@@ -368,7 +368,7 @@ To run the build script:
     }
   ]
 }
-```
+``` -->
 
 ## macOS
 
