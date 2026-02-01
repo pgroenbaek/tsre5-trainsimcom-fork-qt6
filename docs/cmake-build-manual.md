@@ -371,6 +371,52 @@ The vcpkg dependency manager must be fetched through git and requires a few extr
 
 ### Building TSRE5 for Linux
 
+Once you have the prerequisites in place you can perform the initial setup for building TSRE5:
+
+1. First, clone a copy of the TSRE5 repository to your local machine.
+
+2. Place a file named `CMakeUserPresets.json` into the local project root directory.
+
+    If you cloned the TSRE5 repository into e.g. `/path/to/TSRE5Repo`, then place the file at `/path/to/TSRE5Repo/CMakeUserPresets.json`.
+
+    The file must contain the following content:
+
+    ```json
+    {
+      "version": 3,
+      "configurePresets": [
+        {
+          "name": "linux-userenv",
+          "hidden": true,
+          "environment": {
+            "QT_ROOT": "/path/to/Qt6",
+            "QT_VERSION": "6.9.3",
+            "QT_ARCH": "gcc_64",
+            "VCPKG_ROOT": "$env{HOME}/.vcpkg",
+            "VCPKG_TRIPLET": "x64-linux-dynamic"
+          }
+        },
+        {
+          "name": "linux-qt-debug-userenv",
+          "inherits": ["linux-userenv", "linux-qt-debug"],
+          "displayName": "Linux Qt GCC Debug (User Env)"
+        },
+        {
+          "name": "linux-qt-release-userenv",
+          "inherits": ["linux-userenv", "linux-qt-release"],
+          "displayName": "Linux Qt GCC Release (User Env)"
+        }
+      ]
+    }
+    ```
+
+3. Change the `QT_ROOT` and `VCPKG_ROOT` values to where you installed Qt6 and vcpkg.
+
+    If you selected a different version of Qt6 during the installation, then adjust the Qt version in the preset. The value corresponds to the folder name found in `/path/to/Qt6`.
+
+You are now ready to build TSRE5 using CMake. There are two ways to do this. Either use the CMake extension in Visual Studio Code, or run the build scripts provided in the `/scripts` folder by hand.
+
+
 <!-- 
 ## Linux (Debian-based distros)
 
