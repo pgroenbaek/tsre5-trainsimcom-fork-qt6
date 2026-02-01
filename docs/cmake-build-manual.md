@@ -276,25 +276,25 @@ https://www.qt.io/download-qt-installer-oss
 
     You can also check _"Qt Design Studio"_ if you want to be able to edit `.ui` files with a drag and drop editor.
 
-    ![Qt6 Windows Installation Options](/docs/images/qt6-windows-installation-options.png)
+    ![Qt6 Linux Installation Options](/docs/images/qt6-linux-installation-options.png)
 
 5. Customization:
 
     Check the Qt version you want installed.
 
-    ![Qt6 Windows Installation Customization](/docs/images/qt6-windows-installation-customize.png)
+    ![Qt6 Linux Installation Customization](/docs/images/qt6-linux-installation-customize.png)
 
     In the expanded dropdown menu of the selected Qt version, you can uncheck `MSVC 2022 ARM64`, `LLVM-MinGW 17.0.6 64-bit`, `MSVC 2022 64-bit` and `Android`. They are not needed for building TSRE5 and will only take up unnecessary disk space.
 
-    ![Qt6 Windows Installation Customization - Qt Arch](/docs/images/qt6-windows-installation-customize-qt-arch.png)
+    ![Qt6 Linux Installation Customization - Qt Arch](/docs/images/qt6-linux-installation-customize-qt-arch.png)
 
     Make sure `Qt WebSockets` is checked under _Additional Libraries_. TSRE5 depends on it and cannot be built without it.
 
-    ![Qt6 Windows Installation Customization - Qt WebSockets](/docs/images/qt6-windows-installation-customize-qt-websockets.png)
+    ![Qt6 Linux Installation Customization - Qt WebSockets](/docs/images/qt6-linux-installation-customize-qt-websockets.png)
 
     Also make sure `MinGW 13.1.0 64-bit` and `CMake` are checked under Build Tools.
 
-    ![Qt6 Windows Installation Customization - Compilers](/docs/images/qt6-windows-installation-customize-compilers.png)
+    ![Qt6 Linux Installation Customization - Compilers](/docs/images/qt6-linux-installation-customize-compilers.png)
 
 5. Now proceed with the Qt6 installation.
 
