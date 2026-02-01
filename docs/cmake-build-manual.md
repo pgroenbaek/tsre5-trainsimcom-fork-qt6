@@ -166,23 +166,23 @@ You are now ready to build TSRE5 using CMake. There are two ways to do this. Eit
 
 #### Building through the CMake extension in VS Code
 
-To build through Visual Studio Code you first need to install the CMake extension. For how to do this, see the [setting up VS Code](/docs/setting-up-vscode.md) guide.
+To build through Visual Studio Code, you first need to install the CMake extension. For how to do this, see the [setting up VS Code](/docs/setting-up-vscode.md) guide.
 
 Once the CMake extension is installed, and you open the project in VS Code, the extension will automatically pick up on the project configurations and the information you put into the `CMakeUserPresets.json` file.
 
 To apply a configuration preset, click the edit button under _"Configure"_ and select either Debug or Release in the menu that pops up.
 
-![VSCode CMake configuration selection](/docs/images/vscode-cmake-ext-configurations.png)
-
 **Note:** The first time you configure, vcpkg will fetch and build all dependencies. Expect it to take more than 20 minutes. Be patient. This is normal. On subsequent configuration runs, vcpkg will use cached libraries and be much quicker.
 
-When you've configured with either the Debug or Release preset, you can build the project. To build, click one of the buttons marked with red in the image below.
+![VSCode CMake configuration selection](/docs/images/vscode-cmake-ext-configurations.png)
 
-On Windows, CMake is configured to create `/dist` folders as part of the build process. These folders contain all libraries and assets needed to run TSRE, and the contents can be packaged in a zip file or into an installer.
+You can build the project when CMake has been configured with either the Debug or Release preset. To build, click one of the buttons marked with red in the image below.
 
-Once you've built TSRE5, you can also launch it through the debugger or through the executable itself using the buttons marked with green.
+On Windows, CMake is configured to create `/dist` folders as part of the build process. These folders contain all libraries and assets needed to run TSRE5, and the contents can be packaged into a zip file or an installer.
 
-See also: [Debugging guide on Windows](/docs/setting-up-vscode.md)
+Once you've built TSRE5, you can launch it through the debugger or through the executable itself using the buttons marked with green.
+
+See also: [Guide on how to do debugging on Windows](/docs/setting-up-vscode.md)
 
 ![VSCode CMake running build, debug, and launch](/docs/images/vscode-cmake-ext-annotated.png)
 
