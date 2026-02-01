@@ -193,13 +193,13 @@ They do the same as the CMake extension and will also use the information you pu
 
 To use the scripts (either release or debug):
 
-1. If you execute the scripts in a terminal, enter the `/scripts` directory:
+1. If you execute the scripts in a terminal, first enter the `/scripts` directory:
 
     ```powershell
     cd scripts
     ```
 
-    You can also double-click the scripts in explorer, and then this is not needed.
+    You can also double-click the scripts in explorer, and then this step is not needed.
 
 2. Execute the `configure-<config>-windows.bat` script. This script will set up the build directory using CMake.
 
@@ -217,7 +217,7 @@ To use the scripts (either release or debug):
 
     On Windows, CMake is configured to create `/dist` folders as part of the build process. These folders contain all libraries and assets needed to run TSRE5, and the contents can be packaged into a zip file or an installer.
 
-4. You can now launch TSRE5 using the executable or `.bat` files in the `/dist` folders.
+4. You can now launch TSRE5 using the executable or `.bat` files in the `/dist/<config>` folder.
 
 Using the `clean-<config>-windows.bat` script, you can also remove the contents of the `/dist/<config>` folder and clean up any artifacts in the build folder.
 
