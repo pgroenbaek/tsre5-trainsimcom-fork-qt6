@@ -168,11 +168,15 @@ You are now ready to build TSRE5 using CMake. There are two ways to do this. Eit
 
 To build through Visual Studio Code you first need to install the CMake extension. For how to do this, see the [setting up VS Code](/docs/setting-up-vscode.md) guide.
 
-When the CMake extension is installed, and you open the project in VS Code, the extension will automatically pick up on the project configurations and the information you put into the `CMakeUserPresets.json` file.
+Once the CMake extension is installed, and you open the project in VS Code, the extension will automatically pick up on the project configurations and the information you put into the `CMakeUserPresets.json` file.
 
-configure
+To apply a configuration preset, click the edit button under _"Configure"_ and select either Debug or Release in the menu that pops up.
 
 ![VSCode CMake configuration selection](/docs/images/vscode-cmake-ext-configurations.png)
+
+**Note:** The first time you configure, vcpkg will fetch and build all dependencies. Expect it to take more than 20 minutes. Be patient. This is normal. On subsequent configuration runs, vcpkg will use cached libraries and be much quicker.
+
+When you've configured with either the Debug or Release preset, you can build the project. 
 
 build
 package
