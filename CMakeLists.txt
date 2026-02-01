@@ -54,19 +54,19 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     target_compile_options(TSRE5 PRIVATE
         -Wall
         -Wextra
-        "$<$<CONFIG:Debug>:-g;-O0;-fno-omit-frame-pointer>" # Debug-only
-        "$<$<CONFIG:Release>:-O2>" # Release-only
+        "$<$<CONFIG:Debug>:-g;-O0;-fno-omit-frame-pointer>"
+        "$<$<CONFIG:Release>:-O2>"
     )
     target_compile_definitions(TSRE5 PRIVATE
-        "$<$<CONFIG:Debug>:_GLIBCXX_DEBUG>" # Debug-only
+        "$<$<CONFIG:Debug>:_GLIBCXX_DEBUG>"
     )
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     # Clang (Linux or macOS)
     target_compile_options(TSRE5 PRIVATE
         -Wall
         -Wextra
-        "$<$<CONFIG:Debug>:-g;-O0;-fno-omit-frame-pointer>" # Debug-only
-        "$<$<CONFIG:Release>:-O2>" # Release-only
+        "$<$<CONFIG:Debug>:-g;-O0;-fno-omit-frame-pointer>"
+        "$<$<CONFIG:Release>:-O2>"
     )
 endif()
 
@@ -108,7 +108,7 @@ if(WIN32)
     )
 endif()
 
-# Post-build commands for windows (copies everything needed into the /dist/<config> folder)
+# Post-build script for windows (copies everything needed into the /dist/<config> folder)
 if(WIN32)
     set(POSTBUILD_ENV
         "QT_ROOT=$ENV{QT_ROOT}"
