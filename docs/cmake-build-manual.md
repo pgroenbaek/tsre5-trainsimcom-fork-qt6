@@ -5,7 +5,7 @@
 | Tool             | Why it's needed                                                          |
 | ---------------- | ------------------------------------------------------------------------ |
 | **Git**          | To clone the TSRE5 repo *and* vcpkg                                      |
-| **Qt 6.9.x**     | To provide the GUI framework and required modules for the application    |
+| **Qt 6.x**     | To provide the GUI framework and required modules for the application    |
 | **C++ compiler** | To compile the project and dependencies                                  |
 | **CMake**        | To configure and generate build files                                    |
 | **vcpkg**        | To manage and integrate libraries other than Qt itself                   |
@@ -16,7 +16,7 @@ For example, using `vcpkg` you don't need to find openal-soft manually. The pack
 
 ## Windows
 
-### Setting up the prerequisites
+### Setting up the prerequisites on Windows
 
 #### Installing Git
 
@@ -42,27 +42,37 @@ https://www.qt.io/download-qt-installer-oss
 
 2. Accept the license and make sure to check _"I am an individual and do not use Qt for any company"_.
 
-3. Installation options
+3. Installation options:
 
-   Specify where you want Qt
+   Specify where you want Qt installed.
+
+   Make sure that _"Qt 6.x for desktop development"_ and _"Customize install"_ are checked.
+
+   You can also check _Qt Design Studio_ if you want to be able to edit .ui files with a drag and drop editor.
 
    ![Qt6 Windows Installation Options](/docs/images/qt6-windows-installation-options.png)
 
+4. Customization:
+
+   Check the Qt version you want installed.
+
    ![Qt6 Windows Installation Customization](/docs/images/qt6-windows-installation-customize.png)
+
+   In the expanded dropdown menu of the selected Qt version you can uncheck `MSVC 2022 ARM64`, `LLVM-MinGW 17.0.6 64-bit`, `MSVC 2022 64-bit` and `Android`. They are not needed for building TSRE5 and will only take up unnecessary disk space.
 
    ![Qt6 Windows Installation Customization - Qt Arch](/docs/images/qt6-windows-installation-customize-qt-arch.png)
 
+   Make sure `Qt WebSockets` is checked under _Additional Libraries_. TSRE5 depends on it and cannot be built without it.
+
    ![Qt6 Windows Installation Customization - Qt WebSockets](/docs/images/qt6-windows-installation-customize-qt-websockets.png)
+
+   Also make sure `MinGW 13.1.0 64-bit` and `CMake` are checked under Build Tools.
 
    ![Qt6 Windows Installation Customization - Compilers](/docs/images/qt6-windows-installation-customize-compilers.png)
 
-**Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration. Make sure to check it in the treeview menu: `Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets`
+   Now proceed with the installation.
 
-Find the path to the `mingw_64` folder within the Qt6 installation, you will need it later.
-
-It should look something like `C:\path\to\Qt\6.x.x\mingw_64`, or similar, depending on version and where you installed Qt6.
-
-### Installing and setting up vcpkg:
+#### Installing and setting up vcpkg:
 
 Open powershell and run:
 
@@ -93,7 +103,7 @@ Run this to integrate vcpkg with CMake:
 vcpkg integrate install
 ```
 
-### Building TSRE5
+### Building TSRE5 on Windows
 
 Clone and change directory to the TSRE5 repository:
 ```powershell
