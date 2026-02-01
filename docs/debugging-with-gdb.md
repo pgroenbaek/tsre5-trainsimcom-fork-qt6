@@ -1,2 +1,0 @@
-# Debugging using GDB
-

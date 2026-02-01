@@ -12,7 +12,7 @@
 
 The `vcpkg` tool by Microsoft is a dependency manager that handles downloading, building, and integrating libraries into the project automatically. It is similar to what NuGet does for C#, just for C/C++ instead.
 
-For example, using `vcpkg` you don't need to find openal-soft manually. The package manager will fetch sources and build the libraries as needed. Qt is not handled through `vcpkg` like the other dependencies, since it is easier to download and use the prebuilt Qt libraries. In addition, it takes a long time to fetch and compile Qt through `vcpkg` and it is more error-prone.
+For example, using `vcpkg` you don't need to find openal-soft manually. The package manager will fetch sources and build the libraries as needed. Qt is not handled through `vcpkg` like the other dependencies, since it is easier to download and use the prebuilt Qt libraries. In addition, it takes a long time to fetch and compile Qt through `vcpkg` and doing so is more error-prone.
 
 ## Windows
 

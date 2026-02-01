@@ -26,4 +26,4 @@ These are not required for building/packaging TSRE5.
 
 To build TSRE5, you will also need to install Qt6 and vcpkg. Paths to the install-locations must also be set up using a `CMakeUserPresets.json` file.
 
-The set-up process is described in the [build manual](/docs/cmake-build-manual.md).
+The entire set-up process is described in the [build manual](/docs/cmake-build-manual.md).
