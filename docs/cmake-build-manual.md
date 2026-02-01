@@ -176,11 +176,13 @@ To apply a configuration preset, click the edit button under _"Configure"_ and s
 
 **Note:** The first time you configure, vcpkg will fetch and build all dependencies. Expect it to take more than 20 minutes. Be patient. This is normal. On subsequent configuration runs, vcpkg will use cached libraries and be much quicker.
 
-When you've configured with either the Debug or Release preset, you can build the project. 
+When you've configured with either the Debug or Release preset, you can build the project. To build, click one of the buttons marked with red in the image below.
 
-build
-package
-debugging/launch (see [debugging on Windows](/docs/setting-up-vscode.md))
+On Windows, CMake is configured to create `/dist` folders as part of the build process. These folders contain all libraries and assets needed to run TSRE, and the contents can be packaged in a zip file or into an installer.
+
+Once you've built TSRE5, you can also launch it through the debugger or through the executable itself using the buttons marked with green.
+
+See also: [Debugging guide on Windows](/docs/setting-up-vscode.md)
 
 ![VSCode CMake running build, debug, and launch](/docs/images/vscode-cmake-ext-annotated.png)
 
