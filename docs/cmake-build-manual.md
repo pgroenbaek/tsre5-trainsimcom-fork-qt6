@@ -12,11 +12,13 @@
 
 The `vcpkg` tool by Microsoft is a dependency manager that handles downloading, building, and integrating libraries into the project automatically. It is similar to what NuGet does for C#, just for C/C++ instead.
 
-For example, using `vcpkg` you don't need to find openal-soft manually. The package manager will fetch sources and build the libraries as needed. Qt is not handled through `vcpkg` like the other dependencies, since it is easier to download and use the prebuilt Qt libraries. In addition, it takes a long time to fetch and compile Qt through `vcpkg` and doing so is more error-prone.
+For example, using `vcpkg` you don't need to find openal-soft manually. The package manager will fetch sources and build the libraries as needed. Qt is not handled through `vcpkg` like the other dependencies, as it is easier to download and use the prebuilt Qt libraries. It takes a long time to fetch and compile Qt through `vcpkg` and doing so is more error-prone.
 
 ## Windows
 
-### Installing git:
+### Setting up the prerequisites
+
+#### Installing Git
 
 Download from:
 https://git-scm.com/downloads/win
@@ -29,32 +31,36 @@ Open a new powershell window, and verify you can run:
 git --version
 ```
 
-If you can't run it, you will need to add the install location to the system env path variable manually.
+If you can't run it, you will need to manually add the install location to your system env path variable.
 
-### Installing Qt6.x:
+#### Installing Qt6.x:
 
-Download the installer:
+Download the installer for _Windows x64_:
 https://www.qt.io/download-qt-installer-oss
 
-Select the right OS and install somewhere you can find it.
+1. Start the installer and login. Make a free Qt account if you don't have one already.
+
+2. Accept the license and make sure to check _"I am an individual and do not use Qt for any company"_.
+
+3. Installation options
+
+   Specify where you want Qt
+
+![Qt6 Windows Installation Options](/docs/images/qt6-windows-installation-options.png)
+
+![Qt6 Windows Installation Customization](/docs/images/qt6-windows-installation-customize.png)
+
+![Qt6 Windows Installation Customization - Qt Arch](/docs/images/qt6-windows-installation-customize-qt-arch.png)
+
+![Qt6 Windows Installation Customization - Qt WebSockets](/docs/images/qt6-windows-installation-customize-qt-websockets.png)
+
+![Qt6 Windows Installation Customization - Compilers](/docs/images/qt6-windows-installation-customize-compilers.png)
 
 **Important:** You must select "Customize install", then find and select _"Qt WebSockets"_ under one of the treeview menus on the customization page. Otherwise CMake will not have that package available and TSRE5 cannot be built without it. _"Qt WebSockets"_ is not included in the standard install configuration. Make sure to check it in the treeview menu: `Qt -> Qt 6.x.x -> Additional Libraries -> Qt WebSockets`
 
 Find the path to the `mingw_64` folder within the Qt6 installation, you will need it later.
 
 It should look something like `C:\path\to\Qt\6.x.x\mingw_64`, or similar, depending on version and where you installed Qt6.
-
-### Installing CMake:
-
-In the windows build of Qt6, CMake is included. So you don't need to download and install it yourself.
-
-The scripts will find the path to the CMake binary automatically when you provide the Qt6 directory.
-
-### Installing MinGW:
-
-In the windows build of Qt6, MinGW 13.1 is included. So you don't need to download and install it yourself.
-
-The script `build-configuration.bat` will find the paths to the MinGW binaries automatically when you provide the Qt6 directory.
 
 ### Installing and setting up vcpkg:
 
@@ -133,23 +139,12 @@ To run the build script:
       "name": "windows-userenv",
       "hidden": true,
       "environment": {
-        "QT_ROOT": "C:/path/to/Qt6.9",
+        "QT_ROOT": "C:/path/to/Qt6",
         "QT_VERSION": "6.9.3",
         "QT_ARCH": "mingw_64",
         "QT_MINGW_VERSION": "mingw1310_64",
         "VCPKG_ROOT": "C:/path/to/vcpkg",
         "VCPKG_TRIPLET": "x64-mingw-dynamic"
-      }
-    },
-    {
-      "name": "linux-userenv",
-      "hidden": true,
-      "environment": {
-        "QT_ROOT": "/path/to/Qt/Qt6.9",
-        "QT_VERSION": "6.9.3",
-        "QT_ARCH": "gcc_64",
-        "VCPKG_ROOT": "$env{HOME}/.vcpkg",
-        "VCPKG_TRIPLET": "x64-linux-dynamic"
       }
     },
     {
@@ -161,16 +156,6 @@ To run the build script:
       "name": "windows-qt-release-userenv",
       "inherits": ["windows-userenv", "windows-qt-release"],
       "displayName": "Windows Qt MinGW Release (User Env)"
-    },
-    {
-      "name": "linux-qt-debug-userenv",
-      "inherits": ["linux-userenv", "linux-qt-debug"],
-      "displayName": "Linux Qt GCC Debug (User Env)"
-    },
-    {
-      "name": "linux-qt-release-userenv",
-      "inherits": ["linux-userenv", "linux-qt-release"],
-      "displayName": "Linux Qt GCC Release (User Env)"
     }
   ]
 }
@@ -293,6 +278,36 @@ Again, you might need to use `chmod +x build.sh` before you can execute the scri
 To run the build script:
 ```bash
 ./build.sh
+```
+
+
+```json
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "linux-userenv",
+      "hidden": true,
+      "environment": {
+        "QT_ROOT": "/path/to/Qt/Qt6.9",
+        "QT_VERSION": "6.9.3",
+        "QT_ARCH": "gcc_64",
+        "VCPKG_ROOT": "$env{HOME}/.vcpkg",
+        "VCPKG_TRIPLET": "x64-linux-dynamic"
+      }
+    },
+    {
+      "name": "linux-qt-debug-userenv",
+      "inherits": ["linux-userenv", "linux-qt-debug"],
+      "displayName": "Linux Qt GCC Debug (User Env)"
+    },
+    {
+      "name": "linux-qt-release-userenv",
+      "inherits": ["linux-userenv", "linux-qt-release"],
+      "displayName": "Linux Qt GCC Release (User Env)"
+    }
+  ]
+}
 ```
 
 ## macOS
