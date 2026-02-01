@@ -162,16 +162,23 @@ Once you have the prerequisites in place you can perform the initial setup for b
 
     If you selected different versions of Qt6 and MinGW during the Qt6 installation, then adjust those values as well. The values correspond to the folder names found in `C:/path/to/Qt6` and `C:/path/to/Qt6/Tools` respectively.
 
-You are now ready to build TSRE5 using CMake. There are two ways to do this. Either use the CMake Extension in Visual Studio Code, or run the build scripts provided in the `/scripts` folder by hand.
+You are now ready to build TSRE5 using CMake. There are two ways to do this. Either use the CMake extension in Visual Studio Code, or run the build scripts provided in the `/scripts` folder by hand.
 
-#### Building through the CMake Extension in VS Code
+#### Building through the CMake extension in VS Code
 
-To build through Visual Studio Code you first need to install the CMake Extension. For how to do this, see the [setting up VS Code](/docs/setting-up-vscode.md) guide.
+To build through Visual Studio Code you first need to install the CMake extension. For how to do this, see the [setting up VS Code](/docs/setting-up-vscode.md) guide.
+
+When the CMake extension is installed, and you open the project in VS Code, the extension will automatically pick up on the project configurations and the information you put into the `CMakeUserPresets.json` file.
 
 configure
+
+![VSCode CMake configuration selection](/docs/images/vscode-cmake-ext-configurations.png)
+
 build
 package
 debugging/launch (see [debugging on Windows](/docs/setting-up-vscode.md))
+
+![VSCode CMake running build, debug, and launch](/docs/images/vscode-cmake-ext-annotated.png)
 
 
 #### Building through the provided `.bat` scripts
