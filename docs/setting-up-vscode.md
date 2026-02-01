@@ -1,6 +1,6 @@
 # Setting up VS Code
 
-Visual Studio Code can be set up with IDE-like functionality to get proper debugging capabilities, etc. This will also allow you to build TSRE5 without using the scripts in the `\scripts` folder.
+Visual Studio Code can be set up with IDE-like functionality to get proper debugging capabilities, etc. This will also allow you to build TSRE5 without manually executing the scripts in the `\scripts` folder.
 
 ## Required extensions
 

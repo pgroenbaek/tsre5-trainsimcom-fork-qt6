@@ -12,7 +12,7 @@
 
 The `vcpkg` tool by Microsoft is a dependency manager that handles downloading, building, and integrating libraries into the project automatically. It is similar to what NuGet does for C#, just for C/C++ instead.
 
-For example, using `vcpkg` you don't need to find openal-soft manually. The package manager will fetch sources and build the libraries as needed. Qt is not handled through `vcpkg` like the other dependencies, as it is easier to download and use the prebuilt Qt libraries. It takes a long time to fetch and compile Qt through `vcpkg` and doing so is more error-prone.
+For example, using `vcpkg` you don't need to find openal-soft manually. The dependency manager will fetch sources and build the libraries as needed. Qt is not handled through `vcpkg` like the other dependencies, as it is easier to download and use the prebuilt Qt libraries. It takes a long time to fetch and compile Qt through `vcpkg` and doing so is more error-prone.
 
 ## Windows
 
@@ -78,7 +78,7 @@ https://www.qt.io/download-qt-installer-oss
 
 #### Installing and setting up vcpkg:
 
-The vcpkg package manager must be fetched through git and requires a few extra steps to set it up correctly.
+The vcpkg dependency manager must be fetched through git and requires a few extra steps to set it up correctly.
 
 1. Open powershell and change directory to where you want to put vcpkg. Then run:
 
@@ -118,45 +118,57 @@ The vcpkg package manager must be fetched through git and requires a few extra s
 
 ### Building TSRE5 on Windows
 
-Clone and change directory to the TSRE5 repository:
-```powershell
-git clone <repo url>
-cd <local repo directory name>
-```
+Once you have the prerequisites in place you can perform the initial setup for building TSRE5.
 
-```json
-{
-  "version": 3,
-  "configurePresets": [
+1. First, clone a copy of the TSRE5 repository to your local machine.
+
+2. Place a file named `CMakeUserPresets.json` into the local project root directory.
+
+    If you cloned the TSRE5 repository into e.g. `C:/path/to/TSRE5Repo`, then place the file at `C:/path/to/TSRE5Repo/CMakeUserPresets.json`.
+
+    The file should have the following content:
+
+    ```json
     {
-      "name": "windows-userenv",
-      "hidden": true,
-      "environment": {
-        "QT_ROOT": "C:/path/to/Qt6",
-        "QT_VERSION": "6.9.3",
-        "QT_ARCH": "mingw_64",
-        "QT_MINGW_VERSION": "mingw1310_64",
-        "VCPKG_ROOT": "C:/path/to/vcpkg",
-        "VCPKG_TRIPLET": "x64-mingw-dynamic"
-      }
-    },
-    {
-      "name": "windows-qt-debug-userenv",
-      "inherits": ["windows-userenv", "windows-qt-debug"],
-      "displayName": "Windows Qt MinGW Debug (User Env)"
-    },
-    {
-      "name": "windows-qt-release-userenv",
-      "inherits": ["windows-userenv", "windows-qt-release"],
-      "displayName": "Windows Qt MinGW Release (User Env)"
+      "version": 3,
+      "configurePresets": [
+        {
+          "name": "windows-userenv",
+          "hidden": true,
+          "environment": {
+            "QT_ROOT": "C:/path/to/Qt6",
+            "QT_VERSION": "6.9.3",
+            "QT_ARCH": "mingw_64",
+            "QT_MINGW_VERSION": "mingw1310_64",
+            "VCPKG_ROOT": "C:/path/to/vcpkg",
+            "VCPKG_TRIPLET": "x64-mingw-dynamic"
+          }
+        },
+        {
+          "name": "windows-qt-debug-userenv",
+          "inherits": ["windows-userenv", "windows-qt-debug"],
+          "displayName": "Windows Qt MinGW Debug (User Env)"
+        },
+        {
+          "name": "windows-qt-release-userenv",
+          "inherits": ["windows-userenv", "windows-qt-release"],
+          "displayName": "Windows Qt MinGW Release (User Env)"
+        }
+      ]
     }
-  ]
-}
-```
+    ```
+
+3. Change the `QT_ROOT` and `VCPKG_ROOT` values to where you installed Qt6 and vcpkg.
+
+    If you selected a different Qt6 version and MinGW compiler version during the Qt6 installation, then adjust those values as well.
+
+    The values for the Qt6 version and MinGW compiler version correspond to the folder names found in `C:/path/to/Qt6` and `C:/path/to/Qt6/Tools` respectively.
+
+You are now ready to build TSRE5. There are two ways to do this. You can either use the CMake Extension in Visual Studio Code, or run the build scripts provided in the `/scripts` folder.
 
 #### Building through the CMake Extension in VS Code
 
-
+[build manual](/docs/setting-up-vscode.md)
 
 
 #### Building through the provided .bat scripts
@@ -344,7 +356,7 @@ To run the build script:
 
 I don't have a Mac, so I can't test and document this process.
 
-It's a somewhat similar process to Linux. Use 'brew' rather than 'apt', and OSX-specific vcpkg triplets.
+It's a somewhat similar process to Linux, using Qt6 for Mac and OSX-specific vcpkg triplets.
 
 Those vcpkg triplets are:
 - x64-osx-dynamic
