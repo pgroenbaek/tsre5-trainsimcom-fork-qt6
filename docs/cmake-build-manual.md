@@ -44,64 +44,67 @@ https://www.qt.io/download-qt-installer-oss
 
 3. Installation options:
 
-   Specify where you want Qt installed.
+    Specify where you want Qt installed.
 
-   Make sure that _"Qt 6.x for desktop development"_ and _"Customize install"_ are checked.
+    Make sure that _"Qt 6.x for desktop development"_ and _"Customize install"_ are checked.
 
-   You can also check _Qt Design Studio_ if you want to be able to edit .ui files with a drag and drop editor.
+    You can also check _"Qt Design Studio"_ if you want to be able to edit .ui files with a drag and drop editor.
 
-   ![Qt6 Windows Installation Options](/docs/images/qt6-windows-installation-options.png)
+    ![Qt6 Windows Installation Options](/docs/images/qt6-windows-installation-options.png)
 
 4. Customization:
 
-   Check the Qt version you want installed.
+    Check the Qt version you want installed.
 
-   ![Qt6 Windows Installation Customization](/docs/images/qt6-windows-installation-customize.png)
+    ![Qt6 Windows Installation Customization](/docs/images/qt6-windows-installation-customize.png)
 
-   In the expanded dropdown menu of the selected Qt version you can uncheck `MSVC 2022 ARM64`, `LLVM-MinGW 17.0.6 64-bit`, `MSVC 2022 64-bit` and `Android`. They are not needed for building TSRE5 and will only take up unnecessary disk space.
+    In the expanded dropdown menu of the selected Qt version you can uncheck `MSVC 2022 ARM64`, `LLVM-MinGW 17.0.6 64-bit`, `MSVC 2022 64-bit` and `Android`. They are not needed for building TSRE5 and will only take up unnecessary disk space.
 
-   ![Qt6 Windows Installation Customization - Qt Arch](/docs/images/qt6-windows-installation-customize-qt-arch.png)
+    ![Qt6 Windows Installation Customization - Qt Arch](/docs/images/qt6-windows-installation-customize-qt-arch.png)
 
-   Make sure `Qt WebSockets` is checked under _Additional Libraries_. TSRE5 depends on it and cannot be built without it.
+    Make sure `Qt WebSockets` is checked under _Additional Libraries_. TSRE5 depends on it and cannot be built without it.
 
-   ![Qt6 Windows Installation Customization - Qt WebSockets](/docs/images/qt6-windows-installation-customize-qt-websockets.png)
+    ![Qt6 Windows Installation Customization - Qt WebSockets](/docs/images/qt6-windows-installation-customize-qt-websockets.png)
 
-   Also make sure `MinGW 13.1.0 64-bit` and `CMake` are checked under Build Tools.
+    Also make sure `MinGW 13.1.0 64-bit` and `CMake` are checked under Build Tools.
 
-   ![Qt6 Windows Installation Customization - Compilers](/docs/images/qt6-windows-installation-customize-compilers.png)
+    ![Qt6 Windows Installation Customization - Compilers](/docs/images/qt6-windows-installation-customize-compilers.png)
 
-   Now proceed with the installation.
+5. Now proceed with the Qt6 installation.
 
 #### Installing and setting up vcpkg:
 
-Open powershell and run:
+The vcpkg package manager must be fetched through git and requires a few extra steps to set it up correctly.
 
-```powershell
-cd C:/
-git clone https://github.com/microsoft/vcpkg.git
-cd vcpkg
-```
+1. Open powershell and run:
 
-Next, run the bootstrap script:
+    ```powershell
+    git clone https://github.com/microsoft/vcpkg.git
+    ```
 
-```powershell
-.\bootstrap-vcpkg.bat -disableMetrics
-```
+2. Next, run the bootstrap script:
 
-Add the vcpkg folder to the system path env variable, e.g. "C:\vcpkg"
+    ```powershell
+    cd vcpkg
 
-Restart powershell, and verify you can run:
+    .\bootstrap-vcpkg.bat -disableMetrics
+    ```
 
-```powershell
-vcpkg --version
-```
+3. Add the vcpkg folder to the system path env variable, e.g. `C:\vcpkg`, depending on where you cloned it to.
 
-If you can't run it, you will need to adjust the system env path variable.
+4. Restart powershell, and verify you can run:
 
-Run this to integrate vcpkg with CMake:
-```powershell
-vcpkg integrate install
-```
+    ```powershell
+     vcpkg --version
+    ```
+
+    If you are unable to run it, you will need to adjust the system env path variable.
+
+5. Run this to integrate vcpkg:
+
+    ```powershell
+    vcpkg integrate install
+    ```
 
 ### Building TSRE5 on Windows
 
