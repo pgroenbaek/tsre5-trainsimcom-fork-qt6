@@ -189,11 +189,11 @@ See also: [Guide on how to do debugging on Windows](/docs/setting-up-vscode.md)
 
 #### Building through the provided `.bat` scripts
 
-As an alternative to using the VS Code CMake extension you can also run the `.bat` files in the `/scripts` directory.
+As an alternative to using the VS Code CMake extension, you can also run the `.bat` files in the `/scripts` directory.
 
 They do the same as the CMake extension and will also use the information you put into the `CMakeUserPresets.json` file.
 
-Using the scripts (either release or debug):
+To use the scripts (either release or debug):
 
 1. Enter the `/scripts` directory in powershell:
 
@@ -201,11 +201,11 @@ Using the scripts (either release or debug):
     cd scripts
     ```
 
-2. Execute the `configure-windows-<config>.bat` script, this script will set up the build directory using CMake.
+2. Execute the `configure-windows-<config>.bat` script. This script will set up the build directory using CMake.
 
     **Note:** The first time you configure, vcpkg will fetch and build all dependencies. Expect it to take more than 20 minutes. Be patient. This is normal. On subsequent configuration runs, vcpkg will use cached libraries and be much quicker.
 
-3. Execute the `build-windows-<config>.bat` script, this script will actually build the TSRE5 executable.
+3. Execute the `build-windows-<config>.bat` script. This script will actually build the TSRE5 executable.
 
     On Windows, CMake is configured to create `/dist` folders as part of the build process. These folders contain all libraries and assets needed to run TSRE5, and the contents can be packaged into a zip file or an installer.
 
