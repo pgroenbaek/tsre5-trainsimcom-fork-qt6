@@ -12,7 +12,7 @@
 
 The `vcpkg` tool by Microsoft is a dependency manager that handles downloading, building, and integrating libraries into the project automatically. It is similar to what NuGet does for C#, just for C/C++ instead.
 
-For example, using `vcpkg` you don't need to find openal-soft manually. The dependency manager will fetch sources and build the libraries as needed. Qt is not handled through `vcpkg` like the other dependencies, as it is easier to download and use the prebuilt Qt libraries. It takes a long time to fetch and compile Qt through `vcpkg` and doing so is more error-prone.
+For example, when using `vcpkg`, you don't need to find libraries like openal-soft manually. The dependency manager will fetch sources and build the libraries as needed. Qt is not handled through `vcpkg` like the other dependencies, as it is easier to download and use the prebuilt Qt libraries. It takes a long time to fetch and compile Qt through `vcpkg` and doing so is more error-prone than using the prebuilt binaries.
 
 ## Windows
 
@@ -25,13 +25,13 @@ https://git-scm.com/downloads/win
 
 1. Install it.
 
-2. Open a new powershell window, and verify you can run:
+2. Open a new PowerShell window, and verify you can run:
 
     ```powershell
     git --version
     ```
 
-    If you are unable to run it, you will need to add the installation directory to the system env path variable.
+    If you are unable to run it, you will need to add the installation directory to the system PATH environment variable.
 
 3. Done!
 
@@ -40,7 +40,7 @@ https://git-scm.com/downloads/win
 Download the installer for _Windows x64_:
 https://www.qt.io/download-qt-installer-oss
 
-1. Start the installer and login. Make a free Qt account if you don't have one already.
+1. Start the installer and log in. Make a free Qt account if you don't have one already.
 
 2. Accept the license and make sure to check _"I am an individual and do not use Qt for any company"_.
 
@@ -60,7 +60,7 @@ https://www.qt.io/download-qt-installer-oss
 
     ![Qt6 Windows Installation Customization](/docs/images/qt6-windows-installation-customize.png)
 
-    In the expanded dropdown menu of the selected Qt version you can uncheck `MSVC 2022 ARM64`, `LLVM-MinGW 17.0.6 64-bit`, `MSVC 2022 64-bit` and `Android`. They are not needed for building TSRE5 and will only take up unnecessary disk space.
+    In the expanded dropdown menu of the selected Qt version, you can uncheck `MSVC 2022 ARM64`, `LLVM-MinGW 17.0.6 64-bit`, `MSVC 2022 64-bit` and `Android`. They are not needed for building TSRE5 and will only take up unnecessary disk space.
 
     ![Qt6 Windows Installation Customization - Qt Arch](/docs/images/qt6-windows-installation-customize-qt-arch.png)
 
@@ -80,7 +80,7 @@ https://www.qt.io/download-qt-installer-oss
 
 The vcpkg dependency manager must be fetched through git and requires a few extra steps to set it up correctly.
 
-1. Open powershell and change directory to where you want to put vcpkg. Then run:
+1. Open PowerShell and change directory to where you want to put vcpkg. Then run:
 
     ```powershell
     git clone https://github.com/microsoft/vcpkg.git
@@ -92,29 +92,29 @@ The vcpkg dependency manager must be fetched through git and requires a few extr
     cd vcpkg
     ```
 
-2. Next, run the bootstrap script:
+3. Next, run the bootstrap script:
 
     ```powershell
     .\bootstrap-vcpkg.bat -disableMetrics
     ```
 
-3. Add the vcpkg folder to the system path env variable, e.g. `C:\vcpkg`, depending on where you cloned it to.
+4. Add the vcpkg folder to the system path env variable, e.g. `C:\vcpkg`, depending on where you cloned it to.
 
-4. Restart powershell, and verify you can run:
+5. Restart PowerShell, and verify you can run:
 
     ```powershell
      vcpkg --version
     ```
 
-    If you are unable to run it, you will need to adjust the system env path variable.
+    If you are unable to run it, you will need to adjust the system PATH environment variable.
 
-5. Run this to integrate vcpkg:
+6. Run this to integrate vcpkg:
 
     ```powershell
     vcpkg integrate install
     ```
 
-6. Done!
+7. Done!
 
 ### Building TSRE5 on Windows
 
@@ -160,7 +160,7 @@ Once you have the prerequisites in place you can perform the initial setup for b
 
 3. Change the `QT_ROOT` and `VCPKG_ROOT` values to where you installed Qt6 and vcpkg.
 
-    If you selected different versions of Qt6 and MinGW during the Qt6 installation, then adjust those values as well. The values correspond to the folder names found in `C:/path/to/Qt6` and `C:/path/to/Qt6/Tools` respectively.
+    If you selected different versions of Qt6 and MinGW during the Qt6 installation, then adjust the corresponding values in the preset. The values correspond to the folder names found in `C:/path/to/Qt6` and `C:/path/to/Qt6/Tools` respectively.
 
 You are now ready to build TSRE5 using CMake. There are two ways to do this. Either use the CMake extension in Visual Studio Code, or run the build scripts provided in the `/scripts` folder by hand.
 
