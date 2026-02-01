@@ -195,7 +195,7 @@ They do the same as the CMake extension and will also use the information you pu
 
 To use the scripts (either release or debug):
 
-1. Enter the `/scripts` directory in powershell:
+1. If you execute the scripts in a terminal, enter the `/scripts` directory:
 
     ```powershell
     cd scripts
@@ -203,9 +203,17 @@ To use the scripts (either release or debug):
 
 2. Execute the `configure-windows-<config>.bat` script. This script will set up the build directory using CMake.
 
+    ```powershell
+    ./configure-windows-<config>.bat
+    ```
+
     **Note:** The first time you configure, vcpkg will fetch and build all dependencies. Expect it to take more than 20 minutes. Be patient. This is normal. On subsequent configuration runs, vcpkg will use cached libraries and be much quicker.
 
 3. Execute the `build-windows-<config>.bat` script. This script will actually build the TSRE5 executable.
+
+    ```powershell
+    ./build-windows-<config>.bat
+    ```
 
     On Windows, CMake is configured to create `/dist` folders as part of the build process. These folders contain all libraries and assets needed to run TSRE5, and the contents can be packaged into a zip file or an installer.
 
