@@ -447,8 +447,6 @@ To use the scripts (either release or debug):
     cd scripts
     ```
 
-    You can also double-click the scripts in explorer, and then this step is not needed.
-
 2. Execute the `configure-<config>-linux.sh` script. This script will set up the build directory using CMake.
 
     ```bash
@@ -459,7 +457,7 @@ To use the scripts (either release or debug):
 
 3. Execute the `build-<config>-linux.sh` script. This script will actually build the TSRE5 executable.
 
-    ```powershell
+    ```bash
     ./build-<config>-linux.sh
     ```
 
