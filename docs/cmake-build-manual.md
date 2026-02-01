@@ -20,18 +20,20 @@ For example, using `vcpkg` you don't need to find openal-soft manually. The pack
 
 #### Installing Git
 
-Download from:
+Download the installer for Windows:
 https://git-scm.com/downloads/win
 
-Install it.
+1. Install it.
 
-Open a new powershell window, and verify you can run:
+2. Open a new powershell window, and verify you can run:
 
-```powershell
-git --version
-```
+    ```powershell
+    git --version
+    ```
 
-If you can't run it, you will need to manually add the install location to your system env path variable.
+    If you are unable to run it, you will need to add the installation directory to the system env path variable.
+
+3. Done!
 
 #### Installing Qt6.x:
 
@@ -72,6 +74,8 @@ https://www.qt.io/download-qt-installer-oss
 
 5. Now proceed with the Qt6 installation.
 
+6. Done!
+
 #### Installing and setting up vcpkg:
 
 The vcpkg package manager must be fetched through git and requires a few extra steps to set it up correctly.
@@ -106,13 +110,22 @@ The vcpkg package manager must be fetched through git and requires a few extra s
     vcpkg integrate install
     ```
 
+6. Done!
+
 ### Building TSRE5 on Windows
+
 
 Clone and change directory to the TSRE5 repository:
 ```powershell
 git clone <repo url>
 cd <local repo directory name>
 ```
+
+#### Building through the CMake Extension in VS Code
+
+
+
+#### Building through the provided .bat scripts
 
 Enter the scripts directory:
 
