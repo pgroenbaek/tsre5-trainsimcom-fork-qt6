@@ -7,7 +7,7 @@ Visual Studio Code can be set up with IDE-like functionality to get proper debug
 The following extension is required:
 - CMake Tools (ms-vscode.cmake-tools)
 
-You can search for the extension in the extensions tab using the extension identifier to be sure to get the right one.
+You can search for the extension in the extensions tab using the name or the extension identifier.
 
 ![VSCode extension search](/docs/images/vscode-extension-search.png)
 
