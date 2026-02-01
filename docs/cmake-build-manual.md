@@ -1,5 +1,14 @@
 # CMake build manual
 
+**Table of Contents:**
+- [Prerequisites](#prerequisites)
+- [Windows](#windows)
+    - [Setting up the prerequisites on Windows](#setting-up-the-prerequisites-on-windows)
+    - [Building TSRE5 for Windows](#building-tsre5-for-windows)
+- [Linux](#linux)
+    - [Setting up the prerequisites on Linux](#setting-up-the-prerequisites-on-linux)
+    - [Building TSRE5 for Linux](#building-tsre5-for-linux)
+
 ## Prerequisites
 
 | Tool             | Why it's needed                                                          |
@@ -116,7 +125,7 @@ The vcpkg dependency manager must be fetched through git and requires a few extr
 
 7. Done!
 
-### Building TSRE5 on Windows
+### Building TSRE5 for Windows
 
 Once you have the prerequisites in place you can perform the initial setup for building TSRE5:
 
@@ -220,6 +229,80 @@ To use the scripts (either release or debug):
 4. You can now launch TSRE5 using the executable or `.bat` files in the `/dist/<config>` folder.
 
 Using the `clean-<config>-windows.bat` script, you can also remove the contents of the `/dist/<config>` folder and clean up any artifacts in the build folder.
+
+# Linux
+
+## Setting up the prerequisites on Linux
+
+### Installing git
+
+```bash
+sudo apt install git
+```
+
+Verify that you can run `git`:
+```bash
+git --version
+```
+
+### Installing Qt6.x
+
+#### Installing Qt6.x:
+
+Download the installer for _Linux x64_:
+https://www.qt.io/download-qt-installer-oss
+
+1. Make the installer executable:
+
+    ```bash
+    chmod +x ./qt-online-installer-linux-x64-4.10.0.run
+    ```
+
+2. Start the installer:
+
+    ```bash
+    ./qt-online-installer-linux-x64-4.10.0.run
+    ```
+
+   Log in when the installer asks you to. Make a free Qt account if you don't have one already.
+
+3. Accept the license and make sure to check _"I am an individual and do not use Qt for any company"_.
+
+4. Installation options:
+
+    Specify where you want Qt installed.
+
+    Make sure that _"Qt 6.x for desktop development"_ and _"Customize install"_ are checked.
+
+    You can also check _"Qt Design Studio"_ if you want to be able to edit `.ui` files with a drag and drop editor.
+
+    ![Qt6 Windows Installation Options](/docs/images/qt6-windows-installation-options.png)
+
+5. Customization:
+
+    Check the Qt version you want installed.
+
+    ![Qt6 Windows Installation Customization](/docs/images/qt6-windows-installation-customize.png)
+
+    In the expanded dropdown menu of the selected Qt version, you can uncheck `MSVC 2022 ARM64`, `LLVM-MinGW 17.0.6 64-bit`, `MSVC 2022 64-bit` and `Android`. They are not needed for building TSRE5 and will only take up unnecessary disk space.
+
+    ![Qt6 Windows Installation Customization - Qt Arch](/docs/images/qt6-windows-installation-customize-qt-arch.png)
+
+    Make sure `Qt WebSockets` is checked under _Additional Libraries_. TSRE5 depends on it and cannot be built without it.
+
+    ![Qt6 Windows Installation Customization - Qt WebSockets](/docs/images/qt6-windows-installation-customize-qt-websockets.png)
+
+    Also make sure `MinGW 13.1.0 64-bit` and `CMake` are checked under Build Tools.
+
+    ![Qt6 Windows Installation Customization - Compilers](/docs/images/qt6-windows-installation-customize-compilers.png)
+
+5. Now proceed with the Qt6 installation.
+
+6. Done!
+
+
+### Building TSRE5 for Linux
+
 <!-- 
 ## Linux (Debian-based distros)
 
