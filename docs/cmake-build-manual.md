@@ -107,7 +107,7 @@ The vcpkg dependency manager must be fetched through git and requires a few extr
     .\bootstrap-vcpkg.bat -disableMetrics
     ```
 
-4. Add the vcpkg folder to the system path env variable, e.g. `C:\vcpkg`, depending on where you cloned it to.
+4. Add the vcpkg folder to the system PATH environment variable, e.g. `C:\vcpkg`, depending on where you cloned it to.
 
 5. Restart PowerShell, and verify you can run:
 
