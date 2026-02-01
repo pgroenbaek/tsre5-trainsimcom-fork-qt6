@@ -80,17 +80,21 @@ https://www.qt.io/download-qt-installer-oss
 
 The vcpkg package manager must be fetched through git and requires a few extra steps to set it up correctly.
 
-1. Open powershell and run:
+1. Open powershell and change directory to where you want to put vcpkg. Then run:
 
     ```powershell
     git clone https://github.com/microsoft/vcpkg.git
     ```
 
-2. Next, run the bootstrap script:
+2. Enter the vcpkg directory:
 
     ```powershell
     cd vcpkg
+    ```
 
+2. Next, run the bootstrap script:
+
+    ```powershell
     .\bootstrap-vcpkg.bat -disableMetrics
     ```
 
@@ -114,14 +118,44 @@ The vcpkg package manager must be fetched through git and requires a few extra s
 
 ### Building TSRE5 on Windows
 
-
 Clone and change directory to the TSRE5 repository:
 ```powershell
 git clone <repo url>
 cd <local repo directory name>
 ```
 
+```json
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "windows-userenv",
+      "hidden": true,
+      "environment": {
+        "QT_ROOT": "C:/path/to/Qt6",
+        "QT_VERSION": "6.9.3",
+        "QT_ARCH": "mingw_64",
+        "QT_MINGW_VERSION": "mingw1310_64",
+        "VCPKG_ROOT": "C:/path/to/vcpkg",
+        "VCPKG_TRIPLET": "x64-mingw-dynamic"
+      }
+    },
+    {
+      "name": "windows-qt-debug-userenv",
+      "inherits": ["windows-userenv", "windows-qt-debug"],
+      "displayName": "Windows Qt MinGW Debug (User Env)"
+    },
+    {
+      "name": "windows-qt-release-userenv",
+      "inherits": ["windows-userenv", "windows-qt-release"],
+      "displayName": "Windows Qt MinGW Release (User Env)"
+    }
+  ]
+}
+```
+
 #### Building through the CMake Extension in VS Code
+
 
 
 
@@ -155,36 +189,6 @@ When the build directory is configured you can run `build.bat`.
 To run the build script:
 ```powershell
 ./build.bat
-```
-
-```json
-{
-  "version": 3,
-  "configurePresets": [
-    {
-      "name": "windows-userenv",
-      "hidden": true,
-      "environment": {
-        "QT_ROOT": "C:/path/to/Qt6",
-        "QT_VERSION": "6.9.3",
-        "QT_ARCH": "mingw_64",
-        "QT_MINGW_VERSION": "mingw1310_64",
-        "VCPKG_ROOT": "C:/path/to/vcpkg",
-        "VCPKG_TRIPLET": "x64-mingw-dynamic"
-      }
-    },
-    {
-      "name": "windows-qt-debug-userenv",
-      "inherits": ["windows-userenv", "windows-qt-debug"],
-      "displayName": "Windows Qt MinGW Debug (User Env)"
-    },
-    {
-      "name": "windows-qt-release-userenv",
-      "inherits": ["windows-userenv", "windows-qt-release"],
-      "displayName": "Windows Qt MinGW Release (User Env)"
-    }
-  ]
-}
 ```
 
 ## Linux (Debian-based distros)
