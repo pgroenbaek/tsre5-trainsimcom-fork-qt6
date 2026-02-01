@@ -182,8 +182,6 @@ On Windows, CMake is configured to create `/dist` folders as part of the build p
 
 Once you've built TSRE5, you can launch it through the debugger or through the executable itself using the buttons marked with green. You can also launch it clicking the executable or `.bat` files in the `/dist` folders.
 
-See also: [Guide on how to do debugging on Windows](/docs/setting-up-vscode.md)
-
 ![VSCode CMake running build, debug, and launch](/docs/images/vscode-cmake-ext-annotated.png)
 
 
@@ -201,25 +199,27 @@ To use the scripts (either release or debug):
     cd scripts
     ```
 
-2. Execute the `configure-windows-<config>.bat` script. This script will set up the build directory using CMake.
+    You can also double-click the scripts in explorer, and then this is not needed.
+
+2. Execute the `configure-<config>-windows.bat` script. This script will set up the build directory using CMake.
 
     ```powershell
-    ./configure-windows-<config>.bat
+    ./configure-<config>-windows.bat
     ```
 
     **Note:** The first time you configure, vcpkg will fetch and build all dependencies. Expect it to take more than 20 minutes. Be patient. This is normal. On subsequent configuration runs, vcpkg will use cached libraries and be much quicker.
 
-3. Execute the `build-windows-<config>.bat` script. This script will actually build the TSRE5 executable.
+3. Execute the `build-<config>-windows.bat` script. This script will actually build the TSRE5 executable.
 
     ```powershell
-    ./build-windows-<config>.bat
+    ./build-<config>-windows.bat
     ```
 
     On Windows, CMake is configured to create `/dist` folders as part of the build process. These folders contain all libraries and assets needed to run TSRE5, and the contents can be packaged into a zip file or an installer.
 
 4. You can now launch TSRE5 using the executable or `.bat` files in the `/dist` folders.
 
-You can also remove the contents of the `/dist/<config>` folder and clean up artifacts in the build folder using the `clean-windows-<config>.bat` script.
+Using the `clean-<config>-windows.bat` script, you can also remove the contents of the `/dist/<config>` folder and clean up any artifacts in the build folder.
 
 ## Linux (Debian-based distros)
 
