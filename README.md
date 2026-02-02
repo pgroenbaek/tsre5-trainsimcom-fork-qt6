@@ -19,15 +19,4 @@ https://www.trainsim.com/tsre
 - User Manual: [How to use the TSRE5 program](https://github.com/pwillard/TSRE5-Document/blob/master/book.pdf)
 - Build Manual: [How to build TSRE5 from source using CMake](./docs/cmake-build-manual.md)
 
-## Unresolved Issues
-
-The experimental Qt6 version has the following unresolved issues:
-
-- Crashes occur when trying to interact with the terrain texture pick/put tool
-- _More things are probably going to show up while testing..._
-
-The following unresolved issues are also present in v0.8.005:
-
-- Path creation/editing in the activity tool is not implemented, can only show paths.
-- Occasional crashes while using the activity dialogs
 
