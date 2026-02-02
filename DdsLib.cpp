@@ -164,13 +164,15 @@ void DdsLib::run() {
     std::ifstream file(filename, std::ios::binary);
     if (!file.is_open()) {
         texture->missing = true;
+        texture->loaded = false;
         return;
     }
 
     char magic[4];
     file.read(magic, 4);
     if (strncmp(magic, "DDS ", 4) != 0) {
-        texture->missing = true;
+        texture->error = true;
+        texture->loaded = false;
         return;
     }
 

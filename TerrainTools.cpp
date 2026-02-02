@@ -588,8 +588,13 @@ void TerrainTools::preloadTexTool(QString filename)
     if(result == -1)
         {    
             int tid = TexLib::addTex(filename);
+            Texture* t = TexLib::mtex[tid];
+            if(!t->loaded) {
+                return;
+            }
+
             this->paintBrush->texId = tid;
-            this->paintBrush->tex = TexLib::mtex[tid];
+            this->paintBrush->tex = t;
 
             texLastItems.push_back(qMakePair(this->paintBrush->texId, this->paintBrush->tex));
             if(texLastItems.size() > 7){
