@@ -3,9 +3,9 @@
 # TSRE5
 OpenRails editors and tools. 
 
-**Note:** This is an experimental Qt6-based version of the Trainsim.com Fork.
+**Note:** This is an experimental Qt6-based version of the v0.8.005-RC2 version of the Trainsim.com Fork.
 
-The stable Qt5-based v0.8.00x version is [available here](https://github.com/eric-from-trainsim/TSRE5-Trainsim.Com-Fork). 
+The stable version is [available here](https://github.com/eric-from-trainsim/TSRE5-Trainsim.Com-Fork).
 
 This is based off the v0.7.012 codebase as of January 2024. There are multiple changes in functionality that may or may not be present in future versions issued by Goku.
 
