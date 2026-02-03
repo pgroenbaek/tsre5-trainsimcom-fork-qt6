@@ -49,10 +49,11 @@ PropertiesSiding::PropertiesSiding() {
     vbox->addStretch(1);
     this->setLayout(vbox);
     
-    QObject::connect(&disablePlatform, SIGNAL(stateChanged(int)),
-                      this, SLOT(disablePlatformEnabled(int)));
-    QObject::connect(&namePlatform, SIGNAL(textEdited(QString)),
-                      this, SLOT(namePlatformEnabled(QString)));
+    QObject::connect(&disablePlatform, &QCheckBox::checkStateChanged,
+        this, &PropertiesSiding::disablePlatformEnabled);
+    QObject::connect(&namePlatform, &QLineEdit::textEdited,
+        this, &PropertiesSiding::namePlatformEnabled);
+
 }
 
 PropertiesSiding::~PropertiesSiding() {
@@ -74,7 +75,7 @@ void PropertiesSiding::showObj(GameObj* obj){
     this->disablePlatform.setChecked(pobj->getDisabled());
 }
 
-void PropertiesSiding:: disablePlatformEnabled(int state){
+void PropertiesSiding:: disablePlatformEnabled(Qt::CheckState state){
     if(pobj == NULL) return;
     Undo::StateBegin();
     Undo::PushGameObjData(worldObj);

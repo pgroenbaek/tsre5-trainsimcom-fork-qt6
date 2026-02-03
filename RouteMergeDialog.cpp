@@ -1,4 +1,4 @@
-#include "routemergedialog.h"
+#include "RouteMergeDialog.h"
 #include "Game.h"
 #include <QDialog>
 #include <QCheckBox>

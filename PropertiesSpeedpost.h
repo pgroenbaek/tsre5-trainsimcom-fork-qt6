@@ -28,9 +28,9 @@ public slots:
     void flipSignal();
     void speedEnabled(QString val);
     void numberEnabled(QString val);
-    void numberDotEnabled(int val);
-    void chCustomNumberEnabled(int val);
-    void chCustomSpeedEnabled(int val);
+    void numberDotEnabled(Qt::CheckState val);
+    void chCustomNumberEnabled(Qt::CheckState val);
+    void chCustomSpeedEnabled(Qt::CheckState val);
     void kmmListSelected(int);
     void ptbListSelected(int);
     void eMaxPlacingDistanceEnabled(QString val);

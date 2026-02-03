@@ -69,15 +69,15 @@ TerrainWaterWindow2::TerrainWaterWindow2(QWidget* parent) : QWidget(parent) {
     vlist1->addWidget(&e[10], 6, 4);
     vlist1->addWidget(&e[11], 6, 6);
     QPushButton *bAdjust = new QPushButton("Adjust Adjacent Tiles");
-    connect(bAdjust, SIGNAL (released()), this, SLOT (bAdjustEdited()));
+    QObject::connect(bAdjust, &QPushButton::released, this, &TerrainWaterWindow2::bAdjustEdited);
     vlist1->addWidget(bAdjust, 7, 0, 1, 7);
     this->setLayout(vlist1);
     
-    connect(&eAvg, SIGNAL (textEdited(QString)), this, SLOT (eAvgTextEdited(QString)));
-    connect(&eSW, SIGNAL (textEdited(QString)), this, SLOT (eWaterEdited(QString)));
-    connect(&eSE, SIGNAL (textEdited(QString)), this, SLOT (eWaterEdited(QString)));
-    connect(&eNW, SIGNAL (textEdited(QString)), this, SLOT (eWaterEdited(QString)));
-    connect(&eNE, SIGNAL (textEdited(QString)), this, SLOT (eWaterEdited(QString)));
+    QObject::connect(&eAvg, &QLineEdit::textEdited, this, &TerrainWaterWindow2::eAvgTextEdited);
+    QObject::connect(&eSW, &QLineEdit::textEdited, this, &TerrainWaterWindow2::eWaterEdited);
+    QObject::connect(&eSE, &QLineEdit::textEdited, this, &TerrainWaterWindow2::eWaterEdited);
+    QObject::connect(&eNW, &QLineEdit::textEdited, this, &TerrainWaterWindow2::eWaterEdited);
+    QObject::connect(&eNE, &QLineEdit::textEdited, this, &TerrainWaterWindow2::eWaterEdited);
 }
 
 TerrainWaterWindow2::~TerrainWaterWindow2() {

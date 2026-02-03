@@ -25,12 +25,12 @@ public:
     void updateObj(GameObj* obj);
     
 public slots:
-    void enableCustomDetailLevelEnabled(int val);
+    void enableCustomDetailLevelEnabled(Qt::CheckState val);
     void customDetailLevelEdited(QString val);
-    void checkboxAnimEdited(int val);
-    void checkboxTerrainEdited(int val);
+    void checkboxAnimEdited(Qt::CheckState val);
+    void checkboxTerrainEdited(Qt::CheckState val);
     void cShadowTypeEdited(int val);
-    void chIndividualRotationEdited(int val);
+    void chIndividualRotationEdited(Qt::CheckState val);
     void editPositionYEnabled(QString val);
     
 signals:

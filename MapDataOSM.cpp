@@ -542,7 +542,7 @@ void MapDataOSM::load(){
 
 void MapDataOSM::get(LatitudeLongitudeCoordinate* min, LatitudeLongitudeCoordinate* max){
     QNetworkAccessManager* mgr = new QNetworkAccessManager();
-    connect(mgr, SIGNAL(finished(QNetworkReply*)), this, SLOT(isData(QNetworkReply*)));
+    QObject::connect(mgr, &QNetworkAccessManager::finished, this, &MapDataOSM::isData);
     // the HTTP request
     //// EFO Factor this out to a variable in case the string changes?
     qDebug() << "wait " << QString("https://www.openstreetmap.org/api/0.6/map?bbox="
@@ -563,11 +563,11 @@ void MapDataOSM::get(LatitudeLongitudeCoordinate* min, LatitudeLongitudeCoordina
     +","
     +QString::number(max->Latitude)
     ) ) );
-    mgr->get(req);
     
     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
     config.setProtocol(QSsl::TlsV1_2);
     req.setSslConfiguration(config);
+    mgr->get(req);
 }
 
 void MapDataOSM::isData(QNetworkReply* r){
@@ -593,7 +593,7 @@ void MapDataOSM::isData(QNetworkReply* r){
         emit statusInfo(QString("Load"));
     } else {
         loadData(&data);
-        loadCount++;
+        loadCount++; 
         if(loadCount == totalLoadCount){
             emit statusInfo(QString("Load"));
             emit loaded(); 
@@ -604,16 +604,20 @@ void MapDataOSM::isData(QNetworkReply* r){
 }
 
 void MapDataOSM::loadData(QByteArray* data){
-    if(data == NULL){
+    QByteArray xmlData;
+
+    if (data == NULL) {
         QFile file("F:/OSM/tczew.osm");
         if (!file.open(QFile::ReadOnly | QFile::Text)) {
             qDebug() << "no file" << file.errorString();
             exit(0);
         }
-        qDebug() <<  "file";
-        QByteArray data2 = file.readAll();
-        data = &data2;
-    } 
+        qDebug() << "file loaded";
+        xmlData = file.readAll();
+    }
+    else {
+        xmlData = *data;
+    }
     
     int inode = 0;
     int iway = 0;
@@ -625,11 +629,12 @@ void MapDataOSM::loadData(QByteArray* data){
     Node* tnode;
     Way* tway;
     
-    QXmlStreamReader reader((*data));
-    reader.readNext();
+    QXmlStreamReader reader(xmlData);
+    reader.setNamespaceProcessing(false);
     QString name;
     QXmlStreamAttributes attr;
-    while (!reader.isEndDocument()) {
+    while (!reader.atEnd() && !reader.hasError()) {
+        reader.readNext();
         if (reader.isStartElement()) {
             name = reader.name().toString();
             attr = reader.attributes();
@@ -651,23 +656,23 @@ void MapDataOSM::loadData(QByteArray* data){
                 tway->ref.push_back ((attr.value("ref").toLongLong()));
             } else if (name.toUpper() == ("TAG")&&(way || node)) {
                 //adres
-                if (attr.value("k").startsWith("ADDR", Qt::CaseInsensitive)) {
+                if (attr.value("k").startsWith(QLatin1String("ADDR"), Qt::CaseInsensitive)) {
                 }
                 //nazwa
-                else if (attr.value("k").startsWith("NAME", Qt::CaseInsensitive)) {
+                else if (attr.value("k").startsWith(QLatin1String("NAME"), Qt::CaseInsensitive)) {
                 }
                 //drogi
-                else if (attr.value("k").startsWith("ONEWAY", Qt::CaseInsensitive)) {}
-                else if (attr.value("k").startsWith("MAXSPEED", Qt::CaseInsensitive)) {}
-                else if (attr.value("k").startsWith("SURFACE", Qt::CaseInsensitive))  {}
-                else if (attr.value("k").startsWith("BRIDGE", Qt::CaseInsensitive)) {
+                else if (attr.value("k").startsWith(QLatin1String("ONEWAY"), Qt::CaseInsensitive)) {}
+                else if (attr.value("k").startsWith(QLatin1String("MAXSPEED"), Qt::CaseInsensitive)) {}
+                else if (attr.value("k").startsWith(QLatin1String("SURFACE"), Qt::CaseInsensitive))  {}
+                else if (attr.value("k").startsWith(QLatin1String("BRIDGE"), Qt::CaseInsensitive)) {
                     if (way) tway->val2 = 7;
                 }
-                else if (attr.value("k").startsWith("TUNNEL", Qt::CaseInsensitive)) {
+                else if (attr.value("k").startsWith(QLatin1String("TUNNEL"), Qt::CaseInsensitive)) {
                     if (way) tway->val2 = 6;
                 }
                 //miejsca
-                else if (attr.value("k").startsWith("AMENITY", Qt::CaseInsensitive)) {
+                else if (attr.value("k").startsWith(QLatin1String("AMENITY"), Qt::CaseInsensitive)) {
                     //System.out.println(attr.getValue("v").toUpperCase());
                     //if(node) {
                     //    uuu++;
@@ -675,14 +680,14 @@ void MapDataOSM::loadData(QByteArray* data){
                     //}
                 }
                 //bariery
-                else if (attr.value("k").startsWith("BARRIER", Qt::CaseInsensitive)) {}
+                else if (attr.value("k").startsWith(QLatin1String("BARRIER"), Qt::CaseInsensitive)) {}
                 //las
-                else if (attr.value("k").startsWith("WOOD", Qt::CaseInsensitive)) {}
+                else if (attr.value("k").startsWith(QLatin1String("WOOD"), Qt::CaseInsensitive)) {}
                 //sport
-                else if (attr.value("k").startsWith("SPORT", Qt::CaseInsensitive)) {}
+                else if (attr.value("k").startsWith(QLatin1String("SPORT"), Qt::CaseInsensitive)) {}
                 else {
                     //inne budynki 
-                    if (attr.value("k").startsWith("BUILDING", Qt::CaseInsensitive)) {
+                    if (attr.value("k").startsWith(QLatin1String("BUILDING"), Qt::CaseInsensitive)) {
                         if (way) tway->type = (short) OSMFeatures::LIST["BUILDING_YES"];
                         iii++;
                     }
@@ -743,8 +748,6 @@ void MapDataOSM::loadData(QByteArray* data){
         } else if (reader.isCharacters()) {
 
         }
-        
-        reader.readNext();
     }
     qDebug() << "node/way: " << inode << "/" << iway;
 }

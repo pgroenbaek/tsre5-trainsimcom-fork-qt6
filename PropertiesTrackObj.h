@@ -25,7 +25,7 @@ public:
     void updateObj(GameObj* obj);
     
 public slots:
-    void enableCustomDetailLevelEnabled(int val);
+    void enableCustomDetailLevelEnabled(Qt::CheckState val);
     void customDetailLevelEdited(QString val);
     void fixJNodePosnEnabled();
     void hacksButtonEnabled();

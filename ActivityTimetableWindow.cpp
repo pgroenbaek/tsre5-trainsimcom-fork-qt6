@@ -30,8 +30,8 @@ ActivityTimetableWindow::ActivityTimetableWindow(QWidget* parent) : QWidget(pare
     v->addWidget(timetableProperties);
     this->setLayout(v);
     
-    QObject::connect(&list, SIGNAL(itemClicked(QListWidgetItem*)),
-                      this, SLOT(listSelected(QListWidgetItem*)));
+    QObject::connect(&list, &QListWidget::itemClicked,
+        this, &ActivityTimetableWindow::listSelected);
 }
 
 

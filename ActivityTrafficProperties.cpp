@@ -35,12 +35,14 @@ ActivityTrafficProperties::ActivityTrafficProperties(QWidget* parent) : QWidget(
     label->setMinimumWidth(100);
     vlist->addWidget(label, row, 0);
     vlist->addWidget(&eFileName, row++, 1);
-    //QObject::connect(&eFileName, SIGNAL(textEdited(QString)), this, SLOT(eFileNameSelected(QString)));
+    //QObject::connect(&eFileName, &QLineEdit::textEdited,
+    //    this, &ActivityTrafficProperties::eFileNameSelected);
     label = new QLabel("Display Name:");
     label->setMinimumWidth(100);
     vlist->addWidget(label, row, 0);
-    vlist->addWidget(&eDisplayName, row++, 1);
-    //QObject::connect(&eDisplayName, SIGNAL(textEdited(QString)), this, SLOT(eDisplayNameSelected(QString)));
+    vlist->addWidget(&eDisplayName, row++, 1);;
+    //QObject::connect(&eDisplayName, &QLineEdit::textEdited,
+    //    this, &ActivityTrafficProperties::eDisplayNameSelected);
         
     label = new QLabel("Services:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -57,16 +59,16 @@ ActivityTrafficProperties::ActivityTrafficProperties(QWidget* parent) : QWidget(
     lServcies.header()->resizeSection(1,100);    
     vlist->addWidget(&lServcies, row++, 0, 1, 2);
     QPushButton *bAddOutcome = new QPushButton("Add New");
-    QObject::connect(bAddOutcome, SIGNAL(released()),
-                      this, SLOT(bAddServiceSelected()));
+    QObject::connect(bAddOutcome, &QPushButton::released,
+        this, &ActivityTrafficProperties::bAddServiceSelected);
     vlist->addWidget(bAddOutcome, row++, 0, 1, 2);
     QPushButton *bRemoveOutcome = new QPushButton("Remove Selected");
-    QObject::connect(bRemoveOutcome, SIGNAL(released()),
-                      this, SLOT(bRemoveServiceSelected()));
+    QObject::connect(bRemoveOutcome, &QPushButton::released,
+        this, &ActivityTrafficProperties::bRemoveServiceSelected);
     vlist->addWidget(bRemoveOutcome, row++, 0, 1, 2);
     QPushButton *bCloneOutcome = new QPushButton("Clone Selected");
-    QObject::connect(bCloneOutcome, SIGNAL(released()),
-                      this, SLOT(bCloneOutcomeSelected()));
+    QObject::connect(bCloneOutcome, &QPushButton::released,
+        this, &ActivityTrafficProperties::bCloneOutcomeSelected);
     vlist->addWidget(bCloneOutcome, row++, 0, 1, 2);
     
     label = new QLabel("Selected Service:");
@@ -79,20 +81,20 @@ ActivityTrafficProperties::ActivityTrafficProperties(QWidget* parent) : QWidget(
     cServiceList.setMaxVisibleItems(30);
     cServiceList.view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     vlist->addWidget(&cServiceList, row++, 1);
-    QObject::connect(&cServiceList, SIGNAL(activated(QString)),
-                      this, SLOT(serviceActoionListSelected(QString)));
+    QObject::connect(&cServiceList, &QComboBox::textActivated,
+        this, &ActivityTrafficProperties::serviceActoionListSelected);
     vlist->addWidget(new QLabel("Start Time:"), row, 0);
     eTime.setDisplayFormat("HH:mm:ss");
     vlist->addWidget(&eTime, row++, 1);
-    QObject::connect(&eTime, SIGNAL(timeChanged(QTime)),
-                      this, SLOT(eTimeSelected(QTime)));
+    QObject::connect(&eTime, &QTimeEdit::timeChanged,
+        this, &ActivityTrafficProperties::eTimeSelected);
     vbox->addItem(vlist);
 
     //vbox->addStretch(1);
     this->setLayout(vbox);
     
-    QObject::connect(&lServcies, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
-                      this, SLOT(lServciesSelected(QTreeWidgetItem*, int)));
+    QObject::connect(&lServcies, &QTreeWidget::itemClicked,
+        this, &ActivityTrafficProperties::lServciesSelected);
 
 }
 

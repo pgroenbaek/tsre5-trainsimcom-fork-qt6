@@ -57,11 +57,13 @@ HeightWindow::HeightWindow() : QDialog() {
     mainLayout->setContentsMargins(1,1,1,1);
     this->setLayout(mainLayout);
     
-    QObject::connect(loadButton, SIGNAL(released()),
-                      this, SLOT(load()));
-    
-    QObject::connect(hOffsetEdit, SIGNAL(textEdited(QString)),
-                      this, SLOT(hOffsetEnabled(QString)));
+    QObject::connect(loadButton, &QPushButton::released,
+        this, [this]() { this->load(); }
+    );
+
+    QObject::connect(hOffsetEdit, &QLineEdit::textEdited,
+        this, &HeightWindow::hOffsetEnabled);
+
     
     igh = new IghCoordinate();
     mLatlon = new LatitudeLongitudeCoordinate();

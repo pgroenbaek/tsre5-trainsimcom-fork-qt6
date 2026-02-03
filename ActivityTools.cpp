@@ -52,12 +52,14 @@ ActivityTools::ActivityTools(QString name)
         i.next();
         i.value()->setCheckable(true);
     }
-    QObject::connect(buttonTools["actNewLooseConsistTool"], SIGNAL(toggled(bool)), this, SLOT(actNewLooseConsistToolEnabled(bool)));
+    QObject::connect(buttonTools["actNewLooseConsistTool"], &QPushButton::toggled,
+        this, &ActivityTools::actNewLooseConsistToolEnabled);
     
     //QPushButton *loadActFilesButton = new QPushButton("Load Activities", this);
     QPushButton *newActButton = new QPushButton("New Activity", this);
     //advancedPlacenentButton->setCheckable(true);
-    QObject::connect(newActButton, SIGNAL(released()), this, SLOT(newActButtonEnabled()));
+    QObject::connect(newActButton, &QPushButton::released,
+        this, &ActivityTools::newActButtonEnabled);
 
     //radio1->setChecked(true);
     QGridLayout *vlist1 = NULL;
@@ -84,7 +86,8 @@ ActivityTools::ActivityTools(QString name)
     cService.setMaxVisibleItems(35);
     cService.view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     QPushButton *actServiceOpen = new QPushButton("Open Service Editor");
-    QObject::connect(actServiceOpen, SIGNAL(released()), this, SLOT(actServiceOpenEnabled()));
+    QObject::connect(actServiceOpen, &QPushButton::released,
+        this, &ActivityTools::actServiceOpenEnabled);
     vbox->addWidget(actServiceOpen);
     
     label = new QLabel("Traffic:");
@@ -96,7 +99,8 @@ ActivityTools::ActivityTools(QString name)
     cTraffic.setMaxVisibleItems(35);
     cTraffic.view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     QPushButton *actTrafficOpen = new QPushButton("Open Traffic Editor");
-    QObject::connect(actTrafficOpen, SIGNAL(released()), this, SLOT(actTrafficOpenEnabled()));
+    QObject::connect(actTrafficOpen, &QPushButton::released,
+        this, &ActivityTools::actTrafficOpenEnabled);
     vbox->addWidget(actTrafficOpen);
     
     label = new QLabel("Timetable:");
@@ -104,7 +108,8 @@ ActivityTools::ActivityTools(QString name)
     label->setContentsMargins(3,0,0,0);
     vbox->addWidget(label);
     QPushButton *actTimetableOpen = new QPushButton("Open Timetable Editor");
-    QObject::connect(actTimetableOpen, SIGNAL(released()), this, SLOT(actTimetableOpenEnabled()));
+    QObject::connect(actTimetableOpen, &QPushButton::released,
+        this, &ActivityTools::actTimetableOpenEnabled);
     vbox->addWidget(actTimetableOpen);
     
     label = new QLabel("Paths:");
@@ -120,7 +125,8 @@ ActivityTools::ActivityTools(QString name)
     vlist1->setContentsMargins(0,0,1,0);
     QPushButton *actPathsNew = new QPushButton("New");
     QPushButton *actPathsEdit = new QPushButton("Edit");
-    QObject::connect(actPathsEdit, SIGNAL(released()), this, SLOT(actPathsEditToolEnabled()));
+    QObject::connect(actPathsEdit, &QPushButton::released,
+        this, &ActivityTools::actPathsEditToolEnabled);
     QPushButton *actPathsClone = new QPushButton("Clone");
     QPushButton *actPathsDelete = new QPushButton("Delete");
     vlist1->addWidget(actPathsNew,0,0);
@@ -128,7 +134,8 @@ ActivityTools::ActivityTools(QString name)
     vlist1->addWidget(actPathsClone,0,2);
     vlist1->addWidget(actPathsDelete,0,3);
     QPushButton *actPathsRefreshList = new QPushButton("Refresh List");
-    QObject::connect(actPathsRefreshList, SIGNAL(released()), this, SLOT(actPathsRefreshListSelected()));
+    QObject::connect(actPathsRefreshList, &QPushButton::released,
+        this, &ActivityTools::actPathsRefreshListSelected);
     vlist1->addWidget(actPathsRefreshList,1,1,1,3);
     vbox->addItem(vlist1);    
    
@@ -144,9 +151,11 @@ ActivityTools::ActivityTools(QString name)
     vlist1->setSpacing(2);
     vlist1->setContentsMargins(0,0,1,0);
     QPushButton *actConsistJump = new QPushButton("Jump To");
-    QObject::connect(actConsistJump, SIGNAL(released()), this, SLOT(actConsistJumpEnabled()));
+    QObject::connect(actConsistJump, &QPushButton::released,
+        this, &ActivityTools::actConsistJumpEnabled);
     QPushButton *actConsistDelete = new QPushButton("Delete");
-    QObject::connect(actConsistDelete, SIGNAL(released()), this, SLOT(actConsistDeleteEnabled()));
+    QObject::connect(actConsistDelete, &QPushButton::released,
+        this, &ActivityTools::actConsistDeleteEnabled);
     vlist1->addWidget(actConsistJump,0,0);
     vlist1->addWidget(actConsistDelete,0,1);
     vlist1->addWidget(buttonTools["actNewLooseConsistTool"],0,2,1,2);
@@ -159,7 +168,8 @@ ActivityTools::ActivityTools(QString name)
     conFilesShow.setMaxVisibleItems(35);
     conFilesShow.view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     QPushButton *conFilesRefresh = new QPushButton("Refresh List");
-    QObject::connect(conFilesRefresh, SIGNAL(released()), this, SLOT(conFilesRefreshSelected()));
+    QObject::connect(conFilesRefresh, &QPushButton::released,
+        this, &ActivityTools::conFilesRefreshSelected);
     vlist1->addWidget(conFilesRefresh,2,1,1,3);
     vbox->addItem(vlist1);
     
@@ -175,12 +185,16 @@ ActivityTools::ActivityTools(QString name)
     vlist1->setSpacing(2);
     vlist1->setContentsMargins(0,0,1,0);
     QPushButton *actZoneJump = new QPushButton("Jump To");
-    QObject::connect(actZoneJump, SIGNAL(released()), this, SLOT(actReducedSpeedZonesEnabled()));
-    QObject::connect(buttonTools["actNewSpeedZoneTool"], SIGNAL(toggled(bool)), this, SLOT(actZoneNewToolEnabled(bool)));
+    QObject::connect(actZoneJump, &QPushButton::released,
+        this, &ActivityTools::actReducedSpeedZonesEnabled);
+    QObject::connect(buttonTools["actNewSpeedZoneTool"], &QPushButton::toggled,
+        this, &ActivityTools::actZoneNewToolEnabled);
     QPushButton *actZoneDelete = new QPushButton("Delete");
-    QObject::connect(actZoneDelete, SIGNAL(released()), this, SLOT(actZoneDeleteEnabled()));
+    QObject::connect(actZoneDelete, &QPushButton::released,
+        this, &ActivityTools::actZoneDeleteEnabled);
     QPushButton *actZoneDeleteAll = new QPushButton("Delete All");
-    QObject::connect(actZoneDeleteAll, SIGNAL(released()), this, SLOT(actZoneDeleteAllEnabled()));
+    QObject::connect(actZoneDeleteAll, &QPushButton::released,
+        this, &ActivityTools::actZoneDeleteAllEnabled);
     vlist1->addWidget(actZoneJump,0,0);
     vlist1->addWidget(buttonTools["actNewSpeedZoneTool"],0,1);
     vlist1->addWidget(actZoneDelete,0,2);
@@ -199,13 +213,17 @@ ActivityTools::ActivityTools(QString name)
     vlist1->setSpacing(2);
     vlist1->setContentsMargins(0,0,1,0);
     QPushButton *actFailedSignalJump = new QPushButton("Jump To");
-    QObject::connect(actFailedSignalJump, SIGNAL(released()), this, SLOT(actFailedSignalsJumpEnabled()));
+    QObject::connect(actFailedSignalJump, &QPushButton::released,
+        this, &ActivityTools::actFailedSignalsJumpEnabled);
     QPushButton *actFailedSignalTool = new QPushButton("Disable");
-    QObject::connect(actFailedSignalTool, SIGNAL(released()), this, SLOT(actFailedSignalNewToolEnabled()));
+    QObject::connect(actFailedSignalTool, &QPushButton::released,
+        this, &ActivityTools::actFailedSignalNewToolEnabled);
     QPushButton *actFailedSignalDelete = new QPushButton("Delete");
-    QObject::connect(actFailedSignalDelete, SIGNAL(released()), this, SLOT(actFailedSignalDeleteEnabled()));
+    QObject::connect(actFailedSignalDelete, &QPushButton::released,
+        this, &ActivityTools::actFailedSignalDeleteEnabled);
     QPushButton *actFailedSignalDeleteAll = new QPushButton("Delete All");
-    QObject::connect(actFailedSignalDeleteAll, SIGNAL(released()), this, SLOT(actFailedSignalDeleteAllEnabled()));
+    QObject::connect(actFailedSignalDeleteAll, &QPushButton::released,
+        this, &ActivityTools::actFailedSignalDeleteAllEnabled);
     vlist1->addWidget(actFailedSignalJump,0,0);
     vlist1->addWidget(actFailedSignalTool,0,1);
     vlist1->addWidget(actFailedSignalDelete,0,2);
@@ -217,7 +235,8 @@ ActivityTools::ActivityTools(QString name)
     label->setContentsMargins(3,0,0,0);
     vbox->addWidget(label);
     QPushButton *actEventsOpen = new QPushButton("Open Event Editor");
-    QObject::connect(actEventsOpen, SIGNAL(released()), this, SLOT(actEventsOpenEnabled()));
+    QObject::connect(actEventsOpen, &QPushButton::released,
+        this, &ActivityTools::actEventsOpenEnabled);
     vbox->addWidget(actEventsOpen);
     
     label = new QLabel("Activity Info:");
@@ -225,7 +244,8 @@ ActivityTools::ActivityTools(QString name)
     label->setContentsMargins(3,0,0,0);
     vbox->addWidget(label);
     QPushButton *actSettingsOpen = new QPushButton("Open Settings ...");
-    QObject::connect(actSettingsOpen, SIGNAL(released()), this, SLOT(actSettingsOpenEnabled()));
+    QObject::connect(actSettingsOpen, &QPushButton::released,
+        this, &ActivityTools::actSettingsOpenEnabled);
     vbox->addWidget(actSettingsOpen);
     
     label = new QLabel("Experimental:");
@@ -233,7 +253,8 @@ ActivityTools::ActivityTools(QString name)
     label->setContentsMargins(3,0,0,0);
     vbox->addWidget(label);
     QPushButton *actPlayButton = new QPushButton("Play: Don't use!");
-    QObject::connect(actPlayButton, SIGNAL(released()), this, SLOT(actPlayEnabled()));
+    QObject::connect(actPlayButton, &QPushButton::released,
+        this, &ActivityTools::actPlayEnabled);
     vbox->addWidget(actPlayButton);
     
     label = new QLabel("General:");
@@ -241,7 +262,8 @@ ActivityTools::ActivityTools(QString name)
     label->setContentsMargins(3,0,0,0);
     vbox->addWidget(label);
     QPushButton *actSaveButton = new QPushButton("Save Activities");
-    QObject::connect(actSaveButton, SIGNAL(released()), this, SLOT(actSaveEnabled()));
+    QObject::connect(actSaveButton, &QPushButton::released,
+        this, &ActivityTools::actSaveEnabled);
     vbox->addWidget(actSaveButton);
     
     QHBoxLayout *vbox1 = new QHBoxLayout;
@@ -252,36 +274,45 @@ ActivityTools::ActivityTools(QString name)
     vlist->setContentsMargins(0,0,1,0);
     vlist->addWidget(new QLabel("File Name:"), row, 0);
     vlist->addWidget(&eFileName, row++, 1, 1, 2);
-    QObject::connect(&eFileName, SIGNAL(textEdited(QString)), this, SLOT(eFileNameEnabled(QString)));
+    QObject::connect(&eFileName, &QLineEdit::textEdited,
+        this, &ActivityTools::eFileNameEnabled);
     vlist->addWidget(new QLabel("Display Name:"), row, 0);
     vlist->addWidget(&eDisplayName, row++, 1, 1, 2);
-    QObject::connect(&eDisplayName, SIGNAL(textEdited(QString)), this, SLOT(eDisplayNameEnabled(QString)));
+    QObject::connect(&eDisplayName, &QLineEdit::textEdited,
+        this, &ActivityTools::eDisplayNameEnabled);
     vlist->addWidget(new QLabel("Difficulty:"), row, 0);
     vlist->addWidget(&cDifficulty, row++, 1, 1, 2);
-    QObject::connect(&cDifficulty, SIGNAL(activated(int)), this, SLOT(cDifficultyEnabled(int)));
+    QObject::connect(&cDifficulty, &QComboBox::activated,
+        this, &ActivityTools::cDifficultyEnabled);
     vlist->addWidget(new QLabel("Duration:"), row, 0);
     vlist->addWidget(&eDuration, row++, 1, 1, 2);
-    QObject::connect(&eDuration, SIGNAL(editingFinished()), this, SLOT(eDurationEnabled()));
+    QObject::connect(&eDuration, &QTimeEdit::editingFinished,
+        this, &ActivityTools::eDurationEnabled);
     eDuration.setDisplayFormat("HH:mm");
     vlist->addWidget(new QLabel("Start Time:"), row, 0);
     vlist->addWidget(&eStartTime, row++, 1, 1, 2);
-    QObject::connect(&eStartTime, SIGNAL(editingFinished()), this, SLOT(eStartTimeEnabled()));
+    QObject::connect(&eStartTime, &QTimeEdit::editingFinished,
+        this, &ActivityTools::eStartTimeEnabled);
     eStartTime.setDisplayFormat("HH:mm:ss");
     vlist->addWidget(new QLabel("Season:"), row, 0);
     vlist->addWidget(&cSeason, row++, 1, 1, 2);
-    QObject::connect(&cSeason, SIGNAL(activated(int)), this, SLOT(cSeasonEnabled(int)));
+    QObject::connect(&cSeason, &QComboBox::activated,
+        this, &ActivityTools::cSeasonEnabled);
     vlist->addWidget(new QLabel("Weather:"), row, 0);
     vlist->addWidget(&cWeather, row++, 1, 1, 2);
-    QObject::connect(&cWeather, SIGNAL(activated(int)), this, SLOT(cWeatherEnabled(int)));
+    QObject::connect(&cWeather, &QComboBox::activated,
+        this, &ActivityTools::cWeatherEnabled);
     vlist->addWidget(new QLabel("Horn At Crossings: "), row, 0);
     cHornAtCrossings.setMinimumHeight(25);
     vlist->addWidget(&cHornAtCrossings, row++, 1, 1, 2);
-    QObject::connect(&cHornAtCrossings, SIGNAL(stateChanged(int)), this, SLOT(cHornAtCrossingsEnabled(int)));
+    QObject::connect(&cHornAtCrossings, &QCheckBox::checkStateChanged,
+        this, &ActivityTools::cHornAtCrossingsEnabled);
     
     vlist->addWidget(new QLabel("Horn Pattern:"), row, 0);
     vlist->addWidget(&eORTSAICrossingHornPattern, row++, 1, 1, 2);
     //eORTSAICrossingHornPattern.setFixedWidth(300);
-    QObject::connect(&eORTSAICrossingHornPattern, SIGNAL(textEdited(QString)), this, SLOT(eORTSAICrossingHornPatternEnabled(QString)));
+    QObject::connect(&eORTSAICrossingHornPattern, &QLineEdit::textEdited,
+        this, &ActivityTools::eORTSAICrossingHornPatternEnabled);
 
 
     
@@ -294,36 +325,46 @@ ActivityTools::ActivityTools(QString name)
     vlist->addWidget(new QLabel("Fuel Coal:"), row, 0);
     vlist->addWidget(eFuelCoal, row, 1);
     vlist->addWidget(&sFuelCoal, row++, 2);
-    QObject::connect(eFuelCoal, SIGNAL(textEdited(QString)), this, SLOT(eFuelCoalEnabled(QString)));
-    QObject::connect(&sFuelCoal, SIGNAL(sliderReleased()), this, SLOT(sFuelCoalEnabled()));
+    QObject::connect(eFuelCoal, &QLineEdit::textEdited,
+        this, &ActivityTools::eFuelCoalEnabled);
+    QObject::connect(&sFuelCoal, &QSlider::sliderReleased,
+        this, &ActivityTools::sFuelCoalEnabled);
     sFuelCoal.setRange(0, 100);
     sFuelCoal.setOrientation(Qt::Horizontal);
     vlist->addWidget(new QLabel("Fuel Diesel:"), row, 0);
     vlist->addWidget(eFuelDiesel, row, 1);
     vlist->addWidget(&sFuelDiesel, row++, 2);
-    QObject::connect(eFuelDiesel, SIGNAL(textEdited(QString)), this, SLOT(eFuelDieselEnabled(QString)));
-    QObject::connect(&sFuelDiesel, SIGNAL(sliderReleased()), this, SLOT(sFuelDieselEnabled()));
+    QObject::connect(eFuelDiesel, &QLineEdit::textEdited,
+        this, &ActivityTools::eFuelDieselEnabled);
+    QObject::connect(&sFuelDiesel, &QSlider::sliderReleased,
+        this, &ActivityTools::sFuelDieselEnabled);
     sFuelDiesel.setRange(0, 100);
     sFuelDiesel.setOrientation(Qt::Horizontal);
     vlist->addWidget(new QLabel("Fuel Water:"), row, 0);
     vlist->addWidget(eFuelWater, row, 1);
     vlist->addWidget(&sFuelWater, row++, 2);
-    QObject::connect(eFuelWater, SIGNAL(textEdited(QString)), this, SLOT(eFuelWaterEnabled(QString)));
-    QObject::connect(&sFuelWater, SIGNAL(sliderReleased()), this, SLOT(sFuelWaterEnabled()));
+    QObject::connect(eFuelWater, &QLineEdit::textEdited,
+        this, &ActivityTools::eFuelWaterEnabled);
+    QObject::connect(&sFuelWater, &QSlider::sliderReleased,
+        this, &ActivityTools::sFuelWaterEnabled);
     sFuelWater.setRange(0, 100);
     sFuelWater.setOrientation(Qt::Horizontal);
     vlist->addWidget(new QLabel("Hazard Animal:"), row, 0);
     vlist->addWidget(eHazardAnimal, row, 1);
     vlist->addWidget(&sHazardAnimal, row++, 2);
-    QObject::connect(eHazardAnimal, SIGNAL(textEdited(QString)), this, SLOT(eHazardAnimalEnabled(QString)));
-    QObject::connect(&sHazardAnimal, SIGNAL(sliderReleased()), this, SLOT(sHazardAnimalEnabled()));
+    QObject::connect(eHazardAnimal, &QLineEdit::textEdited,
+        this, &ActivityTools::eHazardAnimalEnabled);
+    QObject::connect(&sHazardAnimal, &QSlider::sliderReleased,
+        this, &ActivityTools::sHazardAnimalEnabled);
     sHazardAnimal.setRange(0, 100);
     sHazardAnimal.setOrientation(Qt::Horizontal);
     vlist->addWidget(new QLabel("Hazard People:"), row, 0);
     vlist->addWidget(eHazardPeople, row, 1);
     vlist->addWidget(&sHazardPeople, row++, 2);
-    QObject::connect(eHazardPeople, SIGNAL(textEdited(QString)), this, SLOT(eHazardPeopleEnabled(QString)));
-    QObject::connect(&sHazardPeople, SIGNAL(sliderReleased()), this, SLOT(sHazardPeopleEnabled()));
+    QObject::connect(eHazardPeople, &QLineEdit::textEdited,
+        this, &ActivityTools::eHazardPeopleEnabled);
+    QObject::connect(&sHazardPeople, &QSlider::sliderReleased,
+        this, &ActivityTools::sHazardPeopleEnabled);
     sHazardPeople.setRange(0, 100);
     sHazardPeople.setOrientation(Qt::Horizontal);
     QVBoxLayout *vbox2 = new QVBoxLayout;
@@ -336,11 +377,13 @@ ActivityTools::ActivityTools(QString name)
     vbox2->setContentsMargins(0,0,0,0);
     vbox2->addWidget(new QLabel("Description:"));
     vbox2->addWidget(&eDescription);
-    QObject::connect(&eDescription, SIGNAL(textChanged()), this, SLOT(eDescriptionEnabled()));
+    QObject::connect(&eDescription, &QPlainTextEdit::textChanged,
+        this, &ActivityTools::eDescriptionEnabled);
     eDescription.setMinimumWidth(350);
     vbox2->addWidget(new QLabel("Briefing:"));
     vbox2->addWidget(&eBriefing);
-    QObject::connect(&eBriefing, SIGNAL(textChanged()), this, SLOT(eBriefingEnabled()));
+    QObject::connect(&eBriefing, &QPlainTextEdit::textChanged,
+        this, &ActivityTools::eBriefingEnabled);
     eBriefing.setMinimumWidth(350);
     vbox1->addItem(vbox2);
     settingsWidget.setParent(this);
@@ -352,18 +395,20 @@ ActivityTools::ActivityTools(QString name)
     vbox->addStretch(1);
     this->setLayout(vbox);    
     
-    //QObject::connect(&consists, SIGNAL(itemClicked(QListWidgetItem*)),
-    //                  this, SLOT(itemsSelected(QListWidgetItem*)));
-    QObject::connect(&actShow, SIGNAL(activated(QString)),
-                      this, SLOT(activitySelected(QString)));
-    QObject::connect(&conFilesShow, SIGNAL(activated(QString)),
-                      this, SLOT(conFilesShowEnabled(QString)));
-    QObject::connect(&cService, SIGNAL(activated(QString)),
-                      this, SLOT(cServiceEnabled(QString)));
-    QObject::connect(&cTraffic, SIGNAL(activated(QString)),
-                      this, SLOT(cTrafficEnabled(QString)));
-    //QObject::connect(loadActFilesButton, SIGNAL(released()),
-    //                  this, SLOT(loadActFiles()));
+    //QObject::connect(&consists, &QListWidget::itemClicked,
+    //    this, &ActivityTools::itemsSelected);
+    
+    QObject::connect(&actShow, &QComboBox::textActivated,
+        this, &ActivityTools::activitySelected);
+    QObject::connect(&conFilesShow, &QComboBox::textActivated,
+        this, &ActivityTools::conFilesShowEnabled);
+    QObject::connect(&cService, &QComboBox::textActivated,
+        this, &ActivityTools::cServiceEnabled);
+    QObject::connect(&cTraffic, &QComboBox::textActivated,
+        this, &ActivityTools::cTrafficEnabled);
+
+    // QObject::connect(loadActFilesButton, &QPushButton::released,
+    //    this, &ActivityTools::loadActFiles);
 }
 
 void ActivityTools::actSettingsOpenEnabled(){
@@ -1011,7 +1056,7 @@ void ActivityTools::cWeatherEnabled(int val){
     a->setWeather(val);
 }
 
-void ActivityTools::cHornAtCrossingsEnabled(int val){
+void ActivityTools::cHornAtCrossingsEnabled(Qt::CheckState val){
     Activity *a = ActLib::Act[actShow.currentData().toInt()];
     if(a == NULL)
         return;

@@ -28,21 +28,18 @@ public:
 
 public slots:
     // EFO added two
-    void enableCustomDetailLevelEnabled(int val);  
+    void enableCustomDetailLevelEnabled(Qt::CheckState val);  
     void customDetailLevelEdited(QString val);    
     void shiftSignal();
     void flipSignal();
     void showSubObjList();
-    void checkboxAnimEdited(int val);
-    void checkboxTerrainEdited(int val);
+    void checkboxAnimEdited(Qt::CheckState val);
+    void checkboxTerrainEdited(Qt::CheckState val);
     void cShadowTypeEdited(int val);
     void hacksButtonEnabled();
     void haxFixFlagsEnabled();
     void msg(QString name, QString val);
     void editPositionEnabled(QString val);
-    
-signals:
-    void enableTool(QString val);
     
 private:
     QLineEdit name;

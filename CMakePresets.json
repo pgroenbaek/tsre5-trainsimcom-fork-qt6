@@ -1,0 +1,128 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows-qt-debug",
+      "hidden": true,
+      "displayName": "Windows Qt MinGW Debug",
+      "generator": "MinGW Makefiles",
+      "binaryDir": "${sourceDir}/build/Debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/dist/Debug",
+        "CMAKE_VS_DEBUGGER_WORKING_DIRECTORY": "${sourceDir}/dist/Debug",
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/toolchains/qt-mingw-toolchain.cmake",
+        "VCPKG_TARGET_TRIPLET": "$env{VCPKG_TRIPLET}",
+        "VCPKG_HOST_TRIPLET": "$env{VCPKG_TRIPLET}",
+        "VCPKG_FEATURE_FLAGS": "manifests"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "windows-qt-release",
+      "hidden": true,
+      "displayName": "Windows Qt MinGW Release",
+      "generator": "MinGW Makefiles",
+      "binaryDir": "${sourceDir}/build/Release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/dist/Release",
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/toolchains/qt-mingw-toolchain.cmake",
+        "VCPKG_TARGET_TRIPLET": "$env{VCPKG_TRIPLET}",
+        "VCPKG_HOST_TRIPLET": "$env{VCPKG_TRIPLET}",
+        "VCPKG_FEATURE_FLAGS": "manifests"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "linux-qt-debug",
+      "hidden": true,
+      "displayName": "Linux Qt Debug",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/Debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/dist/Debug",
+        "CMAKE_VS_DEBUGGER_WORKING_DIRECTORY": "${sourceDir}/dist/Debug",
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/toolchains/qt-linux-toolchain.cmake",
+        "VCPKG_TARGET_TRIPLET": "$env{VCPKG_TRIPLET}",
+        "VCPKG_FEATURE_FLAGS": "manifests"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "linux-qt-release",
+      "hidden": true,
+      "displayName": "Linux Qt Release",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/Release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_RUNTIME_OUTPUT_DIRECTORY": "${sourceDir}/dist/Release",
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "${sourceDir}/toolchains/qt-linux-toolchain.cmake",
+        "VCPKG_TARGET_TRIPLET": "$env{VCPKG_TRIPLET}",
+        "VCPKG_FEATURE_FLAGS": "manifests"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-qt-debug-build",
+      "configurePreset": "windows-qt-debug",
+      "description": "Build all targets in Debug on Windows",
+      "targets": ["all"],
+      "configuration": "Debug",
+      "jobs": 4
+    },
+    {
+      "name": "windows-qt-release-build",
+      "configurePreset": "windows-qt-release",
+      "description": "Build all targets in Release on Windows",
+      "targets": ["all"],
+      "configuration": "Release",
+      "jobs": 4
+    },
+    {
+      "name": "linux-qt-debug-build",
+      "configurePreset": "linux-qt-debug",
+      "description": "Build all targets in Debug on Linux",
+      "targets": ["all"],
+      "configuration": "Debug",
+      "jobs": 4
+    },
+    {
+      "name": "linux-qt-release-build",
+      "configurePreset": "linux-qt-release",
+      "description": "Build all targets in Release on Linux",
+      "targets": ["all"],
+      "configuration": "Release",
+      "jobs": 4
+    }
+  ]
+}

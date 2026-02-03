@@ -28,13 +28,13 @@ public:
     
 public slots:
     void outcomeListSelected(QListWidgetItem* item);
-    void outcomeActoionListSelected(QString item);
+    void outcomeActionListSelected(QString val);
     void cOutcomeEventSelected(QString val);
     void eSoundFileNameEdited(QString val);
     void cSoundTypeSelected(QString val);
-    void cWeatherChangeSelected(QString va);
-    void cActionTypeSelected(QString item);
-    void cStationStopActionSelected(QString item);
+    void cWeatherChangeSelected(QString val);
+    void cActionTypeSelected(QString val);
+    void cStationStopActionSelected(QString val);
     void bActionSidingSelected();
     void bAddOutcomeSelected();
     void bRemoveOutcomeSelected();
@@ -49,9 +49,9 @@ public slots:
     void bPickEventLocationSelected(bool val);
     void msg(QString text, QString val);
     void eLocationRadiusSelected();
-    void cLocationStopSelected(int val);
-    void cReversableSelected(int val);
-    void cAutoContinueLabelSelected(int val);
+    void cLocationStopSelected(Qt::CheckState val);
+    void cReversableSelected(Qt::CheckState val);
+    void cAutoContinueLabelSelected(Qt::CheckState val);
     void eAutoContinueSelected();
     void bJumpToCarSelected();
     void bRemoveCarSelected();

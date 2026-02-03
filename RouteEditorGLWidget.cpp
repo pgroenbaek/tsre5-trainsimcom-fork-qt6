@@ -213,8 +213,9 @@ bool RouteEditorGLWidget::initRoute(){
     // Init Route
     if(Game::serverClient != NULL){
         if(Game::debugOutput) qDebug() << "RouteClient";
-        route = new RouteClient();
-        QObject::connect(route, SIGNAL(initDone()), this, SLOT(initRoute2()));
+        auto* routeClient = new RouteClient();
+        QObject::connect(routeClient, &RouteClient::initDone, this, &RouteEditorGLWidget::initRoute2);
+        route = routeClient;
         route->load();
         return true;
     } else {
@@ -236,9 +237,21 @@ bool RouteEditorGLWidget::initRoute(){
 }
 
 void RouteEditorGLWidget::initRoute2(){
-    QObject::connect(route, SIGNAL(objectSelected(GameObj*)), this, SLOT(objectSelected(GameObj*))); 
-    QObject::connect(route, SIGNAL(objectSelected(QVector<GameObj*>)), this, SLOT(objectSelected(QVector<GameObj*>))); 
-    QObject::connect(route, SIGNAL(sendMsg(QString)), this, SLOT(msg(QString))); 
+    QObject::connect(route, QOverload<GameObj*>::of(&Route::objectSelected),
+        this, [this](GameObj* obj){
+            this->objectSelected(obj);
+        }
+    );
+    QObject::connect(route, QOverload<QList<GameObj*>>::of(&Route::objectSelected),
+        this, [this](QList<GameObj*> objs){
+            this->objectSelected(QVector<GameObj*>::fromList(objs));
+        }
+    );
+    QObject::connect(route, QOverload<QString>::of(&Route::sendMsg),
+        this, [this](QString text){
+            this->msg(text);
+        }
+    );
     
     // Init Camera
     cameraInit(); 
@@ -311,6 +324,14 @@ void RouteEditorGLWidget::initializeGL() {
     //    exit(1);
     //}
     //funcs->initializeOpenGLFunctions();/**/
+
+    QOpenGLContext* context = QOpenGLContext::currentContext();
+    if (context) {
+        QSurfaceFormat format = context->format();
+        qDebug() << "OpenGL Version:" << format.majorVersion() << "." << format.minorVersion();
+        qDebug() << "Profile:" << format.profile(); // Core or Compatibility
+    }
+
     glClearColor(0, 0, 0, 1);
     //qDebug() << "gluu->initShader();";
     if(Game::debugOutput) qDebug() << "# InitShaders";
@@ -1496,9 +1517,9 @@ void RouteEditorGLWidget::mousePressEvent(QMouseEvent *event) {
 }
 
 void RouteEditorGLWidget::wheelEvent(QWheelEvent *event) {
-    float numDegrees = 0.01 * event->delta();
+    float numDegrees = 0.01 * event->angleDelta().y();
 
-    if (event->orientation() == Qt::Vertical) {
+    if (event->angleDelta().y() != 0) {
         if (toolEnabled == "selectTool" || toolEnabled == "placeTool") {
             /// Move the selected object up or down
             if (selectedObj != NULL) {
@@ -1546,16 +1567,16 @@ void RouteEditorGLWidget::mouseMoveEvent(QMouseEvent *event) {
     bolckContextMenu = false;
     Game::currentShapeLib = currentShapeLib;
     if (!route->loaded) return;
-    /*int dx = event->x() - m_lastPos.x();
-    int dy = event->y() - m_lastPos.y();
+    /*int dx = event->position().x() - m_lastPos.x();
+    int dy = event->position().y() - m_lastPos.y();
 
     if (event->buttons() & Qt::LeftButton) {
 
     } else if (event->buttons() & Qt::RightButton) {
 
     }*/
-    mousex = event->x() * Game::PixelRatio;
-    mousey = event->y() * Game::PixelRatio;
+    mousex = event->position().x() * Game::PixelRatio;
+    mousey = event->position().y() * Game::PixelRatio;
 
     if ((event->buttons() & 2) == Qt::RightButton) {
         camera->MouseMove(event);
@@ -1636,7 +1657,7 @@ void RouteEditorGLWidget::mouseMoveEvent(QMouseEvent *event) {
             camera->MouseMove(event);
         }
     }
-    m_lastPos = event->pos();
+    m_lastPos = event->position();
     m_lastPos *= Game::PixelRatio;
 }
 
@@ -2232,105 +2253,105 @@ void RouteEditorGLWidget::pickObjRotElevForPlacement(){
 
 void RouteEditorGLWidget::showContextMenu(const QPoint & point) {
     if(defaultMenuActions["undo"] == NULL){
-        defaultMenuActions["undo"] = new QAction(tr("&Undo"), this); 
-        QObject::connect(defaultMenuActions["undo"], SIGNAL(triggered()), this, SLOT(editUndo()));
+        defaultMenuActions["undo"] = new QAction(tr("&Undo"), this);
+        QObject::connect(defaultMenuActions["undo"], &QAction::triggered, this, &RouteEditorGLWidget::editUndo);
     }
     if(defaultMenuActions["copy"] == NULL){
-        defaultMenuActions["copy"] = new QAction(tr("&Copy"), this); 
-        QObject::connect(defaultMenuActions["copy"], SIGNAL(triggered()), this, SLOT(editCopy()));
+        defaultMenuActions["copy"] = new QAction(tr("&Copy"), this);
+        QObject::connect(defaultMenuActions["copy"], &QAction::triggered, this, &RouteEditorGLWidget::editCopy);
     }
     if(defaultMenuActions["paste"] == NULL){
-        defaultMenuActions["paste"] = new QAction(tr("&Paste"), this); 
-        QObject::connect(defaultMenuActions["paste"], SIGNAL(triggered()), this, SLOT(editPaste()));
+        defaultMenuActions["paste"] = new QAction(tr("&Paste"), this);
+        QObject::connect(defaultMenuActions["paste"], &QAction::triggered, this, &RouteEditorGLWidget::editPaste);
     }
     if(defaultMenuActions["find1x1"] == NULL){
-        defaultMenuActions["find1x1"] = new QAction(tr("&Select Similar 1x1"), this); 
-        QObject::connect(defaultMenuActions["find1x1"], SIGNAL(triggered()), this, SLOT(editFind1x1()));
+        defaultMenuActions["find1x1"] = new QAction(tr("&Select Similar 1x1"), this);
+        QObject::connect(defaultMenuActions["find1x1"], &QAction::triggered, this, &RouteEditorGLWidget::editFind1x1);
     }
     if(defaultMenuActions["find3x3"] == NULL){
-        defaultMenuActions["find3x3"] = new QAction(tr("&Select Similar 3x3"), this); 
-        QObject::connect(defaultMenuActions["find3x3"], SIGNAL(triggered()), this, SLOT(editFind3x3()));
+        defaultMenuActions["find3x3"] = new QAction(tr("&Select Similar 3x3"), this);
+        QObject::connect(defaultMenuActions["find3x3"], &QAction::triggered, this, &RouteEditorGLWidget::editFind3x3);
     }
     if(defaultMenuActions["select"] == NULL){
-        defaultMenuActions["select"] = new QAction(tr("&Select Tool"), this); 
-        QObject::connect(defaultMenuActions["select"], SIGNAL(triggered()), this, SLOT(editSelect()));
+        defaultMenuActions["select"] = new QAction(tr("&Select Tool"), this);
+        QObject::connect(defaultMenuActions["select"], &QAction::triggered, this, &RouteEditorGLWidget::editSelect);
     }
     if(defaultMenuActions["setTerrToObj"] == NULL){
-        defaultMenuActions["setTerrToObj"] = new QAction(tr("&Set Terrain to Object")); 
-        QObject::connect(defaultMenuActions["setTerrToObj"], SIGNAL(triggered()), this, SLOT(setTerrainToObj()));
+        defaultMenuActions["setTerrToObj"] = new QAction(tr("&Set Terrain to Object"));
+        QObject::connect(defaultMenuActions["setTerrToObj"], &QAction::triggered, this, &RouteEditorGLWidget::setTerrainToObj);
     }
     if(defaultMenuActions["setPosToTerr"] == NULL){
-        defaultMenuActions["setPosToTerr"] = new QAction(tr("&Set position to Terrain")); 
-        QObject::connect(defaultMenuActions["setPosToTerr"], SIGNAL(triggered()), this, SLOT(adjustObjPositionToTerrainMenu()));
+        defaultMenuActions["setPosToTerr"] = new QAction(tr("&Set position to Terrain"));
+        QObject::connect(defaultMenuActions["setPosToTerr"], &QAction::triggered, this, &RouteEditorGLWidget::adjustObjPositionToTerrainMenu);
     }
     if(defaultMenuActions["setRotToTerr"] == NULL){
-        defaultMenuActions["setRotToTerr"] = new QAction(tr("&Set rotation to Terrain")); 
-        QObject::connect(defaultMenuActions["setRotToTerr"], SIGNAL(triggered()), this, SLOT(adjustObjRotationToTerrainMenu()));
+        defaultMenuActions["setRotToTerr"] = new QAction(tr("&Set rotation to Terrain"));
+        QObject::connect(defaultMenuActions["setRotToTerr"], &QAction::triggered, this, &RouteEditorGLWidget::adjustObjRotationToTerrainMenu);
     }
     if(defaultMenuActions["pickObj"] == NULL){
-        defaultMenuActions["pickObj"] = new QAction(tr("&Pick for placement")); 
-        QObject::connect(defaultMenuActions["pickObj"], SIGNAL(triggered()), this, SLOT(pickObjForPlacement()));
+        defaultMenuActions["pickObj"] = new QAction(tr("&Pick for placement"));
+        QObject::connect(defaultMenuActions["pickObj"], &QAction::triggered, this, &RouteEditorGLWidget::pickObjForPlacement);
     }
     if(defaultMenuActions["pickObjRot"] == NULL){
-        defaultMenuActions["pickObjRot"] = new QAction(tr("&Pick rotation for placement")); 
-        QObject::connect(defaultMenuActions["pickObjRot"], SIGNAL(triggered()), this, SLOT(pickObjRotForPlacement()));
+        defaultMenuActions["pickObjRot"] = new QAction(tr("&Pick rotation for placement"));
+        QObject::connect(defaultMenuActions["pickObjRot"], &QAction::triggered, this, &RouteEditorGLWidget::pickObjRotForPlacement);
     }
     if(defaultMenuActions["pickObjElev"] == NULL){
-        defaultMenuActions["pickObjElev"] = new QAction(tr("&Pick elevation for placement")); 
-        QObject::connect(defaultMenuActions["pickObjElev"], SIGNAL(triggered()), this, SLOT(pickObjRotElevForPlacement()));
+        defaultMenuActions["pickObjElev"] = new QAction(tr("&Pick elevation for placement"));
+        QObject::connect(defaultMenuActions["pickObjElev"], &QAction::triggered, this, &RouteEditorGLWidget::pickObjRotElevForPlacement);
     }
 
     if(defaultMenuActions["pickObjRotCam"] == NULL){
-        defaultMenuActions["pickObjRotCam"] = new QAction(tr("&Reposition camera to object")); 
-        QObject::connect(defaultMenuActions["pickObjRotCam"], SIGNAL(triggered()), this, SLOT(pickObjRotForCamera()));
+        defaultMenuActions["pickObjRotCam"] = new QAction(tr("&Reposition camera to object"));
+        QObject::connect(defaultMenuActions["pickObjRotCam"], &QAction::triggered, this, &RouteEditorGLWidget::pickObjRotForCamera);
     }
 
     if(defaultMenuActions["pickObjRotCamFlip"] == NULL){
-        defaultMenuActions["pickObjRotCamFlip"] = new QAction(tr("&Flip camera 180 degrees")); 
-        QObject::connect(defaultMenuActions["pickObjRotCamFlip"], SIGNAL(triggered()), this, SLOT(pickObjRotForCameraFlip()));
+        defaultMenuActions["pickObjRotCamFlip"] = new QAction(tr("&Flip camera 180 degrees"));
+        QObject::connect(defaultMenuActions["pickObjRotCamFlip"], &QAction::triggered, this, &RouteEditorGLWidget::pickObjRotForCameraFlip);
     }
 
     if(defaultMenuActions["resetCamN"] == NULL){
-        defaultMenuActions["resetCamN"] = new QAction(tr("Face &North")); 
-        QObject::connect(defaultMenuActions["resetCamN"], SIGNAL(triggered()), this, SLOT(resetCamN()));
+        defaultMenuActions["resetCamN"] = new QAction(tr("Face &North"));
+        QObject::connect(defaultMenuActions["resetCamN"], &QAction::triggered, this, &RouteEditorGLWidget::resetCamN);
     }
 
     if(defaultMenuActions["resetCamS"] == NULL){
-        defaultMenuActions["resetCamS"] = new QAction(tr("Face &South")); 
-        QObject::connect(defaultMenuActions["resetCamS"], SIGNAL(triggered()), this, SLOT(resetCamS()));
+        defaultMenuActions["resetCamS"] = new QAction(tr("Face &South"));
+        QObject::connect(defaultMenuActions["resetCamS"], &QAction::triggered, this, &RouteEditorGLWidget::resetCamS);
     }
     if(defaultMenuActions["resetCamE"] == NULL){
-        defaultMenuActions["resetCamE"] = new QAction(tr("Face &East")); 
-        QObject::connect(defaultMenuActions["resetCamE"], SIGNAL(triggered()), this, SLOT(resetCamE()));
+        defaultMenuActions["resetCamE"] = new QAction(tr("Face &East"));
+        QObject::connect(defaultMenuActions["resetCamE"], &QAction::triggered, this, &RouteEditorGLWidget::resetCamE);
     }
     if(defaultMenuActions["resetCamW"] == NULL){
-        defaultMenuActions["resetCamW"] = new QAction(tr("Face &West")); 
-        QObject::connect(defaultMenuActions["resetCamW"], SIGNAL(triggered()), this, SLOT(resetCamW()));
+        defaultMenuActions["resetCamW"] = new QAction(tr("Face &West"));
+        QObject::connect(defaultMenuActions["resetCamW"], &QAction::triggered, this, &RouteEditorGLWidget::resetCamW);
     }
 
     if(defaultMenuActions["resetCamD"] == NULL){
-        defaultMenuActions["resetCamD"] = new QAction(tr("Face &Down")); 
-        QObject::connect(defaultMenuActions["resetCamD"], SIGNAL(triggered()), this, SLOT(resetCamD()));
+        defaultMenuActions["resetCamD"] = new QAction(tr("Face &Down"));
+        QObject::connect(defaultMenuActions["resetCamD"], &QAction::triggered, this, &RouteEditorGLWidget::resetCamD);
     }
     
     if(defaultMenuActions["resetCamZ"] == NULL){
-        defaultMenuActions["resetCamZ"] = new QAction(tr("Default")); 
-        QObject::connect(defaultMenuActions["resetCamZ"], SIGNAL(triggered()), this, SLOT(resetCamZ()));
+        defaultMenuActions["resetCamZ"] = new QAction(tr("Default"));
+        QObject::connect(defaultMenuActions["resetCamZ"], &QAction::triggered, this, &RouteEditorGLWidget::resetCamZ);
     }
     
     if(defaultMenuActions["TangentOrigin"] == NULL){
-        defaultMenuActions["TangentOrigin"] = new QAction(tr("Tangent &Origin")); 
-        QObject::connect(defaultMenuActions["TangentOrigin"], SIGNAL(triggered()), this, SLOT(tangentOrigin()));
+        defaultMenuActions["TangentOrigin"] = new QAction(tr("Tangent &Origin"));
+        QObject::connect(defaultMenuActions["TangentOrigin"], &QAction::triggered, this, &RouteEditorGLWidget::tangentOrigin);
     }
 
     if(defaultMenuActions["TangentTarget"] == NULL){
-        defaultMenuActions["TangentTarget"] = new QAction(tr("Tangent &Target")); 
-        QObject::connect(defaultMenuActions["TangentTarget"], SIGNAL(triggered()), this, SLOT(tangentTarget()));
+        defaultMenuActions["TangentTarget"] = new QAction(tr("Tangent &Target"));
+        QObject::connect(defaultMenuActions["TangentTarget"], &QAction::triggered, this, &RouteEditorGLWidget::tangentTarget);
     }
     
     if(defaultMenuActions["TangentApply"] == NULL){
-        defaultMenuActions["TangentApply"] = new QAction(tr("Tangent &Apply Rotation")); 
-        QObject::connect(defaultMenuActions["TangentApply"], SIGNAL(triggered()), this, SLOT(TangentApplyRot()));
+        defaultMenuActions["TangentApply"] = new QAction(tr("Tangent &Apply Rotation"));
+        QObject::connect(defaultMenuActions["TangentApply"], &QAction::triggered, this, &RouteEditorGLWidget::TangentApplyRot);
     }
     
         
@@ -2375,22 +2396,22 @@ void RouteEditorGLWidget::showContextMenu(const QPoint & point) {
             menu.addMenu(&menuTool);            
             if(defaultMenuActions["selectToolSelect"] == NULL){
                 defaultMenuActions["selectToolSelect"] = GuiFunct::newMenuCheckAction(tr("&Select"), this, !resizeTool|!rotateTool|!translateTool); 
-                QObject::connect(defaultMenuActions["selectToolSelect"], SIGNAL(triggered()), this, SLOT(selectToolSelect()));
+                QObject::connect(defaultMenuActions["selectToolSelect"], &QAction::triggered, this, &RouteEditorGLWidget::selectToolSelect);
             }
             defaultMenuActions["selectToolSelect"]->setChecked(!resizeTool&!rotateTool&!translateTool);
             if(defaultMenuActions["selectToolRotate"] == NULL){
                 defaultMenuActions["selectToolRotate"] = GuiFunct::newMenuCheckAction(tr("&Rotate"), this, rotateTool); 
-                QObject::connect(defaultMenuActions["selectToolRotate"], SIGNAL(triggered()), this, SLOT(selectToolRotate()));
+                QObject::connect(defaultMenuActions["selectToolRotate"], &QAction::triggered, this, &RouteEditorGLWidget::selectToolRotate);
             }
             defaultMenuActions["selectToolRotate"]->setChecked(rotateTool);
             if(defaultMenuActions["selectToolTranslate"] == NULL){
                 defaultMenuActions["selectToolTranslate"] = GuiFunct::newMenuCheckAction(tr("&Translate"), this, translateTool); 
-                QObject::connect(defaultMenuActions["selectToolTranslate"], SIGNAL(triggered()), this, SLOT(selectToolTranslate()));
+                QObject::connect(defaultMenuActions["selectToolTranslate"], &QAction::triggered, this, &RouteEditorGLWidget::selectToolTranslate);
             }
             defaultMenuActions["selectToolTranslate"]->setChecked(translateTool);
             if(defaultMenuActions["selectToolScale"] == NULL){
                 defaultMenuActions["selectToolScale"] = GuiFunct::newMenuCheckAction(tr("&Custom"), this, resizeTool); 
-                QObject::connect(defaultMenuActions["selectToolScale"], SIGNAL(triggered()), this, SLOT(selectToolScale()));
+                QObject::connect(defaultMenuActions["selectToolScale"], &QAction::triggered, this, &RouteEditorGLWidget::selectToolScale);
             }
             defaultMenuActions["selectToolScale"]->setChecked(resizeTool);
             menuTool.addAction(defaultMenuActions["selectToolSelect"]);
@@ -2403,12 +2424,12 @@ void RouteEditorGLWidget::showContextMenu(const QPoint & point) {
             menu.addMenu(&menuPointer);
             if(defaultMenuActions["placeToolStickToTerrain"] == NULL){
                 defaultMenuActions["placeToolStickToTerrain"] = GuiFunct::newMenuCheckAction(tr("&Stick to Terrain"), this, stickPointerToTerrain); 
-                QObject::connect(defaultMenuActions["placeToolStickToTerrain"], SIGNAL(triggered()), this, SLOT(placeToolStickTerrain()));
+                QObject::connect(defaultMenuActions["placeToolStickToTerrain"], &QAction::triggered, this, &RouteEditorGLWidget::placeToolStickTerrain);
             }
             defaultMenuActions["placeToolStickToTerrain"]->setChecked(stickPointerToTerrain);
             if(defaultMenuActions["placeToolStickToAll"] == NULL){
                 defaultMenuActions["placeToolStickToAll"] = GuiFunct::newMenuCheckAction(tr("&Stick to All"), this, !stickPointerToTerrain); 
-                QObject::connect(defaultMenuActions["placeToolStickToAll"], SIGNAL(triggered()), this, SLOT(placeToolStickAll()));
+                QObject::connect(defaultMenuActions["placeToolStickToAll"], &QAction::triggered, this, &RouteEditorGLWidget::placeToolStickAll);
             }
             defaultMenuActions["placeToolStickToAll"]->setChecked(!stickPointerToTerrain);
             menuPointer.addAction(defaultMenuActions["placeToolStickToTerrain"]);
@@ -2417,14 +2438,14 @@ void RouteEditorGLWidget::showContextMenu(const QPoint & point) {
         if (toolEnabled == "placeTool" || toolEnabled == "selectTool"){
             if(defaultMenuActions["resetMoveStep"] == NULL){
                 defaultMenuActions["resetMoveStep"] = new QAction(tr("&Reset MoveStep"), this); 
-                QObject::connect(defaultMenuActions["resetMoveStep"], SIGNAL(triggered()), this, SLOT(selectToolresetMoveStep()));
+                QObject::connect(defaultMenuActions["resetMoveStep"], &QAction::triggered, this, &RouteEditorGLWidget::selectToolresetMoveStep);
             }
             menu.addAction(defaultMenuActions["resetMoveStep"]);
         }
         if (toolEnabled == "placeTool" || toolEnabled == "selectTool"){
             if(defaultMenuActions["resetRot"] == NULL){
                 defaultMenuActions["resetRot"] = new QAction(tr("&Reset Rotation"), this); 
-                QObject::connect(defaultMenuActions["resetRot"], SIGNAL(triggered()), this, SLOT(selectToolresetRot()));
+                QObject::connect(defaultMenuActions["resetRot"], &QAction::triggered, this, &RouteEditorGLWidget::selectToolresetRot);
             }
             menu.addAction(defaultMenuActions["resetRot"]);
         }
@@ -2432,12 +2453,12 @@ void RouteEditorGLWidget::showContextMenu(const QPoint & point) {
             menu.addMenu(&menuTool);
             if(defaultMenuActions["toolDirectionUp"] == NULL){
                 defaultMenuActions["toolDirectionUp"] = GuiFunct::newMenuCheckAction(tr("&Up"), this, (defaultPaintBrush->direction+1)); 
-                QObject::connect(defaultMenuActions["toolDirectionUp"], SIGNAL(triggered()), this, SLOT(toolBrushDirectionUp()));
+                QObject::connect(defaultMenuActions["toolDirectionUp"], &QAction::triggered, this, &RouteEditorGLWidget::toolBrushDirectionUp);
             }
             defaultMenuActions["toolDirectionUp"]->setChecked((defaultPaintBrush->direction+1)); 
             if(defaultMenuActions["toolDirectionDown"] == NULL){
                 defaultMenuActions["toolDirectionDown"] = GuiFunct::newMenuCheckAction(tr("&Down"), this, !((defaultPaintBrush->direction+1))); 
-                QObject::connect(defaultMenuActions["toolDirectionDown"], SIGNAL(triggered()), this, SLOT(toolBrushDirectionDown()));
+                QObject::connect(defaultMenuActions["toolDirectionDown"], &QAction::triggered, this, &RouteEditorGLWidget::toolBrushDirectionDown);
             }
             defaultMenuActions["toolDirectionDown"]->setChecked(!((defaultPaintBrush->direction+1))); 
             menuTool.addAction(defaultMenuActions["toolDirectionUp"]); 
@@ -2464,32 +2485,32 @@ void RouteEditorGLWidget::showContextMenu(const QPoint & point) {
             menu.addMenu(&menuTool);
             if(defaultMenuActions["putTerrainTexRandom"] == NULL){
                 defaultMenuActions["putTerrainTexRandom"] = GuiFunct::newMenuCheckAction(tr("&Random"), this, defaultPaintBrush->texTransformation == defaultPaintBrush->RANDOM); 
-                QObject::connect(defaultMenuActions["putTerrainTexRandom"], SIGNAL(triggered()), this, SLOT(putTerrainTexToolSelectRandom()));
+                QObject::connect(defaultMenuActions["putTerrainTexRandom"], &QAction::triggered, this, &RouteEditorGLWidget::putTerrainTexToolSelectRandom);
             }
             defaultMenuActions["putTerrainTexRandom"]->setChecked(defaultPaintBrush->texTransformation == defaultPaintBrush->RANDOM);
             if(defaultMenuActions["putTerrainTexPresent"] == NULL){
                 defaultMenuActions["putTerrainTexPresent"] = GuiFunct::newMenuCheckAction(tr("&Present"), this, defaultPaintBrush->texTransformation == defaultPaintBrush->PRESENT); 
-                QObject::connect(defaultMenuActions["putTerrainTexPresent"], SIGNAL(triggered()), this, SLOT(putTerrainTexToolSelectPresent()));
+                QObject::connect(defaultMenuActions["putTerrainTexPresent"], &QAction::triggered, this, &RouteEditorGLWidget::putTerrainTexToolSelectPresent);
             }
             defaultMenuActions["putTerrainTexPresent"]->setChecked(defaultPaintBrush->texTransformation == defaultPaintBrush->PRESENT);
             if(defaultMenuActions["putTerrainTex0"] == NULL){
                 defaultMenuActions["putTerrainTex0"] = GuiFunct::newMenuCheckAction(tr("&Rotate 0°"), this, defaultPaintBrush->texTransformation == defaultPaintBrush->ROT0); 
-                QObject::connect(defaultMenuActions["putTerrainTex0"], SIGNAL(triggered()), this, SLOT(putTerrainTexToolSelect0()));
+                QObject::connect(defaultMenuActions["putTerrainTex0"], &QAction::triggered, this, &RouteEditorGLWidget::putTerrainTexToolSelect0);
             }
             defaultMenuActions["putTerrainTex0"]->setChecked(defaultPaintBrush->texTransformation == defaultPaintBrush->ROT0);
             if(defaultMenuActions["putTerrainTex90"] == NULL){
                 defaultMenuActions["putTerrainTex90"] = GuiFunct::newMenuCheckAction(tr("&Rotate 90°"), this, defaultPaintBrush->texTransformation == defaultPaintBrush->ROT90); 
-                QObject::connect(defaultMenuActions["putTerrainTex90"], SIGNAL(triggered()), this, SLOT(putTerrainTexToolSelect90()));
+                QObject::connect(defaultMenuActions["putTerrainTex90"], &QAction::triggered, this, &RouteEditorGLWidget::putTerrainTexToolSelect90);
             }
             defaultMenuActions["putTerrainTex90"]->setChecked(defaultPaintBrush->texTransformation == defaultPaintBrush->ROT90);
             if(defaultMenuActions["putTerrainTex180"] == NULL){
                 defaultMenuActions["putTerrainTex180"] = GuiFunct::newMenuCheckAction(tr("&Rotate 180°"), this, defaultPaintBrush->texTransformation == defaultPaintBrush->ROT180); 
-                QObject::connect(defaultMenuActions["putTerrainTex180"], SIGNAL(triggered()), this, SLOT(putTerrainTexToolSelect180()));
+                QObject::connect(defaultMenuActions["putTerrainTex180"], &QAction::triggered, this, &RouteEditorGLWidget::putTerrainTexToolSelect180);
             }
             defaultMenuActions["putTerrainTex180"]->setChecked(defaultPaintBrush->texTransformation == defaultPaintBrush->ROT180);
             if(defaultMenuActions["putTerrainTex270"] == NULL){
                 defaultMenuActions["putTerrainTex270"] = GuiFunct::newMenuCheckAction(tr("&Rotate 270°"), this, defaultPaintBrush->texTransformation == defaultPaintBrush->ROT270); 
-                QObject::connect(defaultMenuActions["putTerrainTex270"], SIGNAL(triggered()), this, SLOT(putTerrainTexToolSelect270()));
+                QObject::connect(defaultMenuActions["putTerrainTex270"], &QAction::triggered, this, &RouteEditorGLWidget::putTerrainTexToolSelect270);
             }
             defaultMenuActions["putTerrainTex270"]->setChecked(defaultPaintBrush->texTransformation == defaultPaintBrush->ROT270);
             menuTool.addAction(defaultMenuActions["putTerrainTexRandom"]);
@@ -2504,19 +2525,19 @@ void RouteEditorGLWidget::showContextMenu(const QPoint & point) {
             menu.addMenu(&menuTool);   
             if(defaultMenuActions["paintToolObjSelected"] == NULL){
                 defaultMenuActions["paintToolObjSelected"] = new QAction(tr("&Selected Object"), this); 
-                QObject::connect(defaultMenuActions["paintToolObjSelected"], SIGNAL(triggered()), this, SLOT(paintToolObjSelected()));
+                QObject::connect(defaultMenuActions["paintToolObjSelected"], &QAction::triggered, this, &RouteEditorGLWidget::paintToolObjSelected);
             }
             if(defaultMenuActions["paintToolObj"] == NULL){
                 defaultMenuActions["paintToolObj"] = new QAction(tr("&Nearest Object"), this); 
-                QObject::connect(defaultMenuActions["paintToolObj"], SIGNAL(triggered()), this, SLOT(paintToolObj()));
+                QObject::connect(defaultMenuActions["paintToolObj"], &QAction::triggered, this, &RouteEditorGLWidget::paintToolObj);
             }
             if(defaultMenuActions["paintToolTDB"] == NULL){
                 defaultMenuActions["paintToolTDB"] = new QAction(tr("&Nearest Track or Road"), this); 
-                QObject::connect(defaultMenuActions["paintToolTDB"], SIGNAL(triggered()), this, SLOT(paintToolTDB()));
+                QObject::connect(defaultMenuActions["paintToolTDB"], &QAction::triggered, this, &RouteEditorGLWidget::paintToolTDB);
             }
             if(defaultMenuActions["paintToolTDBVector"] == NULL){
                 defaultMenuActions["paintToolTDBVector"] = new QAction(tr("&Nearest TDB/RDB Vector"), this); 
-                QObject::connect(defaultMenuActions["paintToolTDBVector"], SIGNAL(triggered()), this, SLOT(paintToolTDBVector()));
+                QObject::connect(defaultMenuActions["paintToolTDBVector"], &QAction::triggered, this, &RouteEditorGLWidget::paintToolTDBVector);
             }
             menuTool.addAction(defaultMenuActions["paintToolObjSelected"]);
             menuTool.addAction(defaultMenuActions["paintToolObj"]);

@@ -34,8 +34,8 @@ public slots:
     void eMaxPlacingDistanceEnabled(QString val);
     void eSoundNameEnabled(QString val);
     void cSoundTypeEnabled(int val);
-    void chInvisibleEnabled(int val);
-    void chSilentHaxEnabled(int val);
+    void chInvisibleEnabled(Qt::CheckState val);
+    void chSilentHaxEnabled(Qt::CheckState val);
     void bDeleteSelectedEnabled();
     
 signals:

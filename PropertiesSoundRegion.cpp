@@ -50,7 +50,8 @@ PropertiesSoundRegion::PropertiesSoundRegion() {
 
     QPushButton *button = new QPushButton("Flip", this);
     vbox->addWidget(button);
-    connect(button, SIGNAL(released()), this, SLOT(flip()));
+    QObject::connect(button, &QPushButton::released,
+        this, &PropertiesSoundRegion::flip);
 
     QLabel *label = new QLabel("Region name:");
     label->setContentsMargins(3,0,0,0);
@@ -62,8 +63,8 @@ PropertiesSoundRegion::PropertiesSoundRegion() {
     vbox->addWidget(label);
     vbox->addWidget(&this->sources);
     this->sources.setStyleSheet("combobox-popup: 0;");
-    QObject::connect(&this->sources, SIGNAL(activated(QString)),
-        this, SLOT(sourcesListSelected(QString)));
+    QObject::connect(&this->sources, &QComboBox::textActivated,
+        this, &PropertiesSoundRegion::sourcesListSelected);
     
     label = new QLabel("Track Items:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -72,12 +73,12 @@ PropertiesSoundRegion::PropertiesSoundRegion() {
     
     QPushButton *bDeleteSelected = new QPushButton("Delete Selected");
     vbox->addWidget(bDeleteSelected);
-    QObject::connect(bDeleteSelected, SIGNAL(released()),
-                      this, SLOT(bDeleteSelectedEnabled()));
+    QObject::connect(bDeleteSelected, &QPushButton::released,
+        this, &PropertiesSoundRegion::bDeleteSelectedEnabled);
     QPushButton *bExpandSelected = new QPushButton("Expand");
     vbox->addWidget(bExpandSelected);
-    QObject::connect(bExpandSelected, SIGNAL(released()),
-                      this, SLOT(bExpandEnabled()));
+    QObject::connect(bExpandSelected, &QPushButton::released,
+        this, &PropertiesSoundRegion::bExpandEnabled);
     
     label = new QLabel("Global settings:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -86,7 +87,8 @@ PropertiesSoundRegion::PropertiesSoundRegion() {
     vbox->addWidget(new QLabel("Max placing radius:"));
     vbox->addWidget(&eMaxPlacingDistance);
     eMaxPlacingDistance.setValidator(doubleValidator);
-    QObject::connect(&eMaxPlacingDistance, SIGNAL(textEdited(QString)), this, SLOT(eMaxPlacingDistanceEnabled(QString)));
+    QObject::connect(&eMaxPlacingDistance, &QLineEdit::textEdited,
+        this, &PropertiesSoundRegion::eMaxPlacingDistanceEnabled);
 
     
     vbox->addStretch(1);

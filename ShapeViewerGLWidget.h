@@ -19,6 +19,10 @@
 #include <QBasicTimer>
 #include <math.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 class SFile;
 class Eng;
 class Consist;
@@ -101,7 +105,7 @@ private:
     int m_yRot;
     int m_zRot;
     int fps;
-    QPoint m_lastPos;
+    QPointF m_lastPos;
     GLUU* gluu;
     int mousex, mousey;
     bool mousePressed = false;

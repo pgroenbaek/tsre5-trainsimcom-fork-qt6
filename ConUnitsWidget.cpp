@@ -38,17 +38,18 @@ ConUnitsWidget::ConUnitsWidget() {
     //vbox->addStretch(1);
     this->setLayout(vbox);
     this->setMinimumWidth(250);
-    QObject::connect(&items, SIGNAL(itemClicked(QListWidgetItem*)),
-                      this, SLOT(itemsSelected(QListWidgetItem*)));
-    
-    QObject::connect(bDel, SIGNAL(released()),
-                      this, SLOT(bDelReleased()));
-    QObject::connect(bUp, SIGNAL(released()),
-                      this, SLOT(bUpReleased()));
-    QObject::connect(bDown, SIGNAL(released()),
-                      this, SLOT(bDownReleased()));
-    QObject::connect(bFlip, SIGNAL(released()),
-                      this, SLOT(bFlipReleased()));
+    QObject::connect(&items, &QListWidget::itemClicked,
+        this, &ConUnitsWidget::itemsSelected);
+
+    QObject::connect(bDel, &QPushButton::released,
+        this, &ConUnitsWidget::bDelReleased);
+    QObject::connect(bUp, &QPushButton::released,
+        this, &ConUnitsWidget::bUpReleased);
+    QObject::connect(bDown, &QPushButton::released,
+        this, &ConUnitsWidget::bDownReleased);
+    QObject::connect(bFlip, &QPushButton::released,
+        this, &ConUnitsWidget::bFlipReleased);
+
     items.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 

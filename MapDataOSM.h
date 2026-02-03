@@ -89,8 +89,6 @@ public:
     void load();
     
 signals:
-    void loaded();
-    void statusInfo(QString val);
     
 public slots:
     void isData(QNetworkReply* r);

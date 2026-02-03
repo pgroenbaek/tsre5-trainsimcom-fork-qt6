@@ -28,16 +28,17 @@ TerrainTools::TerrainTools(QString name)
     texPreviewLabel = new ClickableLabel("");
     texPreviewLabel->setContentsMargins(0,0,0,0);
     texPreviewLabel->setPixmap(*texPreview);
-    for(int i = 0; i < 7; i++){
+    for (int i = 0; i < 7; i++) {
         texPreviewLabels.push_back(new ClickableLabel(""));
-        texPreviewLabels.back()->setContentsMargins(0,0,0,0);
+        texPreviewLabels.back()->setContentsMargins(0, 0, 0, 0);
         texPreviewLabels.back()->setPixmap(*defaultTexPreview);
-        texPreviewSignals.setMapping(texPreviewLabels.back(), i);
-        connect(texPreviewLabels.back(), SIGNAL(clicked()), &texPreviewSignals, SLOT(map()));
+
+        int index = i; // capture the index
+        QObject::connect(texPreviewLabels.back(), &ClickableLabel::clicked, this,
+            [this, index]() { texPreviewEnabled(index); });
     }
-    texPreviewSignals.setMapping(texPreviewLabel, 7);
-    connect(texPreviewLabel, SIGNAL(clicked()), &texPreviewSignals, SLOT(map()));
-    connect(&texPreviewSignals, SIGNAL(mapped(int)), this, SLOT(texPreviewEnabled(int)));
+    QObject::connect(texPreviewLabel, &ClickableLabel::clicked, this,
+        [this]() { texPreviewEnabled(7); });
 
     paintBrush = new Brush();
     
@@ -304,108 +305,107 @@ TerrainTools::TerrainTools(QString name)
     
     
     // signals
-    QObject::connect(buttonTools["heightTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(heightToolEnabled(bool)));
+    QObject::connect(buttonTools["heightTool"], &QPushButton::toggled,
+        this, &TerrainTools::heightToolEnabled);
     if(Game::serverClient == NULL){
-        QObject::connect(buttonTools["paintToolColor"], SIGNAL(toggled(bool)),
-                          this, SLOT(paintColorToolEnabled(bool)));
+        QObject::connect(buttonTools["paintToolColor"], &QPushButton::toggled,
+            this, &TerrainTools::paintColorToolEnabled);
 
-        QObject::connect(buttonTools["paintToolTexture"], SIGNAL(toggled(bool)),
-                          this, SLOT(paintTexToolEnabled(bool)));
+        QObject::connect(buttonTools["paintToolTexture"], &QPushButton::toggled,
+            this, &TerrainTools::paintTexToolEnabled);
 
-        QObject::connect(buttonTools["lockTexTool"], SIGNAL(toggled(bool)),
-                          this, SLOT(lockTexToolEnabled(bool)));
+        QObject::connect(buttonTools["lockTexTool"], &QPushButton::toggled,
+            this, &TerrainTools::lockTexToolEnabled);
     }
-    QObject::connect(buttonTools["pickTerrainTexTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(pickTexToolEnabled(bool)));
-    
-    QObject::connect(buttonTools["waterTerrTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(waterTerrToolEnabled(bool)));
-    
-    //QObject::connect(buttonTools["waterHeightTileTool"], SIGNAL(toggled(bool)),
-    //                  this, SLOT(waterHeightTileToolEnabled(bool)));
-    
-    //QObject::connect(buttonTools["fixedTileTool"], SIGNAL(toggled(bool)),
-    //                  this, SLOT(fixedTileToolEnabled(bool)));
-    
-    QObject::connect(buttonTools["gapsTerrainTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(gapsTerrToolEnabled(bool)));
-    
-    //QObject::connect(buttonTools["drawTerrTool"], SIGNAL(toggled(bool)),
-    //                  this, SLOT(drawTerrToolEnabled(bool)));
-    
-    QObject::connect(buttonTools["putTerrainTexTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(putTexToolEnabled(bool)));
-    
-    QObject::connect(loadTerrainTexTool, SIGNAL(released()),
-                      this, SLOT(setTexToolEnabled()));
-    
-    QObject::connect(colorw, SIGNAL(released()),
-                      this, SLOT(chooseColorEnabled()));
-    
-    QObject::connect(resetDefaults, SIGNAL(released()),
-                      this, SLOT(resetDefaultValues()));
+    QObject::connect(buttonTools["pickTerrainTexTool"], &QPushButton::toggled,
+        this, &TerrainTools::pickTexToolEnabled);
 
-    QObject::connect(setPinPoint, SIGNAL(released()),
-                      this, SLOT(setPinPointBrush()));
+    QObject::connect(buttonTools["waterTerrTool"], &QPushButton::toggled,
+        this, &TerrainTools::waterTerrToolEnabled);
+
+    //QObject::connect(buttonTools["waterHeightTileTool"], &QPushButton::toggled,
+    //    this, &TerrainTools::waterHeightTileToolEnabled);
+
+    //QObject::connect(buttonTools["fixedTileTool"], &QPushButton::toggled,
+    //    this, &TerrainTools::fixedTileToolEnabled);
+
+    QObject::connect(buttonTools["gapsTerrainTool"], &QPushButton::toggled,
+            this, &TerrainTools::gapsTerrToolEnabled);
+
+    //QObject::connect(buttonTools["drawTerrTool"], &QPushButton::toggled,
+    //    this, &TerrainTools::drawTerrToolEnabled);
+
+    QObject::connect(buttonTools["putTerrainTexTool"], &QPushButton::toggled,
+        this, &TerrainTools::putTexToolEnabled);
+
+    QObject::connect(loadTerrainTexTool, &QPushButton::released,
+        this, &TerrainTools::setTexToolEnabled);
+
+    QObject::connect(colorw, &QPushButton::released,
+        this, &TerrainTools::chooseColorEnabled);
+
+    QObject::connect(resetDefaults, &QPushButton::released,
+        this, &TerrainTools::resetDefaultValues);
+
+    QObject::connect(setPinPoint, &QPushButton::released,
+        this, &TerrainTools::setPinPointBrush);
 
     // brush
-    QObject::connect(sSize, SIGNAL(valueChanged(int)),
-                      this, SLOT(setBrushSize(int)));
-    
-    QObject::connect(sIntensity, SIGNAL(valueChanged(int)),
-                      this, SLOT(setBrushAlpha(int)));
+    QObject::connect(sSize, &QSlider::valueChanged,
+        this, [this](int val){ setBrushSize(val); });
 
-    QObject::connect(leSize, SIGNAL(textEdited(QString)),
-                      this, SLOT(setBrushSize(QString)));
-    
-    QObject::connect(leIntensity, SIGNAL(textEdited(QString)),
-                      this, SLOT(setBrushAlpha(QString)));
-    
+    QObject::connect(sIntensity, &QSlider::valueChanged,
+        this, [this](int val){ setBrushAlpha(val); });
+
+    QObject::connect(leSize, &QLineEdit::textEdited,
+        this, [this](const QString &val){ setBrushSize(val); });
+
+    QObject::connect(leIntensity, &QLineEdit::textEdited,
+        this, [this](const QString &val){ setBrushAlpha(val); });
+
     // embarkment
-    QObject::connect(sEsize, SIGNAL(valueChanged(int)),
-                      this, SLOT(setEsize(int)));
-    
-    QObject::connect(leEsize, SIGNAL(textEdited(QString)),
-                      this, SLOT(setEsize(QString)));    
-    
-    QObject::connect(sEemb, SIGNAL(valueChanged(int)),
-                      this, SLOT(setEemb(int)));
+    QObject::connect(sEsize, &QSlider::valueChanged,
+        this, [this](int val){ setEsize(val); });
 
-    QObject::connect(leEemb, SIGNAL(textEdited(QString)),
-                      this, SLOT(setEemb(QString)));
+    QObject::connect(leEsize, &QLineEdit::textEdited,
+        this, [this](const QString &val){ setEsize(val); });
 
-    QObject::connect(sEcut, SIGNAL(valueChanged(int)),
-                      this, SLOT(setEcut(int)));
+    QObject::connect(sEemb, &QSlider::valueChanged,
+        this, [this](int val){ setEemb(val); });
 
-    QObject::connect(leEcut, SIGNAL(textEdited(QString)),
-                      this, SLOT(setEcut(QString)));
-    
-    QObject::connect(sEradius, SIGNAL(valueChanged(int)),
-                      this, SLOT(setEradius(int)));
+    QObject::connect(leEemb, &QLineEdit::textEdited,
+        this, [this](const QString &val){ setEemb(val); });
 
-    QObject::connect(leEradius, SIGNAL(textEdited(QString)),
-                      this, SLOT(setEradius(QString)));
-    
-    QObject::connect(sun1, SIGNAL(textEdited(QString)),
-                      this, SLOT(setSun1(QString)));    
+    QObject::connect(sEcut, &QSlider::valueChanged,
+        this, [this](int val){ setEcut(val); });
 
-    QObject::connect(sun2, SIGNAL(textEdited(QString)),
-                      this, SLOT(setSun2(QString)));    
-    
-    QObject::connect(sun3, SIGNAL(textEdited(QString)),
-                      this, SLOT(setSun3(QString)));    
+    QObject::connect(leEcut, &QLineEdit::textEdited,
+        this, [this](const QString &val){ setEcut(val); });
 
-    
-    QObject::connect(fheight, SIGNAL(textEdited(QString)),
-                      this, SLOT(setFheight(QString)));
-    
-    QObject::connect(hType, SIGNAL(currentIndexChanged(int)),
-                      this, SLOT(setHtype(int)));
+    QObject::connect(sEradius, &QSlider::valueChanged,
+        this, [this](int val){ setEradius(val); });
 
-    QObject::connect(seasonType, SIGNAL(currentIndexChanged(int)),
-                      this, SLOT(setSeasonType(int)));
-    
+    QObject::connect(leEradius, &QLineEdit::textEdited,
+        this, [this](const QString &val){ setEradius(val); });
+
+    QObject::connect(sun1, &QLineEdit::textEdited,
+        this, &TerrainTools::setSun1);    
+
+    QObject::connect(sun2, &QLineEdit::textEdited,
+        this, &TerrainTools::setSun2);    
+
+    QObject::connect(sun3, &QLineEdit::textEdited,
+        this, &TerrainTools::setSun3);
+
+    QObject::connect(fheight, &QLineEdit::textEdited,
+        this, &TerrainTools::setFheight);
+
+    QObject::connect(hType, &QComboBox::currentIndexChanged,
+        this, &TerrainTools::setHtype);
+
+    QObject::connect(seasonType, &QComboBox::currentIndexChanged,
+        this, &TerrainTools::setSeasonType);
+
     this->setBrushSize(this->sSize->value());
     this->setBrushAlpha(this->sIntensity->value());
     this->setEsize(this->sEsize->value());
@@ -588,8 +588,13 @@ void TerrainTools::preloadTexTool(QString filename)
     if(result == -1)
         {    
             int tid = TexLib::addTex(filename);
+            Texture* t = TexLib::mtex[tid];
+            if(!t->loaded) {
+                return;
+            }
+
             this->paintBrush->texId = tid;
-            this->paintBrush->tex = TexLib::mtex[tid];
+            this->paintBrush->tex = t;
 
             texLastItems.push_back(qMakePair(this->paintBrush->texId, this->paintBrush->tex));
             if(texLastItems.size() > 7){

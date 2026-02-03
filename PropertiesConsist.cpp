@@ -25,8 +25,8 @@ PropertiesConsist::PropertiesConsist() {
     vlist->setSpacing(2);
     vlist->setContentsMargins(3,0,3,0);
     vlist->addRow("Speed:",&eSpeed);
-    QObject::connect(&eSpeed, SIGNAL(textEdited(QString)),
-                      this, SLOT(eSpeedEnabled(QString)));
+    QObject::connect(&eSpeed, &QLineEdit::textEdited,
+        this, &PropertiesConsist::eSpeedEnabled);
     //vlist->addRow("Id:",&eId);
     //vlist->addRow("eId:",&eEid);
     //eObjectType.setDisabled(true);
@@ -35,7 +35,8 @@ PropertiesConsist::PropertiesConsist() {
     vbox->addItem(vlist);
     
     QPushButton *bCam = new QPushButton("Get Camera View");
-    QObject::connect(bCam, SIGNAL(released()), this, SLOT(bCamEnabled()));
+    QObject::connect(bCam, &QPushButton::released,
+        this, &PropertiesConsist::bCamEnabled);
     vbox->addWidget(bCam);
     
         

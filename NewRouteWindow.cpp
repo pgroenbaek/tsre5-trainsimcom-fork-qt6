@@ -15,8 +15,8 @@ NewRouteWindow::NewRouteWindow() : QDialog(){
 
     QPushButton* ok = new QPushButton("OK");
     QPushButton* cancel = new QPushButton("Cancel");
-    connect(ok, SIGNAL (released()), this, SLOT (ok()));
-    connect(cancel, SIGNAL (released()), this, SLOT (cancel()));
+    QObject::connect(ok, &QPushButton::released, this, &NewRouteWindow::ok);
+    QObject::connect(cancel, &QPushButton::released, this, &NewRouteWindow::cancel);
 
     QFormLayout *vlist = new QFormLayout;
     vlist->setSpacing(2);

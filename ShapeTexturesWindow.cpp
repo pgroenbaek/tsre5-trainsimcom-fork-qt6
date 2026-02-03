@@ -50,12 +50,12 @@ ShapeTexturesWindow::ShapeTexturesWindow(QWidget* parent) : QWidget(parent) {
     textureList.header()->resizeSection(4,150);    
     vbox->addWidget(&textureList);
     vbox->addWidget(texPreviewLabel);
-    QObject::connect(&textureList, SIGNAL(itemChanged(QTreeWidgetItem*, int)),
-                      this, SLOT(textureListChanged(QTreeWidgetItem*, int)));
-    QObject::connect(&textureList, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
-                      this, SLOT(textureListSelected(QTreeWidgetItem*, int)));
-    QObject::connect(texPreviewLabel, SIGNAL(clicked()),
-                      this, SLOT(saveImg()));
+    QObject::connect(&textureList, QOverload<QTreeWidgetItem*, int>::of(&QTreeWidget::itemChanged),
+        this, &ShapeTexturesWindow::textureListChanged);
+    QObject::connect(&textureList, QOverload<QTreeWidgetItem*, int>::of(&QTreeWidget::itemClicked),
+        this, &ShapeTexturesWindow::textureListSelected);
+    QObject::connect(texPreviewLabel, &ClickableLabel::clicked,
+        this, &ShapeTexturesWindow::saveImg);
     
     this->setLayout(vbox);
     this->resize(720,200);

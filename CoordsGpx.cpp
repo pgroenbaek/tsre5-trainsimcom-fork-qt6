@@ -43,11 +43,13 @@ CoordsGpx::CoordsGpx(QString path) {
     IghCoordinate* igh;
     PreciseTileCoordinate* ppp;
     
-    QXmlStreamReader reader((data));
-    reader.readNext();
+    QXmlStreamReader reader;
+    reader.addData(data);
+    reader.setNamespaceProcessing(false);
     QString name;
     QXmlStreamAttributes attr;
-    while (!reader.isEndDocument()) {
+    while (!reader.atEnd() && !reader.hasError()) {
+        reader.readNext();
         if (reader.isStartElement()) {
             name = reader.name().toString();
             attr = reader.attributes();
@@ -129,8 +131,6 @@ CoordsGpx::CoordsGpx(QString path) {
                 markerList.back().name = reader.text().toString();
             }
         }
-        
-        reader.readNext();
     }
     loaded = true;
     

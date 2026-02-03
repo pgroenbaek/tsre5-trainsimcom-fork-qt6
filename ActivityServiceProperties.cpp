@@ -34,22 +34,22 @@ ActivityServiceProperties::ActivityServiceProperties(QWidget* parent) : QWidget(
     vlist->setContentsMargins(3,0,3,0);
     vlist->addRow("File Name:",&eFileName);
     vlist->addRow("Display Name:",&eDisplayName);
-    QObject::connect(&eDisplayName, SIGNAL(textEdited(QString)),
-                      this, SLOT(eDisplayNameEnabled(QString)));
+    QObject::connect(&eDisplayName, &QLineEdit::textEdited,
+        this, &ActivityServiceProperties::eDisplayNameEnabled);
     vbox->addItem(vlist);
     
     vlist = new QFormLayout;
     vlist->setSpacing(2);
     vlist->setContentsMargins(3,0,3,0);
     vlist->addRow("Expected Player Performance:",&ePlayerPerformance);
-    QObject::connect(&ePlayerPerformance, SIGNAL(textEdited(QString)),
-                      this, SLOT(ePlayerPerformanceEnabled(QString)));
+    QObject::connect(&ePlayerPerformance, &QLineEdit::textEdited,
+        this, &ActivityServiceProperties::ePlayerPerformanceEnabled);
     vlist->addRow("Start Speed:",&eStartSpeed);
-    QObject::connect(&eStartSpeed, SIGNAL(textEdited(QString)),
-                      this, SLOT(eStartSpeedEnabled(QString)));
+    QObject::connect(&eStartSpeed, &QLineEdit::textEdited,
+        this, &ActivityServiceProperties::eStartSpeedEnabled);
     vlist->addRow("End Speed:",&eEndSpeed);
-    QObject::connect(&eEndSpeed, SIGNAL(textEdited(QString)),
-                      this, SLOT(eEndSpeedEnabled(QString)));
+    QObject::connect(&eEndSpeed, &QLineEdit::textEdited,
+        this, &ActivityServiceProperties::eEndSpeedEnabled);
     vbox->addItem(vlist);
     
     label = new QLabel("Consist:");
@@ -60,8 +60,8 @@ ActivityServiceProperties::ActivityServiceProperties(QWidget* parent) : QWidget(
     cConFiles.setStyleSheet("combobox-popup: 0;");
     cConFiles.setMaxVisibleItems(35);
     cConFiles.view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    QObject::connect(&cConFiles, SIGNAL(activated(int)),
-                      this, SLOT(cConFilesEnabled(int)));
+    QObject::connect(&cConFiles, &QComboBox::activated,
+        this, &ActivityServiceProperties::cConFilesEnabled);
     
     label = new QLabel("Path:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -71,8 +71,8 @@ ActivityServiceProperties::ActivityServiceProperties(QWidget* parent) : QWidget(
     cPath.setStyleSheet("combobox-popup: 0;");
     cPath.setMaxVisibleItems(35);
     cPath.view()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    QObject::connect(&cPath, SIGNAL(activated(int)),
-                      this, SLOT(cPathEnabled(int)));
+    QObject::connect(&cPath, &QComboBox::activated,
+        this, &ActivityServiceProperties::cPathEnabled);
 
     QStringList list;
     list.append("Stop:");
@@ -85,8 +85,8 @@ ActivityServiceProperties::ActivityServiceProperties(QWidget* parent) : QWidget(
     stationList.header()->resizeSection(1,150);    
     stationList.header()->resizeSection(2,50);    
     vbox->addWidget(&stationList);
-    QObject::connect(&stationList, SIGNAL(itemChanged(QTreeWidgetItem*, int)),
-                      this, SLOT(stationListSelected(QTreeWidgetItem*, int)));
+    QObject::connect(&stationList, &QTreeWidget::itemChanged,
+        this, &ActivityServiceProperties::stationListSelected);
 
     label = new QLabel("Used by:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");

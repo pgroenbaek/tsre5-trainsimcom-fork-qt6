@@ -35,10 +35,10 @@ void PaintTexLib::run() {
     
     for(int i = 1; i < data.length()-1; i++){
         if(data[i].split(":").first() == "color"){
-            color.setNamedColor(data[i].split(":").last());
+            color = QColor::fromString(data[i].split(":").last());
         }
         if(data[i].split(":").first() == "ocolor"){
-            colorOutline.setNamedColor(data[i].split(":").last());
+            colorOutline = QColor::fromString(data[i].split(":").last());
             isOutline = true;
         }
         if(data[i].split(":").first() == "size"){
@@ -87,7 +87,7 @@ void PaintTexLib::run() {
         p.setBrush(abrush);
         p.setPen(apen); 
         QFontMetrics fm(font);
-        int pwide = fm.width(val);
+        int pwide = fm.horizontalAdvance(val);
         int phigh = fm.ascent();
         QPainterPath myPath;
         myPath.addText(w/2-pwide/2,phigh-2, font, val);

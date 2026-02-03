@@ -59,7 +59,8 @@ ActivityTimetableProperties::ActivityTimetableProperties(QWidget* parent) : QWid
     lTimetable.horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
     vlist->addWidget(&lTimetable, row++, 0, 1, 2);
     QPushButton *bCalculate = new QPushButton("Calculate");
-    QObject::connect(bCalculate, SIGNAL(released()), this, SLOT(bCalculateSelected()));
+    QObject::connect(bCalculate, &QPushButton::released,
+        this, &ActivityTimetableProperties::bCalculateSelected);
     vlist->addWidget(bCalculate, row++, 0, 1, 2);
     vlist->addWidget(new QLabel("Start Time:"), row, 0);
     vlist->addWidget(&eTime, row++, 1);
@@ -79,8 +80,8 @@ ActivityTimetableProperties::ActivityTimetableProperties(QWidget* parent) : QWid
     //vbox->addStretch(1);
     this->setLayout(vbox);
     
-    QObject::connect(&lTimetable, SIGNAL(cellChanged(int, int)),
-                      this, SLOT(lTimetableSelected(int, int)));
+    QObject::connect(&lTimetable, &QTableWidget::cellChanged,
+        this, &ActivityTimetableProperties::lTimetableSelected);
 }
 
 ActivityTimetableProperties::~ActivityTimetableProperties() {

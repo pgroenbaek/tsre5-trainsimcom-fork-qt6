@@ -35,7 +35,7 @@ public slots:
     void placeToolEnabled(bool val);
     void autoPlacementButtonEnabled(bool val);
     void itemSelected(Ref::RefItem* item);
-    void stickToTDBEnabled(int state);
+    void stickToTDBEnabled(Qt::CheckState state);
     void autoPlacementLengthEnabled(QString val);
     void resetRotationButtonEnabled();
     void advancedPlacementButtonEnabled(bool val);
@@ -44,7 +44,7 @@ public slots:
     void autoPlacementTargetSelected(QString val);
     void autoPlacementOffsetEnabled(QString val);
     void autoSnapableRadiusEnabled(QString val);
-    void chSnapableOnlyRotation(int val);
+    void chSnapableOnlyRotation(Qt::CheckState val);
 
     void showLastItemsContextMenu(QPoint val);
     void lastItemsMenuFindSimilar();

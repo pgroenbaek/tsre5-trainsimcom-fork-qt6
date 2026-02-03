@@ -39,8 +39,8 @@ ShapeHierarchyWindow::ShapeHierarchyWindow(QWidget* parent) : QWidget(parent) {
     hierarchyList.header()->resizeSection(1,50);    
     hierarchyList.header()->resizeSection(2,150);    
     vbox->addWidget(&hierarchyList);
-    QObject::connect(&hierarchyList, SIGNAL(itemChanged(QTreeWidgetItem*, int)),
-                      this, SLOT(hierarchyListSelected(QTreeWidgetItem*, int)));
+    QObject::connect(&hierarchyList, QOverload<QTreeWidgetItem*, int>::of(&QTreeWidget::itemChanged),
+        this, &ShapeHierarchyWindow::hierarchyListSelected);
 
     this->setLayout(vbox);
     this->resize(500,350);
@@ -98,8 +98,8 @@ void ShapeHierarchyWindow::setHierarchyList(ShapeHierarchyInfo* info){
         QTreeWidgetItem *item = new QTreeWidgetItem((QTreeWidget*)0, list, -1 );
         //item->setCheckState(0, Qt::Unchecked);
         //item->setCheckState(0, Qt::Checked);
-        item->setTextColor(0, QColor(Game::StyleMainLabel));
-        item->setTextColor(1, QColor(Game::StyleMainLabel));
+        item->setForeground(0, QBrush(QColor(Game::StyleMainLabel)));
+        item->setForeground(1, QBrush(QColor(Game::StyleMainLabel)));
         treeItems.append(item);
     }
     

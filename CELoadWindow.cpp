@@ -31,18 +31,20 @@ CELoadWindow::CELoadWindow() {
     myLabel->setPixmap(QPixmap::fromImage(*myImage));
 
     browse = new QPushButton("Browse");
-    connect(browse, SIGNAL (released()), this, SLOT (handleBrowseButton()));
+    QObject::connect(browse, &QPushButton::released,
+        this, &CELoadWindow::handleBrowseButton);
     load = new QPushButton("Load");
     load->setStyleSheet("background-color: #008800");
-    connect(load, SIGNAL (released()), this, SLOT (routeLoad()));
+    QObject::connect(load, &QPushButton::released,
+        this, &CELoadWindow::routeLoad);
     exit = new QPushButton("Exit");
     exit->setStyleSheet("background-color: #880000");
 
     
     nowaTrasa = new QLineEdit();
-    QRegExp rx("^[a-zA-Z0-9\\_\\-\\ ]*$");
-    //QRegExp rx("[\\/<>|\":?*].");
-    QRegExpValidator* v = new QRegExpValidator(rx);
+    QRegularExpression rx("^[a-zA-Z0-9\\_\\-\\ ]*$");
+    //QRegularExpression rx("[\\/<>|\":?*].");
+    QRegularExpressionValidator* v = new QRegularExpressionValidator(rx);
     nowaTrasa->setValidator(v);
     
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -88,11 +90,13 @@ CELoadWindow::CELoadWindow() {
     
     //nowaTrasa->hide();
 
-    QObject::connect(exit, SIGNAL (released()), this, SLOT (close()));
-    QObject::connect(&recentDirs, SIGNAL(itemClicked(QListWidgetItem*)),
-                      this, SLOT(dirSelected()));
-    //QObject::connect(nowaTrasa, SIGNAL(textChanged(QString)),
-    //                  this, SLOT(setNewRoute()));
+    QObject::connect(exit, &QPushButton::released,
+        this, &CELoadWindow::close);
+    QObject::connect(&recentDirs, &QListWidget::itemClicked,
+        this, &CELoadWindow::dirSelected);
+
+    //QObject::connect(nowaTrasa, &QLineEdit::textChanged,
+    //    this, &CELoadWindow::setNewRoute);
     
     if(Game::checkCERoot(Game::root)){
         if(Game::debugOutput) qDebug() << __FILE__ << __LINE__ <<"ok";

@@ -34,7 +34,8 @@ PropertiesGroup::PropertiesGroup() {
     doubleValidator->setNotation(QDoubleValidator::StandardNotation);
     vlist->addRow("Y:",&this->posY);
     this->posY.setValidator(doubleValidator);
-    QObject::connect(&this->posY, SIGNAL(textEdited(QString)), this, SLOT(editPositionYEnabled(QString)));
+    QObject::connect(&posY, &QLineEdit::textEdited,
+        this, &PropertiesGroup::editPositionYEnabled);
     this->quat.setDisabled(true);
     this->quat.setAlignment(Qt::AlignCenter);
     vlist->addRow("Rot:",&this->quat);
@@ -45,38 +46,38 @@ PropertiesGroup::PropertiesGroup() {
     posRotList->setContentsMargins(0,0,0,0);    
 
     QPushButton *copyPos = new QPushButton("Copy Pos", this);
-    QObject::connect(copyPos, SIGNAL(released()),
-                      this, SLOT(copyPEnabled()));
+    QObject::connect(copyPos, &QPushButton::released,
+        this, &PropertiesGroup::copyPEnabled);
     QPushButton *pastePos = new QPushButton("Paste", this);
-    QObject::connect(pastePos, SIGNAL(released()),
-                      this, SLOT(pastePEnabled()));
+    QObject::connect(pastePos, &QPushButton::released,
+        this, &PropertiesGroup::pastePEnabled);
     QPushButton *copyQrot = new QPushButton("Copy Rot", this);
-    QObject::connect(copyQrot, SIGNAL(released()),
-                      this, SLOT(copyREnabled()));
+    QObject::connect(copyQrot, &QPushButton::released,
+        this, &PropertiesGroup::copyREnabled);
     QPushButton *pasteQrot = new QPushButton("Paste", this);
-    QObject::connect(pasteQrot, SIGNAL(released()),
-                      this, SLOT(pasteREnabled()));
+    QObject::connect(pasteQrot, &QPushButton::released,
+        this, &PropertiesGroup::pasteREnabled);
     QPushButton *copyPosRot = new QPushButton("Copy Pos+Rot", this);
-    QObject::connect(copyPosRot, SIGNAL(released()),
-                      this, SLOT(copyPREnabled()));
+    QObject::connect(copyPosRot, &QPushButton::released,
+        this, &PropertiesGroup::copyPREnabled);
     QPushButton *pastePosRot = new QPushButton("Paste", this);
-    QObject::connect(pastePosRot, SIGNAL(released()),
-                      this, SLOT(pastePREnabled()));
+    QObject::connect(pastePosRot, &QPushButton::released,
+        this, &PropertiesGroup::pastePREnabled);
     QPushButton *resetQrot = new QPushButton("Reset Rot", this);
-    QObject::connect(resetQrot, SIGNAL(released()),
-                      this, SLOT(resetRotEnabled()));
+    QObject::connect(resetQrot, &QPushButton::released,
+        this, &PropertiesGroup::resetRotEnabled);
     QPushButton *qRot90 = new QPushButton("Rot Y 90°", this);
-    QObject::connect(qRot90, SIGNAL(released()),
-                      this, SLOT(rotYEnabled()));
+    QObject::connect(qRot90, &QPushButton::released,
+        this, &PropertiesGroup::rotYEnabled);
     QPushButton *transform = new QPushButton("Transform ...", this);
-    QObject::connect(transform, SIGNAL(released()),
-                      this, SLOT(transformEnabled()));
+    QObject::connect(transform, &QPushButton::released,
+        this, &PropertiesGroup::transformEnabled);
     QPushButton *rtransform = new QPushButton("Random Transform ...", this);
-    QObject::connect(rtransform, SIGNAL(released()),
-                      this, SLOT(rtransformEnabled()));
+    QObject::connect(rtransform, &QPushButton::released,
+        this, &PropertiesGroup::rtransformEnabled);
     chSeparateRotation.setText("Separate Rotation");
-    QObject::connect(&chSeparateRotation, SIGNAL(stateChanged(int)),
-                      this, SLOT(chIndividualRotationEdited(int)));
+    QObject::connect(&chSeparateRotation, &QCheckBox::checkStateChanged,
+        this, &PropertiesGroup::chIndividualRotationEdited);
     
     posRotList->addWidget(copyPos, 0, 0);
     posRotList->addWidget(pastePos, 0, 1);
@@ -101,12 +102,12 @@ PropertiesGroup::PropertiesGroup() {
     QCheckBox* defaultDetailLevelLabel = new QCheckBox("Default", this);
     defaultDetailLevelLabel->setDisabled(true);
     defaultDetailLevelLabel->setChecked(true);
-    QObject::connect(&enableCustomDetailLevel, SIGNAL(stateChanged(int)),
-                      this, SLOT(enableCustomDetailLevelEnabled(int)));
+    QObject::connect(&enableCustomDetailLevel, &QCheckBox::checkStateChanged,
+        this, &PropertiesGroup::enableCustomDetailLevelEnabled);
     this->customDetailLevel.setDisabled(true);
     this->customDetailLevel.setAlignment(Qt::AlignCenter);
-    QObject::connect(&customDetailLevel, SIGNAL(textEdited(QString)),
-                      this, SLOT(customDetailLevelEdited(QString)));
+    QObject::connect(&customDetailLevel, &QLineEdit::textEdited,
+        this, &PropertiesGroup::customDetailLevelEdited);
     QGridLayout *detailLevelView = new QGridLayout;
     detailLevelView->setSpacing(2);
     detailLevelView->setContentsMargins(0,0,0,0);    
@@ -127,22 +128,22 @@ PropertiesGroup::PropertiesGroup() {
     flagslView->setSpacing(2);
     flagslView->setContentsMargins(0,0,0,0);    
     QPushButton *copyFlags = new QPushButton("Copy Flags", this);
-    QObject::connect(copyFlags, SIGNAL(released()),
-                      this, SLOT(copyFEnabled()));
+    QObject::connect(copyFlags, &QPushButton::released,
+        this, &PropertiesGroup::copyFEnabled);
     QPushButton *pasteFlags = new QPushButton("Paste", this);
-    QObject::connect(pasteFlags, SIGNAL(released()),
-                      this, SLOT(pasteFEnabled()));
+    QObject::connect(pasteFlags, &QPushButton::released,
+        this, &PropertiesGroup::pasteFEnabled);
     flagslView->addWidget(copyFlags,0,0);
     flagslView->addWidget(pasteFlags,0,1);
     vbox->addItem(flagslView);
     checkboxAnim.setText("Animate Object");
     checkboxTerrain.setText("Terrain Object");
     vbox->addWidget(&checkboxAnim);
-    QObject::connect(&checkboxAnim, SIGNAL(stateChanged(int)),
-                      this, SLOT(checkboxAnimEdited(int)));
+    QObject::connect(&checkboxAnim, &QCheckBox::checkStateChanged,
+        this, &PropertiesGroup::checkboxAnimEdited);
     vbox->addWidget(&checkboxTerrain);
-    QObject::connect(&checkboxTerrain, SIGNAL(stateChanged(int)),
-                      this, SLOT(checkboxTerrainEdited(int)));
+    QObject::connect(&checkboxTerrain, &QCheckBox::checkStateChanged,
+        this, &PropertiesGroup::checkboxTerrainEdited);
     cShadowType.addItem("No Shadow");
     cShadowType.addItem("Round Shadow");
     cShadowType.addItem("Rect. Shadow");
@@ -150,8 +151,8 @@ PropertiesGroup::PropertiesGroup() {
     cShadowType.addItem("Dynamic Shadow");
     cShadowType.setStyleSheet("combobox-popup: 0;");
     vbox->addWidget(&cShadowType);
-    QObject::connect(&cShadowType, SIGNAL(activated(int)),
-                      this, SLOT(cShadowTypeEdited(int)));
+    QObject::connect(&cShadowType, &QComboBox::activated,
+        this, &PropertiesGroup::cShadowTypeEdited);
 
     vbox->addStretch(1);
     this->setLayout(vbox);
@@ -239,11 +240,11 @@ bool PropertiesGroup::support(GameObj* obj){
     return false;
 }
 
-void PropertiesGroup::enableCustomDetailLevelEnabled(int val){
+void PropertiesGroup::enableCustomDetailLevelEnabled(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     GroupObj* staticObj = (GroupObj*) worldObj;
-    if(val == 2){
+    if(val == Qt::Checked){
         customDetailLevel.setEnabled(true);
         customDetailLevel.setText("0");
         staticObj->setCustomDetailLevel(0);
@@ -266,10 +267,10 @@ void PropertiesGroup::customDetailLevelEdited(QString val){
     }
 }
 
-void PropertiesGroup::checkboxAnimEdited(int val){
+void PropertiesGroup::checkboxAnimEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
-    if(val == 2){
+    if(val == Qt::Checked){
         worldObj->setAnimated(true);
     } else {
         worldObj->setAnimated(false);
@@ -277,10 +278,10 @@ void PropertiesGroup::checkboxAnimEdited(int val){
     this->flags.setText(ParserX::MakeFlagsString(worldObj->staticFlags));
 }
 
-void PropertiesGroup::checkboxTerrainEdited(int val){
+void PropertiesGroup::checkboxTerrainEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
-    if(val == 2){
+    if(val == Qt::Checked){
         worldObj->setTerrainObj(true);
     } else {
         worldObj->setTerrainObj(false);
@@ -295,11 +296,11 @@ void PropertiesGroup::cShadowTypeEdited(int val){
     this->flags.setText(ParserX::MakeFlagsString(worldObj->staticFlags));
 }
 
-void PropertiesGroup::chIndividualRotationEdited(int val){
+void PropertiesGroup::chIndividualRotationEdited(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     GroupObj *gobj = (GroupObj*)worldObj;
-    if(val == 2){
+    if(val == Qt::Checked){
         gobj->setIndividualRotation(true);
     } else {
         gobj->setIndividualRotation(false);

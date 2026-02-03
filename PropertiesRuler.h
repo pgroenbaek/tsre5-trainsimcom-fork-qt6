@@ -23,8 +23,8 @@ public:
     void updateObj(GameObj* obj);
         
 public slots:
-    void checkboxTwoPointEdited(int val);
-    void checkboxDrawPointsEdited(int val);
+    void checkboxTwoPointEdited(Qt::CheckState val);
+    void checkboxDrawPointsEdited(Qt::CheckState val);
     void createRoadPathsEdited();
     void removeRoadPathsEdited();
     void addShapeEdited();

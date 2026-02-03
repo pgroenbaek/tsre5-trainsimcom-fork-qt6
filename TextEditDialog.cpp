@@ -17,9 +17,9 @@ TextEditDialog::TextEditDialog() : QDialog(){
     QHBoxLayout *ibuttons = new QHBoxLayout;
     ibuttons->setContentsMargins(1,1,1,1);
     QPushButton *bok = new QPushButton("OK");
-    QObject::connect(bok, SIGNAL(released()), this, SLOT(ok()));
+    QObject::connect(bok, &QPushButton::released, this, &TextEditDialog::ok);
     QPushButton *bcancel = new QPushButton("Cancel");
-    QObject::connect(bcancel, SIGNAL(released()), this, SLOT(cancel()));
+    QObject::connect(bcancel, &QPushButton::released, this, &TextEditDialog::cancel);
     ibuttons->addWidget(bok);
     ibuttons->addWidget(bcancel);
     mainLayout->addWidget(&textBox);

@@ -28,7 +28,7 @@ public:
 
 public slots:
     void fileItemsSelected(QTreeWidgetItem* item, int column);
-    void dirFilesSelected(QListWidgetItem* item);
+    void dirFilesItemsSelected(QListWidgetItem* item);
     void searchFilesEnabled(QString val);
 
 signals:

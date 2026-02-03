@@ -9,7 +9,8 @@
  */
 
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QGuiApplication>
+#include <QScreen>
 #include <QDebug>
 #include <QtCore>
 #include <QFile>
@@ -27,6 +28,9 @@
 #include "RouteEditorServer.h"
 #include "RouteEditorClient.h"
 #include "Undo.h"
+#ifdef Q_OS_WIN32
+#include <windows.h>
+#endif
 
 QFile logFile;
 QTextStream logFileOut;
@@ -159,8 +163,8 @@ void LoadRouteEditor(){
         
     if(!Game::ServerMode){
         LoadWindow *loadWindow = new LoadWindow();
-        QObject::connect(window, SIGNAL(exitNow()), loadWindow, SLOT(exitNow()));
-        QObject::connect(loadWindow, SIGNAL(showMainWindow()), window, SLOT(showRoute()));
+        QObject::connect(window, &RouteEditorWindow::exitNow, loadWindow, &LoadWindow::exitNow);
+        QObject::connect(loadWindow, &LoadWindow::showMainWindow, window, &RouteEditorWindow::showRoute);
 
         if(Game::checkRoot(Game::root) && (Game::checkRoute(Game::route) || Game::createNewRoutes)){
             window->showRoute();
@@ -176,7 +180,7 @@ void LoadRouteEditor(){
 
         
     } else {
-        QObject::connect(Game::serverClient, SIGNAL(loadRoute()), window, SLOT(showRoute()));
+        QObject::connect(Game::serverClient, &RouteEditorClient::loadRoute, window, &RouteEditorWindow::showRoute);
         Game::serverClient->connectNow();
     }
 }
@@ -277,10 +281,9 @@ CommandLineParseResult parseCommandLineArgs(QCommandLineParser &parser){
 
 int main(int argc, char *argv[]){
 
-   // #ifdef  Q_OS_WIN32 
-   //     ::ShowWindow( ::GetConsoleWindow(), SW_HIDE ); //hide console window
-   // #endif
-
+    //#ifdef Q_OS_WIN32 
+    //    ::ShowWindow( ::GetConsoleWindow(), SW_HIDE ); //hide console window
+    //#endif
 
     /// set the version here to avoid changing Game.cpp so much
 //    Game::AppVersion = "v8.005a";
@@ -310,7 +313,6 @@ int main(int argc, char *argv[]){
     //format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
     QSurfaceFormat::setDefaultFormat(format);
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
     QApplication::setApplicationName(Game::AppName);
     QApplication::setApplicationVersion(Game::AppVersion);
     //QApplication::pr
@@ -325,7 +327,19 @@ int main(int argc, char *argv[]){
         QDir::setCurrent(QCoreApplication::applicationDirPath());
     }
     
-    Game::load();    
+    Game::load();
+
+    // Hide console if running on windows and consoleOutput is set to false
+    #ifdef Q_OS_WIN32
+        if(!Game::consoleOutput) {
+            HWND consoleWindow = ::GetConsoleWindow();
+            if (consoleWindow) {
+                ::FreeConsole(); // Detach the console from the process
+                ::PostMessage(consoleWindow, WM_CLOSE, 0, 0); // Request console to close
+            }
+        }
+    #endif
+
     if(Game::debugOutput) qDebug() << "workingDir" << workingDir;
     
     QCommandLineParser parser;

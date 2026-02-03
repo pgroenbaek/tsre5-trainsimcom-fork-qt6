@@ -23,11 +23,11 @@ ActivityEventWindow::ActivityEventWindow(QWidget* parent) : QWidget(parent) {
     actionListLayout->setContentsMargins(0,0,0,0);
     actionListLayout->setSpacing(0);
     QPushButton *bNewActionEvent = new QPushButton("New Action Event");
-    QObject::connect(bNewActionEvent, SIGNAL(released()),
-                      this, SLOT(bNewEventSelected()));
+    QObject::connect(bNewActionEvent, &QPushButton::released,
+        this, &ActivityEventWindow::bNewEventSelected);
     QPushButton *bDeleteActionEvent = new QPushButton("Delete");
-    QObject::connect(bDeleteActionEvent, SIGNAL(released()),
-                      this, SLOT(bDeleteEventSelected()));
+    QObject::connect(bDeleteActionEvent, &QPushButton::released,
+        this, &ActivityEventWindow::bDeleteEventSelected);
     actionListLayout->addWidget(&actionList);
     actionListLayout->addWidget(bNewActionEvent);
     actionListLayout->addWidget(bDeleteActionEvent);
@@ -38,11 +38,11 @@ ActivityEventWindow::ActivityEventWindow(QWidget* parent) : QWidget(parent) {
     locationListLayout->setContentsMargins(0,0,0,0);
     locationListLayout->setSpacing(0);
     QPushButton *bNewLocationEvent = new QPushButton("New Location Event");
-    QObject::connect(bNewLocationEvent, SIGNAL(released()),
-                      this, SLOT(bNewEventSelected()));
+    QObject::connect(bNewLocationEvent, &QPushButton::released,
+        this, &ActivityEventWindow::bNewEventSelected);
     QPushButton *bDeleteLocationEvent = new QPushButton("Delete");
-    QObject::connect(bDeleteLocationEvent, SIGNAL(released()),
-                      this, SLOT(bDeleteEventSelected()));
+    QObject::connect(bDeleteLocationEvent, &QPushButton::released,
+        this, &ActivityEventWindow::bDeleteEventSelected);
     locationListLayout->addWidget(&locationList);
     locationListLayout->addWidget(bNewLocationEvent);
     locationListLayout->addWidget(bDeleteLocationEvent);
@@ -53,11 +53,11 @@ ActivityEventWindow::ActivityEventWindow(QWidget* parent) : QWidget(parent) {
     timeListLayout->setContentsMargins(0,0,0,0);
     timeListLayout->setSpacing(0);
     QPushButton *bNewTimeEvent = new QPushButton("New Time Event");
-    QObject::connect(bNewTimeEvent, SIGNAL(released()),
-                      this, SLOT(bNewEventSelected()));
+    QObject::connect(bNewTimeEvent, &QPushButton::released,
+        this, &ActivityEventWindow::bNewEventSelected);
     QPushButton *bDeleteTimeEvent = new QPushButton("Delete");
-    QObject::connect(bDeleteTimeEvent, SIGNAL(released()),
-                      this, SLOT(bDeleteEventSelected()));
+    QObject::connect(bDeleteTimeEvent, &QPushButton::released,
+        this, &ActivityEventWindow::bDeleteEventSelected);
     timeListLayout->addWidget(&timeList);
     timeListLayout->addWidget(bNewTimeEvent);
     timeListLayout->addWidget(bDeleteTimeEvent);
@@ -81,17 +81,17 @@ ActivityEventWindow::ActivityEventWindow(QWidget* parent) : QWidget(parent) {
     v->addWidget(eventProperties);
     this->setLayout(v);
     
-    QObject::connect(&actionList, SIGNAL(itemClicked(QListWidgetItem*)),
-                      this, SLOT(eventListSelected(QListWidgetItem*)));
+    QObject::connect(&actionList, &QListWidget::itemClicked,
+        this, &ActivityEventWindow::eventListSelected);
     
-    QObject::connect(&locationList, SIGNAL(itemClicked(QListWidgetItem*)),
-                      this, SLOT(eventListSelected(QListWidgetItem*)));
+    QObject::connect(&locationList, &QListWidget::itemClicked,
+        this, &ActivityEventWindow::eventListSelected);
     
-    QObject::connect(&timeList, SIGNAL(itemClicked(QListWidgetItem*)),
-                      this, SLOT(eventListSelected(QListWidgetItem*)));
+    QObject::connect(&timeList, &QListWidget::itemClicked,
+        this, &ActivityEventWindow::eventListSelected);
     
-    QObject::connect(eventProperties, SIGNAL(eventNameChanged(int)),
-                      this, SLOT(eventNameChanged(int)));
+    QObject::connect(eventProperties, &ActivityEventProperties::eventNameChanged,
+        this, &ActivityEventWindow::eventNameChanged);
     
 }
 

@@ -79,7 +79,7 @@ Texture::Texture(const Texture* orig) {
         this->editable = true;
     }
 
-    tex = new unsigned int[1];
+    tex = new unsigned int[1]{0};
     glGenTextures(1, tex);
     glBindTexture(GL_TEXTURE_2D, tex[0]);
     glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, imageData);
@@ -369,7 +369,7 @@ bool Texture::GLTextures(bool mipmaps) {
                 imageData[i*bytesPerPixel + 3] = 0;
         }
 
-    tex = new unsigned int[1];
+    tex = new unsigned int[1]{0};
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     
     glGenTextures(1, tex);

@@ -47,14 +47,16 @@ CoordsKml::CoordsKml(QString path) {
     IghCoordinate* igh;
     PreciseTileCoordinate* ppp;
     
-    QXmlStreamReader reader((data));
-    reader.readNext();
+    QXmlStreamReader reader;
+    reader.addData(data);
+    reader.setNamespaceProcessing(false);
     QString name;
     QXmlStreamAttributes attr;
-    int linecounter;
-    while (!reader.isEndDocument()) {
+    int linecounter = 0;
+    while (!reader.atEnd() && !reader.hasError()) {
+        reader.readNext();
         //qDebug() << reader.name().toString();
-        if(reader.name().toString().trimmed() == "") linecounter++;
+        if(reader.tokenType() == QXmlStreamReader::Invalid) linecounter++;
         if(linecounter > 10000) {  qWarning() << "Aborting read of " << path << " after excessive bad line reads."; break; }
         if (reader.isStartElement()) {
             name = reader.name().toString();
@@ -172,8 +174,6 @@ CoordsKml::CoordsKml(QString path) {
                 }
             }
         }
-        
-        reader.readNext();
     }
     loaded = true;
     

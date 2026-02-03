@@ -36,8 +36,8 @@ PropertiesTerrain::PropertiesTerrain() {
     vlist->addRow("Name:",&this->fileName);
     vbox->addItem(vlist);
     QPushButton *bShaderEditor = new QPushButton("Shader Editor...", this);
-    QObject::connect(bShaderEditor, SIGNAL(released()),
-                      this, SLOT(bShaderEditorEnabled()));
+    QObject::connect(bShaderEditor, &QPushButton::released,
+        this, &PropertiesTerrain::bShaderEditorEnabled);
     vbox->addWidget(bShaderEditor);
     
     QLabel* label = new QLabel("Water Level:");
@@ -48,11 +48,11 @@ PropertiesTerrain::PropertiesTerrain() {
     vlist->setSpacing(2);
     vlist->setContentsMargins(3,0,3,0);
     vlist->addRow("Average:",&this->eAvgWater);
-    QObject::connect(&eAvgWater, SIGNAL(textEdited(QString)),
-                      this, SLOT(eAvgWaterEnabled(QString)));
+    QObject::connect(&eAvgWater, &QLineEdit::textEdited,
+        this, &PropertiesTerrain::eAvgWaterEnabled);
     QPushButton *bWaterEditor = new QPushButton("Advanced ...", this);
-    QObject::connect(bWaterEditor, SIGNAL(released()),
-                      this, SLOT(bWaterEditorEnabled()));
+    QObject::connect(bWaterEditor, &QPushButton::released,
+        this, &PropertiesTerrain::bWaterEditorEnabled);
     vbox->addItem(vlist);
     vbox->addWidget(bWaterEditor);
     
@@ -61,8 +61,8 @@ PropertiesTerrain::PropertiesTerrain() {
     label->setContentsMargins(3,0,0,0);
     vbox->addWidget(label);
     QPushButton *bHeightMapReset = new QPushButton("Reset Height ...", this);
-    QObject::connect(bHeightMapReset, SIGNAL(released()),
-                      this, SLOT(bHeightMapResetEnabled()));
+    QObject::connect(bHeightMapReset, &QPushButton::released,
+        this, &PropertiesTerrain::bHeightMapResetEnabled);
     vbox->addWidget(bHeightMapReset);
     
     label = new QLabel("Selected Terrain Patch(s):");
@@ -79,16 +79,20 @@ PropertiesTerrain::PropertiesTerrain() {
     this->tS.setDisabled(true);
     vbox->addItem(vlist);
     QPushButton *bRemoveAllGaps = new QPushButton("Remove All Gaps", this);
-    QObject::connect(bRemoveAllGaps, SIGNAL(released()),
-                      this, SLOT(bRemoveAllGapsEnabled()));
+    QObject::connect(bRemoveAllGaps, &QPushButton::released,
+        this, &PropertiesTerrain::bRemoveAllGapsEnabled);
     QPushButton *bShowWater = new QPushButton("Show", this);
-    QObject::connect(bShowWater, SIGNAL(released()), this, SLOT(bShowWaterEnabled()));
+    QObject::connect(bShowWater, &QPushButton::released,
+        this, &PropertiesTerrain::bShowWaterEnabled);
     QPushButton *bShowDraw = new QPushButton("Show", this);
-    QObject::connect(bShowDraw, SIGNAL(released()), this, SLOT(bShowDrawEnabled()));
+    QObject::connect(bShowDraw, &QPushButton::released,
+        this, &PropertiesTerrain::bShowDrawEnabled);
     QPushButton *bHideWater = new QPushButton("Hide", this);
-    QObject::connect(bHideWater, SIGNAL(released()), this, SLOT(bHideWaterEnabled()));
+    QObject::connect(bHideWater, &QPushButton::released,
+        this, &PropertiesTerrain::bHideWaterEnabled);
     QPushButton *bHideDraw = new QPushButton("Hide", this);
-    QObject::connect(bHideDraw, SIGNAL(released()), this, SLOT(bHideDrawEnabled()));
+    QObject::connect(bHideDraw, &QPushButton::released,
+        this, &PropertiesTerrain::bHideDrawEnabled);
 
     label = new QLabel("Visibility:");
     label->setContentsMargins(3,0,0,0);
@@ -116,25 +120,32 @@ PropertiesTerrain::PropertiesTerrain() {
     vlist1->setContentsMargins(3,0,3,0);
     row = 0;
     QPushButton *bCopy = new QPushButton("Copy", this);
-    QObject::connect(bCopy, SIGNAL(released()), this, SLOT(bCopyEnabled()));
+    QObject::connect(bCopy, &QPushButton::released,
+        this, &PropertiesTerrain::bCopyEnabled);
     vlist1->addWidget(bCopy, row, 0);
     QPushButton *bPaste = new QPushButton("Paste", this);
-    QObject::connect(bPaste, SIGNAL(released()), this, SLOT(bPasteEnabled()));
+    QObject::connect(bPaste, &QPushButton::released,
+        this, &PropertiesTerrain::bPasteEnabled);
     vlist1->addWidget(bPaste, row++, 1);
     QPushButton *bMirrorX = new QPushButton("Mirror Y", this);
-    QObject::connect(bMirrorX, SIGNAL(released()), this, SLOT(bMirrorXEnabled()));
+    QObject::connect(bMirrorX, &QPushButton::released,
+        this, &PropertiesTerrain::bMirrorXEnabled);
     vlist1->addWidget(bMirrorX, row, 0);
     QPushButton *bMirrorY = new QPushButton("Mirror X", this);
-    QObject::connect(bMirrorY, SIGNAL(released()), this, SLOT(bMirrorYEnabled()));
+    QObject::connect(bMirrorY, &QPushButton::released,
+        this, &PropertiesTerrain::bMirrorYEnabled);
     vlist1->addWidget(bMirrorY, row++, 1);
     QPushButton *bRotate = new QPushButton("Rotate 90°", this);
-    QObject::connect(bRotate, SIGNAL(released()), this, SLOT(bRotateEnabled()));
+    QObject::connect(bRotate, &QPushButton::released,
+        this, &PropertiesTerrain::bRotateEnabled);
     vlist1->addWidget(bRotate, row, 0);
     //QPushButton *bScale = new QPushButton("Scale...", this);
-    //QObject::connect(bScale, SIGNAL(released()), this, SLOT(bScaleEnabled()));
+    //QObject::connect(bScale, &QPushButton::released,
+    //    this, &PropertiesTerrain::bScaleEnabled);
     //vlist1->addWidget(bScale, row, 1);
     QPushButton *bReset = new QPushButton("Reset", this);
-    QObject::connect(bReset, SIGNAL(released()), this, SLOT(bResetEnabled()));
+    QObject::connect(bReset, &QPushButton::released,
+        this, &PropertiesTerrain::bResetEnabled);
     vlist1->addWidget(bReset, row++, 1);
     vbox->addItem(vlist1);
     
@@ -145,17 +156,20 @@ PropertiesTerrain::PropertiesTerrain() {
     eScalexy.setDecimals(2);
     eScalexy.setRange(0.1, 100.0);
     eScalexy.setSingleStep(1.0);
-    QObject::connect(&eScalexy, SIGNAL(editingFinished()), this, SLOT(bScaleEnabled()));
+    QObject::connect(&eScalexy, &QDoubleSpinBox::editingFinished,
+        this, &PropertiesTerrain::bScaleEnabled);
     vlist->addRow("Scale X:", &eScalex);
     eScalex.setDecimals(2);
     eScalex.setRange(0.1, 100.0);
-    eScalex.setSingleStep(1.0);
-    QObject::connect(&eScalex, SIGNAL(editingFinished()), this, SLOT(bScaleXEnabled()));
+    eScalex.setSingleStep(1.0);;
+    QObject::connect(&eScalex, &QDoubleSpinBox::editingFinished,
+        this, &PropertiesTerrain::bScaleXEnabled);
     vlist->addRow("Scale Y:", &eScaley);
     eScaley.setDecimals(2);
     eScaley.setRange(0.1, 100.0);
     eScaley.setSingleStep(1.0);
-    QObject::connect(&eScaley, SIGNAL(editingFinished()), this, SLOT(bScaleYEnabled()));
+    QObject::connect(&eScaley, &QDoubleSpinBox::editingFinished,
+        this, &PropertiesTerrain::bScaleYEnabled);
     vlist->addRow("Rotation:", &eRotation);
     eRotation.setDisabled(true);
     vbox->addItem(vlist);
@@ -168,8 +182,8 @@ PropertiesTerrain::PropertiesTerrain() {
     vlist->setSpacing(2);
     vlist->setContentsMargins(3,0,3,0);
     vlist->addRow("Error Bias:",&eBias);
-    QObject::connect(&eBias, SIGNAL(textEdited(QString)),
-                      this, SLOT(eBiasEnabled(QString)));
+    QObject::connect(&eBias, &QLineEdit::textEdited,
+        this, &PropertiesTerrain::eBiasEnabled);
     vbox->addItem(vlist);
     
     vbox->addStretch(1);

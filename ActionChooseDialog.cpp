@@ -31,13 +31,14 @@ ActionChooseDialog::ActionChooseDialog(int buttonCount) : QDialog(){
         bok[i] = new QPushButton(this);
         bok[i]->setFixedWidth(400);
         bok[i]->hide();
-        mapper.setMapping(bok[i], i);
-        connect(bok[i], SIGNAL(clicked()), &mapper, SLOT(map()));
+
+        int index = i;
+        QObject::connect(bok[i], &QPushButton::clicked, this, [this, index]() {
+            this->action(index);
+        });
         
         vlist->addWidget(bok[i], i+1, 0, 1, 1, Qt::AlignCenter);
     }
-    
-    connect(&mapper, SIGNAL(mapped(int)), this, SLOT(action(int)));
     
     //this->setT
     vlist->setContentsMargins(1,1,1,1);

@@ -34,7 +34,8 @@ PropertiesActivityObject::PropertiesActivityObject() {
     vbox->addItem(vlist);
     
     QPushButton *bDelete = new QPushButton("Delete");
-    QObject::connect(bDelete, SIGNAL(released()), this, SLOT(bDeleteEnabled()));
+    QObject::connect(bDelete, &QPushButton::released,
+        this, &PropertiesActivityObject::bDeleteEnabled);
     vbox->addWidget(bDelete);
     
     QLabel *label = new QLabel("Owned by:");

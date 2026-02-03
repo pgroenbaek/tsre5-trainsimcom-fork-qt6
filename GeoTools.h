@@ -31,8 +31,8 @@ public slots:
     void makeTileTextureToolEnabled(bool val);
     void removeTileTextureToolEnabled(bool val);
     void msg(QString text, QString val);
-    void chAutoCreateTileEnabled(int state);
-    void chAutoGeoTerrainEnabled(int state);
+    void chAutoCreateTileEnabled(Qt::CheckState state);
+    void chAutoGeoTerrainEnabled(Qt::CheckState state);
     void mkrList(QMap<QString, Coords*> list);
     void checkGeodataFilesEnabled();
     void generateTilesEnabled();

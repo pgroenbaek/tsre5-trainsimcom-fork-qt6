@@ -1,19 +1,67 @@
+# TSRE5 stuff
+tsre-log-*.txt
+settings.txt
+
+# Build/dist folders
 /build/
 /dist/
-/Resources/templateRoute/
-/resources/
-moc_*.cpp
-/log.txt
-/template_routes/
-/tsre_assets/
-/tsre_appdata/0.691/
-/tsre_appdata/0.692/
-/tsre_appdata/0.69/
-/tsre_appdata/0.693/
-/tsre_appdata/0.6937/
-/tsre_appdata/0.696/procedural/
-.qmake.stash
-dep.inc
-/nbproject/
-/nbproject/private/private.xml
-/nbproject/configurations.xml
+
+### C++ ###
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+### CMake ###
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+### CMake Patch ###
+CMakeUserPresets.json
+
+# External projects
+*-prefix/
+
+### vcpkg ###
+# Vcpkg
+vcpkg-manifest-install.log
+
+## Manifest Mode
+vcpkg_installed/

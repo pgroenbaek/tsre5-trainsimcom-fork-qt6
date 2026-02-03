@@ -5,7 +5,8 @@
  *  */
 
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QGuiApplication>
+#include <QScreen>
 #include <QDebug>
 #include <QtCore>
 #include <QFile>
@@ -23,8 +24,12 @@
 #include "RouteEditorServer.h"
 #include "RouteEditorClient.h"
 #include "Undo.h"
+#include "WindowManager.h"
 
-WindowManager::WindowManager(){};
+WindowManager::WindowManager(QWidget* parent)
+    : QWidget(parent)
+{
+}
 
 void WindowManager::LoadConEditor(){
     CELoadWindow* ceLoadWindow = new CELoadWindow();
@@ -143,8 +148,8 @@ void WindowManager::LoadRouteEditor(){
         
     if(!Game::ServerMode){
         LoadWindow *loadWindow = new LoadWindow();
-        QObject::connect(window, SIGNAL(exitNow()), loadWindow, SLOT(exitNow()));
-        QObject::connect(loadWindow, SIGNAL(showMainWindow()), window, SLOT(showRoute()));
+        QObject::connect(window, &RouteEditorWindow::exitNow, loadWindow, &LoadWindow::exitNow);
+        QObject::connect(loadWindow, &LoadWindow::showMainWindow, window, &RouteEditorWindow::showRoute);
 
         if(Game::checkRoot(Game::root) && (Game::checkRoute(Game::route) || Game::createNewRoutes)){
             window->showRoute();
@@ -160,7 +165,7 @@ void WindowManager::LoadRouteEditor(){
 
         
     } else {
-        QObject::connect(Game::serverClient, SIGNAL(loadRoute()), window, SLOT(showRoute()));
+        QObject::connect(Game::serverClient, &RouteEditorClient::loadRoute, window, &RouteEditorWindow::showRoute);
         Game::serverClient->connectNow();
     }
 }

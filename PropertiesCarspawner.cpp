@@ -57,8 +57,8 @@ PropertiesCarspawner::PropertiesCarspawner() {
     vbox->addWidget(label);
     QPushButton *bExpandSelected = new QPushButton("Expand");
     vbox->addWidget(bExpandSelected);
-    QObject::connect(bExpandSelected, SIGNAL(released()),
-                      this, SLOT(bExpandEnabled()));
+    QObject::connect(bExpandSelected, &QPushButton::released,
+        this, &PropertiesCarspawner::bExpandEnabled);
     vbox->addStretch(1);
     this->setLayout(vbox);
     QDoubleValidator* doubleValidator = new QDoubleValidator(0, 100, 1, this); 
@@ -66,14 +66,15 @@ PropertiesCarspawner::PropertiesCarspawner() {
     carNumber.setValidator(doubleValidator);
     carSpeed.setValidator(doubleValidator);
     
-    QObject::connect(&carNumber, SIGNAL(textEdited(QString)),
-                      this, SLOT(carNumberEnabled(QString)));
-    QObject::connect(&carSpeed, SIGNAL(textEdited(QString)),
-                      this, SLOT(carSpeedEnabled(QString)));
-    //QObject::connect(&useCustomList, SIGNAL(stateChanged(int)),
-    //                  this, SLOT(useCustomListEnabled(int)));
-    QObject::connect(&carspawnList, SIGNAL(activated(QString)),
-                      this, SLOT(carspawnListSelected(QString)));
+    QObject::connect(&carNumber, &QLineEdit::textEdited,
+        this, &PropertiesCarspawner::carNumberEnabled);
+    QObject::connect(&carSpeed, &QLineEdit::textEdited,
+        this, &PropertiesCarspawner::carSpeedEnabled);
+    //QObject::connect(&useCustomList, &QCheckBox::stateChanged,
+    //    this, &PropertiesCarspawner::useCustomListEnabled);
+    QObject::connect(&carspawnList, &QComboBox::textActivated,
+        this, &PropertiesCarspawner::carspawnListSelected);
+
 }
 
 PropertiesCarspawner::~PropertiesCarspawner() {

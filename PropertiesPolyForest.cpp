@@ -57,21 +57,21 @@ PropertiesPolyForest::PropertiesPolyForest() {
     QDoubleValidator* doubleValidator = new QDoubleValidator(0, 1000, 2, this); 
     doubleValidator->setNotation(QDoubleValidator::StandardNotation);
     sizeX.setValidator(doubleValidator);
-    QObject::connect(&sizeX, SIGNAL(textEdited(QString)),
-                      this, SLOT(sizeEnabled(QString)));
+    QObject::connect(&sizeX, &QLineEdit::textEdited,
+        this, &PropertiesPolyForest::sizeEnabled);
     sizeY.setValidator(doubleValidator);
-    QObject::connect(&sizeY, SIGNAL(textEdited(QString)),
-                      this, SLOT(sizeEnabled(QString)));
+    QObject::connect(&sizeY, &QLineEdit::textEdited,
+        this, &PropertiesPolyForest::sizeEnabled);
     
     vlist->addRow("Population:",&this->population);
     population.setValidator( new QIntValidator(0, 1000000, this) );
-    QObject::connect(&population, SIGNAL(textEdited(QString)),
-                      this, SLOT(populationEnabled(QString)));
+    QObject::connect(&population, &QLineEdit::textEdited,
+        this, &PropertiesPolyForest::populationEnabled);
     
     vlist->addRow("Density/KM:",&this->densitykm);
     densitykm.setValidator( new QIntValidator(0, 1000000, this) );
-    QObject::connect(&densitykm, SIGNAL(textEdited(QString)),
-                      this, SLOT(densitykmEnabled(QString)));
+    QObject::connect(&densitykm, &QLineEdit::textEdited,
+        this, &PropertiesPolyForest::densitykmEnabled);
     vbox->addItem(vlist);
     
     label = new QLabel("Position & Rotation:");
@@ -93,32 +93,32 @@ PropertiesPolyForest::PropertiesPolyForest() {
     posRotList->setContentsMargins(0,0,0,0);    
 
     QPushButton *copyPos = new QPushButton("Copy Pos", this);
-    QObject::connect(copyPos, SIGNAL(released()),
-                      this, SLOT(copyPEnabled()));
+    QObject::connect(copyPos, &QPushButton::released,
+        this, &PropertiesPolyForest::copyPEnabled);
     QPushButton *pastePos = new QPushButton("Paste", this);
-    QObject::connect(pastePos, SIGNAL(released()),
-                      this, SLOT(pastePEnabled()));
+    QObject::connect(pastePos, &QPushButton::released,
+        this, &PropertiesPolyForest::pastePEnabled);
     QPushButton *copyQrot = new QPushButton("Copy Rot", this);
-    QObject::connect(copyQrot, SIGNAL(released()),
-                      this, SLOT(copyREnabled()));
+    QObject::connect(copyQrot, &QPushButton::released,
+        this, &PropertiesPolyForest::copyREnabled);
     QPushButton *pasteQrot = new QPushButton("Paste", this);
-    QObject::connect(pasteQrot, SIGNAL(released()),
-                      this, SLOT(pasteREnabled()));
+    QObject::connect(pasteQrot, &QPushButton::released,
+        this, &PropertiesPolyForest::pasteREnabled);
     QPushButton *copyPosRot = new QPushButton("Copy Pos+Rot", this);
-    QObject::connect(copyPosRot, SIGNAL(released()),
-                      this, SLOT(copyPREnabled()));
+    QObject::connect(copyPosRot, &QPushButton::released,
+        this, &PropertiesPolyForest::copyPREnabled);
     QPushButton *pastePosRot = new QPushButton("Paste", this);
-    QObject::connect(pastePosRot, SIGNAL(released()),
-                      this, SLOT(pastePREnabled()));
+    QObject::connect(pastePosRot, &QPushButton::released,
+        this, &PropertiesPolyForest::pastePREnabled);
     QPushButton *resetQrot = new QPushButton("Reset Rot", this);
-    QObject::connect(resetQrot, SIGNAL(released()),
-                      this, SLOT(resetRotEnabled()));
+    QObject::connect(resetQrot, &QPushButton::released,
+        this, &PropertiesPolyForest::resetRotEnabled);
     QPushButton *qRot90 = new QPushButton("Rot Y 90°", this);
-    QObject::connect(qRot90, SIGNAL(released()),
-                      this, SLOT(rotYEnabled()));
+    QObject::connect(qRot90, &QPushButton::released,
+        this, &PropertiesPolyForest::rotYEnabled);
     QPushButton *transform = new QPushButton("Transform ...", this);
-    QObject::connect(transform, SIGNAL(released()),
-                      this, SLOT(transformEnabled()));
+    QObject::connect(transform, &QPushButton::released,
+        this, &PropertiesPolyForest::transformEnabled);
     
     posRotList->addWidget(copyPos, 0, 0);
     posRotList->addWidget(pastePos, 0, 1);
@@ -141,12 +141,12 @@ PropertiesPolyForest::PropertiesPolyForest() {
     QCheckBox* defaultDetailLevelLabel = new QCheckBox("Default", this);
     defaultDetailLevelLabel->setDisabled(true);
     defaultDetailLevelLabel->setChecked(true);
-    QObject::connect(&enableCustomDetailLevel, SIGNAL(stateChanged(int)),
-                      this, SLOT(enableCustomDetailLevelEnabled(int)));
+    QObject::connect(&enableCustomDetailLevel, &QCheckBox::checkStateChanged,
+        this, &PropertiesPolyForest::enableCustomDetailLevelEnabled);
     this->customDetailLevel.setDisabled(true);
     this->customDetailLevel.setAlignment(Qt::AlignCenter);
-    QObject::connect(&customDetailLevel, SIGNAL(textEdited(QString)),
-                      this, SLOT(customDetailLevelEdited(QString)));
+    QObject::connect(&customDetailLevel, &QLineEdit::textEdited,
+        this, &PropertiesPolyForest::customDetailLevelEdited);
     QGridLayout *detailLevelView = new QGridLayout;
     detailLevelView->setSpacing(2);
     detailLevelView->setContentsMargins(0,0,0,0);    
@@ -167,11 +167,11 @@ PropertiesPolyForest::PropertiesPolyForest() {
     flagslView->setSpacing(2);
     flagslView->setContentsMargins(0,0,0,0);    
     QPushButton *copyFlags = new QPushButton("Copy Flags", this);
-    QObject::connect(copyFlags, SIGNAL(released()),
-                      this, SLOT(copyFEnabled()));
+    QObject::connect(copyFlags, &QPushButton::released,
+        this, &PropertiesPolyForest::copyFEnabled);
     QPushButton *pasteFlags = new QPushButton("Paste", this);
-    QObject::connect(pasteFlags, SIGNAL(released()),
-                      this, SLOT(pasteFEnabled()));
+    QObject::connect(pasteFlags, &QPushButton::released,
+        this, &PropertiesPolyForest::pasteFEnabled);
     flagslView->addWidget(copyFlags,0,0);
     flagslView->addWidget(pasteFlags,0,1);
     vbox->addItem(flagslView);
@@ -259,12 +259,12 @@ bool PropertiesPolyForest::support(GameObj* obj){
     return false;
 }
 
-void PropertiesPolyForest::enableCustomDetailLevelEnabled(int val){
+void PropertiesPolyForest::enableCustomDetailLevelEnabled(Qt::CheckState val){
     if(worldObj == NULL)
         return;
     PolyForestObj* polyForestObj = (PolyForestObj*) worldObj;
     Undo::SinglePushWorldObjData(worldObj);
-    if(val == 2){
+    if(val == Qt::Checked){
         customDetailLevel.setEnabled(true);
         customDetailLevel.setText("0");
         polyForestObj->setCustomDetailLevel(0);

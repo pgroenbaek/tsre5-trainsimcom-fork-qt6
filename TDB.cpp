@@ -3462,7 +3462,7 @@ void TDB::saveEmpty(bool road) {
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&file);
     out.setRealNumberPrecision(Game::rnp);
-    out.setCodec("UTF-16");
+    out.setEncoding(QStringConverter::Utf16);
     out.setGenerateByteOrderMark(true);
     out << "SIMISA@@@@@@@@@@JINX0T0t______\n\n";
     out << "TrackDB (\n";
@@ -3482,7 +3482,7 @@ void TDB::saveEmpty(bool road) {
     file2.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out2(&file2);
     out2.setRealNumberPrecision(Game::rnp);
-    out2.setCodec("UTF-16");
+    out2.setEncoding(QStringConverter::Utf16);
     out2.setGenerateByteOrderMark(true);
     out2 << "SIMISA@@@@@@@@@@JINX0T0t______\n\n";
     out2 << "TrItemTable ( 0 \n";
@@ -3532,7 +3532,7 @@ void TDB::save() {
     QTextStream out(&file);
     out.setRealNumberPrecision(Game::rnp);  //// EFO Let's see if this blows up vectors at (7) was (8)
     //out.setRealNumberNotation(QTextStream::FixedNotation);
-    out.setCodec("UTF-16");
+    out.setEncoding(QStringConverter::Utf16);
     out.setGenerateByteOrderMark(true);
     out << "SIMISA@@@@@@@@@@JINX0T0t______\n\n";
     saveToStream(out);
@@ -3762,7 +3762,7 @@ void TDB::saveTit() {
     QTextStream out(&file);
     out.setRealNumberPrecision(Game::rnp);   //// EFO this might fix some of the node issues... was (8) now (7)
     //out.setRealNumberNotation(QTextStream::FixedNotation);
-    out.setCodec("UTF-16");
+    out.setEncoding(QStringConverter::Utf16);
     out.setGenerateByteOrderMark(true);
     out << "SIMISA@@@@@@@@@@JINX0T0t______\n\n";
     //qDebug() << "TDB 3754";

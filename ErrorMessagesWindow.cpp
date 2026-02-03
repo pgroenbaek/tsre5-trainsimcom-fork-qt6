@@ -34,11 +34,11 @@ ErrorMessagesWindow::ErrorMessagesWindow(QWidget* parent) : QWidget(parent) {
     errorListLayout->setContentsMargins(0,0,0,0);
     errorListLayout->setSpacing(0);
     /*QPushButton *bNewActionEvent = new QPushButton("New Service");
-    QObject::connect(bNewActionEvent, SIGNAL(released()),
-                      this, SLOT(bNewServiceSelected()));
+    QObject::connect(bNewActionEvent, &QPushButton::released,
+        this, &ErrorMessagesWindow::bNewServiceSelected);
     QPushButton *bDeleteActionEvent = new QPushButton("Delete");
-    QObject::connect(bDeleteActionEvent, SIGNAL(released()),
-                      this, SLOT(bDeleteServiceSelected()));*/
+    QObject::connect(bDeleteActionEvent, &QPushButton::released,
+        this, &ErrorMessagesWindow::bDeleteServiceSelected);*/
     errorListLayout->addWidget(&errorList);
     errorListLayout->addWidget(properties);
     //errorListLayout->addWidget(bNewActionEvent);
@@ -67,12 +67,13 @@ ErrorMessagesWindow::ErrorMessagesWindow(QWidget* parent) : QWidget(parent) {
     //v->addWidget(serviceProperties);
     this->setLayout(errorListLayout);
     
-    QObject::connect(&errorList, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
-                      this, SLOT(errorListSelected(QTreeWidgetItem*, int)));
-    QObject::connect(properties, SIGNAL(jumpTo(PreciseTileCoordinate*)),
-                      this, SLOT(jumpRequestReceived(PreciseTileCoordinate*)));
-    QObject::connect(properties, SIGNAL(selectObject(GameObj*)),
-                      this, SLOT(selectRequestReceived(GameObj*)));
+    QObject::connect(&errorList, &QTreeWidget::itemClicked,
+        this, &ErrorMessagesWindow::errorListSelected);
+    QObject::connect(properties, &ErrorMessageProperties::jumpTo,
+        this, &ErrorMessagesWindow::jumpRequestReceived);
+    QObject::connect(properties, &ErrorMessageProperties::selectObject,
+        this, &ErrorMessagesWindow::selectRequestReceived);
+
     refreshErrorList();
 }
 

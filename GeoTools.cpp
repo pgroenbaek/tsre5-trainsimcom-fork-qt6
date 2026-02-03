@@ -79,30 +79,30 @@ GeoTools::GeoTools(QString name)
     eRadius.setValue(0);
     vbox->addItem(vlist);
     QPushButton * checkGeodataFiles = new QPushButton("Check if geodata files available.", this);
-    QObject::connect(checkGeodataFiles, SIGNAL(released()),
-                      this, SLOT(checkGeodataFilesEnabled()));
+    QObject::connect(checkGeodataFiles, &QPushButton::released,
+        this, &GeoTools::checkGeodataFilesEnabled);
     vbox->addWidget(checkGeodataFiles);
     
     QPushButton * generateTiles = new QPushButton("Generate tiles.", this);
-    QObject::connect(generateTiles, SIGNAL(released()),
-                      this, SLOT(generateTilesEnabled()));
+    QObject::connect(generateTiles, &QPushButton::released,
+        this, &GeoTools::generateTilesEnabled);
     vbox->addWidget(generateTiles);
 
     label0 = new QLabel("Distant Terrain:");
     label0->setContentsMargins(3,0,0,0);
     vbox->addWidget(label0);
     QPushButton * checkGeodataLoFiles = new QPushButton("Check if geodata files available.", this);
-    //QObject::connect(checkGeodataFiles, SIGNAL(released()),
-    //                  this, SLOT(checkGeodataFilesEnabled()));
+    //QObject::connect(checkGeodataFiles, &QPushButton::released,
+    //    this, &GeoTools::checkGeodataFilesEnabled);
     vbox->addWidget(checkGeodataLoFiles);
     
     QPushButton * generateLoTiles = new QPushButton("Generate tiles using MKR.", this);
-    QObject::connect(generateLoTiles, SIGNAL(released()),
-                      this, SLOT(generateLoTilesEnabled()));
+    QObject::connect(generateLoTiles, &QPushButton::released,
+        this, &GeoTools::generateLoTilesEnabled);
     vbox->addWidget(generateLoTiles);
     QPushButton * generateLoTilesFromTDB = new QPushButton("Generate tiles using TDB.", this);
-    QObject::connect(generateLoTilesFromTDB, SIGNAL(released()),
-                      this, SLOT(generateLoTilesFromTDBEnabled()));
+    QObject::connect(generateLoTilesFromTDB, &QPushButton::released,
+        this, &GeoTools::generateLoTilesFromTDBEnabled);
     vbox->addWidget(generateLoTilesFromTDB);
     
     vbox->addStretch(1);
@@ -110,26 +110,26 @@ GeoTools::GeoTools(QString name)
     
     
     // signals
-    QObject::connect(buttonTools["mapTileShowTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(mapTileShowToolEnabled(bool)));
-    
-    QObject::connect(buttonTools["mapTileLoadTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(mapTileLoadToolEnabled(bool)));
-    
-    QObject::connect(buttonTools["heightTileLoadTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(heightTileLoadToolEnabled(bool)));
-    
-    QObject::connect(buttonTools["makeTileTextureTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(makeTileTextureToolEnabled(bool)));
-    
-    QObject::connect(buttonTools["removeTileTextureTool"], SIGNAL(toggled(bool)),
-                      this, SLOT(removeTileTextureToolEnabled(bool)));
-    
-    QObject::connect(chAutoCreateTile, SIGNAL(stateChanged(int)),
-                      this, SLOT(chAutoCreateTileEnabled(int)));
-    
-    QObject::connect(chAutoGeoTerrain, SIGNAL(stateChanged(int)),
-                      this, SLOT(chAutoGeoTerrainEnabled(int)));
+    QObject::connect(buttonTools["mapTileShowTool"], &QPushButton::toggled,
+        this, &GeoTools::mapTileShowToolEnabled);
+
+    QObject::connect(buttonTools["mapTileLoadTool"], &QPushButton::toggled,
+        this, &GeoTools::mapTileLoadToolEnabled);
+
+    QObject::connect(buttonTools["heightTileLoadTool"], &QPushButton::toggled,
+        this, &GeoTools::heightTileLoadToolEnabled);
+
+    QObject::connect(buttonTools["makeTileTextureTool"], &QPushButton::toggled,
+        this, &GeoTools::makeTileTextureToolEnabled);
+
+    QObject::connect(buttonTools["removeTileTextureTool"], &QPushButton::toggled,
+        this, &GeoTools::removeTileTextureToolEnabled);
+
+    QObject::connect(chAutoCreateTile, &QCheckBox::checkStateChanged,
+        this, &GeoTools::chAutoCreateTileEnabled);
+
+    QObject::connect(chAutoGeoTerrain, &QCheckBox::checkStateChanged,
+        this, &GeoTools::chAutoGeoTerrainEnabled);
     
 }
 
@@ -212,14 +212,14 @@ void GeoTools::generateLoTilesFromTDBEnabled(){
     emit createNewLoTiles(tileList);
 }
 
-void GeoTools::chAutoCreateTileEnabled(int state){
+void GeoTools::chAutoCreateTileEnabled(Qt::CheckState state){
     if(state == Qt::Checked)
         Game::autoNewTiles = true;
     else
         Game::autoNewTiles = false;
 }
 
-void GeoTools::chAutoGeoTerrainEnabled(int state){
+void GeoTools::chAutoGeoTerrainEnabled(Qt::CheckState state){
     if(state == Qt::Checked)
         Game::autoGeoTerrain = true;
     else

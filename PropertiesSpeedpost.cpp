@@ -88,18 +88,19 @@ PropertiesSpeedpost::PropertiesSpeedpost() {
     vbox->addWidget(label);
     QPushButton *button = new QPushButton("Flip", this);
     vbox->addWidget(button);
-    connect(button, SIGNAL(released()), this, SLOT(flipSignal()));
+    QObject::connect(button, &QPushButton::released,
+        this, &PropertiesSpeedpost::flipSignal);
     chFlipShape.setText("Flip Shape");
     chFlipShape.setChecked(true);
     vbox->addWidget(&chFlipShape);
     QPushButton *bDeleteSelected = new QPushButton("Delete Selected");
     vbox->addWidget(bDeleteSelected);
-    QObject::connect(bDeleteSelected, SIGNAL(released()),
-                      this, SLOT(bDeleteSelectedEnabled()));
+    QObject::connect(bDeleteSelected, &QPushButton::released,
+        this, &PropertiesSpeedpost::bDeleteSelectedEnabled);
     QPushButton *bExpandSelected = new QPushButton("Expand");
     vbox->addWidget(bExpandSelected);
-    QObject::connect(bExpandSelected, SIGNAL(released()),
-                      this, SLOT(bExpandEnabled()));
+    QObject::connect(bExpandSelected, &QPushButton::released,
+        this, &PropertiesSpeedpost::bExpandEnabled);
     
     label = new QLabel("Global settings:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -108,7 +109,8 @@ PropertiesSpeedpost::PropertiesSpeedpost() {
     vbox->addWidget(new QLabel("Max placing radius:"));
     vbox->addWidget(&eMaxPlacingDistance);
     eMaxPlacingDistance.setValidator(doubleValidator);
-    QObject::connect(&eMaxPlacingDistance, SIGNAL(textEdited(QString)), this, SLOT(eMaxPlacingDistanceEnabled(QString)));
+    QObject::connect(&eMaxPlacingDistance, &QLineEdit::textEdited,
+        this, &PropertiesSpeedpost::eMaxPlacingDistanceEnabled);
     
     label = new QLabel("Advanced:");
     label->setStyleSheet(QString("QLabel { color : ")+Game::StyleMainLabel+"; }");
@@ -119,24 +121,24 @@ PropertiesSpeedpost::PropertiesSpeedpost() {
     
     
     QPushButton *hacks = new QPushButton("Hacks", this);
-    QObject::connect(hacks, SIGNAL(released()),
-                      this, SLOT(hacksButtonEnabled()));
+    QObject::connect(hacks, &QPushButton::released,
+        this, &PropertiesSpeedpost::hacksButtonEnabled);
     vbox->addWidget(hacks);
     
-    QObject::connect(&speed, SIGNAL(textEdited(QString)),
-                      this, SLOT(speedEnabled(QString)));
-    QObject::connect(&number, SIGNAL(textEdited(QString)),
-                      this, SLOT(numberEnabled(QString)));
-    QObject::connect(&chNumberDot, SIGNAL(stateChanged(int)),
-                      this, SLOT(numberDotEnabled(int)));
-    QObject::connect(&chCustomNumber, SIGNAL(stateChanged(int)),
-                      this, SLOT(chCustomNumberEnabled(int)));
-    QObject::connect(&chCustomSpeed, SIGNAL(stateChanged(int)),
-                      this, SLOT(chCustomSpeedEnabled(int)));
-    QObject::connect(&kmm, SIGNAL(activated(int)),
-        this, SLOT(kmmListSelected(int)));
-    QObject::connect(&ptb, SIGNAL(activated(int)),
-        this, SLOT(ptbListSelected(int)));
+    QObject::connect(&speed, &QLineEdit::textEdited,
+        this, &PropertiesSpeedpost::speedEnabled);
+    QObject::connect(&number, &QLineEdit::textEdited,
+        this, &PropertiesSpeedpost::numberEnabled);
+    QObject::connect(&chNumberDot, &QCheckBox::checkStateChanged,
+        this, &PropertiesSpeedpost::numberDotEnabled);
+    QObject::connect(&chCustomNumber, &QCheckBox::checkStateChanged,
+        this, &PropertiesSpeedpost::chCustomNumberEnabled);
+    QObject::connect(&chCustomSpeed, &QCheckBox::checkStateChanged,
+        this, &PropertiesSpeedpost::chCustomSpeedEnabled);
+    QObject::connect(&kmm, QOverload<int>::of(&QComboBox::activated),
+        this, &PropertiesSpeedpost::kmmListSelected);
+    QObject::connect(&ptb, QOverload<int>::of(&QComboBox::activated),
+        this, &PropertiesSpeedpost::ptbListSelected);
     
     vbox->addStretch(1);
     this->setLayout(vbox);
@@ -171,26 +173,26 @@ void PropertiesSpeedpost::numberEnabled(QString val){
     Undo::StateEnd();
 }
 
-void PropertiesSpeedpost::numberDotEnabled(int val){
+void PropertiesSpeedpost::numberDotEnabled(Qt::CheckState val){
     if(sobj == NULL) return;
     if(Game::debugOutput) qDebug()<<"aaa";
     Undo::StateBegin();
     Undo::PushGameObjData(worldObj);
     Undo::PushTrackDB(Game::trackDB, false);
-    if(val == 2)
+    if(val == Qt::Checked)
         sobj->setNumberDot(true);
     else
         sobj->setNumberDot(false);
     Undo::StateEnd();
 }
 
-void PropertiesSpeedpost::chCustomNumberEnabled(int val){
+void PropertiesSpeedpost::chCustomNumberEnabled(Qt::CheckState val){
     if(sobj == NULL) return;
     if(Game::debugOutput) qDebug()<<"aaa";
     Undo::StateBegin();
     Undo::PushGameObjData(worldObj);
     Undo::PushTrackDB(Game::trackDB, false);
-    if(val == 2){
+    if(val == Qt::Checked){
         sobj->setNumberInsteadSpeed(true);
         this->number.show();
         this->chNumberDot.show();
@@ -204,13 +206,13 @@ void PropertiesSpeedpost::chCustomNumberEnabled(int val){
     Undo::StateEnd();
 }
 
-void PropertiesSpeedpost::chCustomSpeedEnabled(int val){
+void PropertiesSpeedpost::chCustomSpeedEnabled(Qt::CheckState val){
     if(sobj == NULL) return;
     if(Game::debugOutput) qDebug()<<"aaa";
     Undo::StateBegin();
     Undo::PushGameObjData(worldObj);
     Undo::PushTrackDB(Game::trackDB, false);
-    if(val == 2){
+    if(val == Qt::Checked){
         sobj->setSpeedInsteadNumber(true);
         this->speedlabel->show();
         this->speed.show();
@@ -440,8 +442,8 @@ void PropertiesSpeedpost::hacksButtonEnabled(){
     vbox->addWidget(label);
     label->setWordWrap(true);
     QPushButton *haxRemoveTDBVector = new QPushButton("Remove broken Track Items and Expand", this);
-    QObject::connect(haxRemoveTDBVector, SIGNAL(released()),
-                      this, SLOT(haxFixTrackItemsEnabled()));
+    QObject::connect(haxRemoveTDBVector, &QPushButton::released,
+        this, &PropertiesSpeedpost::haxFixTrackItemsEnabled);
     vbox->addWidget(haxRemoveTDBVector);
 
     vbox->setSpacing(2);

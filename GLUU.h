@@ -12,6 +12,7 @@
 #define	GLUU_H
 
 #include <QOpenGLFunctions>
+#include <QOpenGLContext>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QMatrix4x4>
@@ -88,6 +89,7 @@ public:
     bool textureEnabled;
     bool normalsEnabled;
 private:
+    int detectSupportedGLSLVersion();
     const char* getShader(QString shaderScript, QString type);
 
     int currentTexture = -1;
