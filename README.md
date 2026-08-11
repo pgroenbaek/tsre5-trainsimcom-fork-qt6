@@ -1,9 +1,11 @@
 ![TSRE](./tsre_appdata/0.697/load.png)
 
 # TSRE5
-OpenRails editors and tools. 
+OpenRails editors and tools.
 
-This is based off the v0.7.012 codebase as of January 2024. There are multiple changes in functionality that may or may not be present in future versions issued by Goku.
+**Note:** This repository is archived and not actively maintained. It served as an experimental version of the TSRE5 Trainsim.com Fork to spearhead an upgrade to Qt6 and modernize the build system.
+
+The stable version of the Trainsim.com Fork is [available here](https://github.com/eric-from-trainsim/TSRE5-Trainsim.Com-Fork).
 
 Full change log and testing versions are available at Trainsim.com
 
